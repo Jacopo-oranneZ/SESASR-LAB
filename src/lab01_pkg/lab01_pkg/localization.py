@@ -13,9 +13,7 @@
 # limitations under the License.
 
 import rclpy
-from rclpy.node import Node
-
-from geometry_msgs.msg import Twist
+from rclpy.node import Node, Twist, Pose, Quaternion
 
 
 class Localization(Node):
@@ -24,9 +22,10 @@ class Localization(Node):
         super().__init__('localization')
         
         #Publisher part
-        self.publisher_ = self.create_publisher(Twist, '/pose', 10)
+        self.publisher_ = self.create_publisher(Pose, '/pose', 10)
         timer_period = 1  # seconds
         self.timer = self.create_timer(timer_period, self.publish_pose)
+        self.data = None
         
         #Subscriber part
         self.subscription = self.create_subscription(
@@ -43,7 +42,8 @@ class Localization(Node):
 
     
     def publish_pose(self):
-        msg = Twist() #<-- non chiarissima questo comando
+        a = Point(self.data.linear.x, self.data.linear.y, 0)
+        msg = Pose() 
 
 
       
@@ -55,6 +55,7 @@ class Localization(Node):
 
     def listener_callback(self, msg):
         self.get_logger().info('Sto ascoltando: "%s"' % msg.data)
+        self.data = msg.data
 
 
 
