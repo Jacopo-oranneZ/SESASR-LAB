@@ -40,22 +40,10 @@ class Localization(Node):
 
 
 
-    
-    def publish_pose(self):
-        msg = Twist()
-
-
-      
-               
-        self.publisher_.publish(msg)
-
-
-
-
     def listener_callback(self, msg: Twist):
         #Velocità comunicate da controller
-        vx=msg.linear.x
-        vy=msg.linear.y
+        vx+=msg.linear.x
+        vy+=msg.linear.y
 
         #Parametri di tipo Pose da pubblicare
         msg=Pose()
