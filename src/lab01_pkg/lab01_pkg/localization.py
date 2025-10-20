@@ -15,7 +15,7 @@
 import rclpy
 from rclpy.node import Node
 
-from geometry_msgs.msg import Twist
+from geometry_msgs.msg import Pose, Twist, Quaternion
 
 
 class Localization(Node):
@@ -25,25 +25,24 @@ class Localization(Node):
         
         #Publisher part
         self.publisher_ = self.create_publisher(Twist, '/pose', 10)
+        #Subscriber part
+        self.subscription = self.create_subscription(Pose, '/cmd_vel', self.listener_callback, 10)
+        
         timer_period = 1  # seconds
         self.timer = self.create_timer(timer_period, self.publish_pose)
-        
-        #Subscriber part
-        self.subscription = self.create_subscription(
-            Twist,
-            'topic',
-            self.listener_callback,
-            10)
-        self.subscription  # prevent unused variable warning
-      
+        self.x=0.0
+        self.y=0.0
 
-        self.get_logger().info('Localization inizializzato')
+
+       
+
+        self.get_logger().info('Nodo localization avviato')
 
 
 
     
     def publish_pose(self):
-        msg = Twist() #<-- non chiarissima questo comando
+        msg = Twist()
 
 
       
@@ -53,8 +52,24 @@ class Localization(Node):
 
 
 
-    def listener_callback(self, msg):
-        self.get_logger().info('Sto ascoltando: "%s"' % msg.data)
+    def listener_callback(self, msg: Twist):
+        #Velocità comunicate da controller
+        vx=msg.linear.x
+        vy=msg.linear.y
+
+        #Parametri di tipo Pose da pubblicare
+        msg=Pose()
+        self.pose_msg.position.x=self.x
+        self.pose_msg.position.y=self.y
+        self.pose_msg.position.z=0.0
+        self.pose_msg.orientation=Quaternion(x=0.0, y=0.0, z=0.0, w=1.0) #Nessuna rotazione implicata
+
+        #Pubblico la posizione attuale
+        self.publisher_.publish(self.pose_msg)
+
+        #Log nel bash del messaggio pubblicato
+        self.get_logger().info(f'/pose pubblicato: position.x={self.x:1f}, position.y={self.y:1f}, vx={vx:1f}, vy={vy:1f}')
+        
 
 
 
