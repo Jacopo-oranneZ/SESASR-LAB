@@ -13,7 +13,10 @@
 # limitations under the License.
 
 import rclpy
-from rclpy.node import Node, Twist, Pose, Quaternion
+import math
+from rclpy.node import Node
+
+from geometry_msgs.msg import Pose, Twist, Quaternion
 
 
 class Localization(Node):
@@ -23,39 +26,59 @@ class Localization(Node):
         
         #Publisher part
         self.publisher_ = self.create_publisher(Pose, '/pose', 10)
+        self.message = Pose()
+
+        #Subscriber part
+        self.subscription = self.create_subscription(Twist, '/cmd_vel', self.listener_callback, 10)
+        
+
+
         timer_period = 1  # seconds
         self.timer = self.create_timer(timer_period, self.publish_pose)
-        self.data = None
-        
-        #Subscriber part
-        self.subscription = self.create_subscription(
-            Twist,
-            'topic',
-            self.listener_callback,
-            10)
-        self.subscription  # prevent unused variable warning
-      
+        self.x=0.0
+        self.y=0.0
 
-        self.get_logger().info('Localization inizializzato')
+
+       
+
+        self.get_logger().info('Nodo localization avviato')
 
 
 
     
     def publish_pose(self):
-        a = Point(self.data.linear.x, self.data.linear.y, 0)
-        msg = Pose() 
-
-
-      
-               
-        self.publisher_.publish(msg)
+        self.publisher_.publish(self.message)
+        #Log nel bash del messaggio pubblicato
+        self.get_logger().info(f'/pose pubblicato: {self.message}')
 
 
 
 
-    def listener_callback(self, msg):
-        self.get_logger().info('Sto ascoltando: "%s"' % msg.data)
-        self.data = msg.data
+
+    def listener_callback(self, msg: Twist):
+    
+        vx = msg.linear.x
+        vy = msg.linear.y
+
+
+        #Velocità comunicate da controller
+        self.x += vx
+        self.y += vy
+
+        theta = math.atan2(vy, vx) 
+
+        #Parametri di tipo Pose da pubblicare
+        msg=Pose()
+        msg.position.x=self.x
+        msg.position.y=self.y
+        msg.position.z=0.0
+        msg.orientation=Quaternion(x=0.0, y=0.0, z=math.sin(theta/2), w=math.cos(theta/2)) #Nessuna rotazione implicata
+
+        #Pubblico la posizione attuale
+        self.message=msg
+
+        
+        
 
 
 
