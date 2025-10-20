@@ -29,7 +29,7 @@ class Controller(Node):
         #DEFINIZIONE DELLE CONDIZIONI DI MOVIMENTO
         self.N = 1 #Tempo di spostamento iniziale (al ciclo n=0) [secondi]
         self.phi = 0 #Valore della fase intesa come fase di spostamento (da 0 a 3 dove 3 è lo spostamento finale lungo y)
-
+        self.t_phi=0
 
         self.get_logger().info('Comunicazione con controller avviata.')
 
@@ -55,11 +55,11 @@ class Controller(Node):
                
         self.publisher_.publish(msg)
         #Nel seguente comando loggo il messaggio pubblicato nell'attuale callback
-        self.get_logger().info(f'/cmd_vel pubblicato: linear.x={msg.linear.x:1f}, linear.x={msg.linear.y:1f},')
+        self.get_logger().info(f'/cmd_vel pubblicato: linear.x={msg.linear.x:1f}, linear.y={msg.linear.y:1f},')
 
         #Iter per l'incrementazione del tempo di spostamento a seconda del numero di callback
         #t_phi e` il trempo trascorso nell'attuale fase
-        self.t_phi=+1
+        self.t_phi+=1
         
         #Verifico se e` necessario un incremento temporale
         if self.t_phi >= self.N:
