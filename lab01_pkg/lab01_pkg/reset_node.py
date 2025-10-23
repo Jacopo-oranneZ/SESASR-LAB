@@ -26,7 +26,10 @@ class ResetNode(Node):
             reset_msg.data = True
             self.publisher.publish(reset_msg)
             self.get_logger().info('Reset inviato.')
-
+        elif distance < self.dm:
+            reset_msg = Bool()
+            reset_msg.data = False
+            self.publisher.publish(reset_msg)
 
 
 
