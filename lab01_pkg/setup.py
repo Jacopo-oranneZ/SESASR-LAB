@@ -28,7 +28,8 @@ setup(
     entry_points={
         'console_scripts': [
             'controller = lab01_pkg.controller:main',
-            'localization = lab01_pkg.localization:main'
+            'localization = lab01_pkg.localization:main',
+            'reset_node = lab01_pkg.reset_node:main'
         ],
     },
 )
