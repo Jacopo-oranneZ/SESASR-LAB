@@ -22,15 +22,29 @@ class Controller(Node):
 
     def __init__(self):
         super().__init__('controller')
+
+        #Creazione del publisher per il topic /cmd_vel
         self.publisher_ = self.create_publisher(Twist, '/cmd_vel', 10)
+        
+        #Creazione del timer per la pubblicazione periodica dei comandi di velocità
         timer_period = 1  # seconds
         self.timer = self.create_timer(timer_period, self.publish_vel)
+        
 
-        #DEFINIZIONE DELLE CONDIZIONI DI MOVIMENTO
-        self.N = 1 #Tempo di spostamento iniziale (al ciclo n=0) [secondi]
-        self.phi = 0 #Valore della fase intesa come fase di spostamento (da 0 a 3 dove 3 è lo spostamento finale lungo y)
-        self.t_phi=0
 
+        #Definizione delle variabili di stato per il controllo del movimento
+        self.N = 1 #Ciclo corrente
+        self.phi = 0 
+        self.t_phi=0 #Contatore del "tempo" trascorso nell'attuale fase
+    
+        #phi è il valore della fase e va da 0 a 3, dove:
+        # 0 è lo spostamento lungo x positivo,
+        # 1 lungo y positivo, 
+        # 2 lungo x negativo, 
+        # 3 lungo y negativo
+
+
+        # Log di avvio
         self.get_logger().info('Comunicazione con controller avviata.')
 
 
@@ -40,6 +54,7 @@ class Controller(Node):
         msg = Twist() #<-- non chiarissima questo comando
         speed = 1.0 # Impostazione della velocità, fissa a 1 m/s
 
+        # Definizione del comando di velocità in base alla fase corrente
         if self.phi == 0:
             msg.linear.x = speed
             msg.linear.y = 0.0
@@ -52,9 +67,11 @@ class Controller(Node):
         elif self.phi == 3:
            msg.linear.x = 0.0
            msg.linear.y = -speed #<- Arrivati a questo pto il ciclo di spostamenti termina
-               
+        
+        # Pubblicazione del comando di velocità
         self.publisher_.publish(msg)
-        #Nel seguente comando loggo il messaggio pubblicato nell'attuale callback
+
+        #Log del messaggio pubblicato
         self.get_logger().info(f'/cmd_vel pubblicato: linear.x={msg.linear.x:1f}, linear.y={msg.linear.y:1f},')
 
         #Iter per l'incrementazione del tempo di spostamento a seconda del numero di callback
@@ -73,6 +90,7 @@ class Controller(Node):
 
 def main (args=None):
 
+    # Inizializzazione del nodo ROS2
     rclpy.init(args=args)
     controller = Controller()
     rclpy.spin(controller)

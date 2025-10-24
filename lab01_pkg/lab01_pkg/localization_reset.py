@@ -6,6 +6,12 @@ from rclpy.node import Node
 from geometry_msgs.msg import Pose, Twist, Quaternion
 from std_msgs.msg import Bool
 
+#   IMPORTANTE:
+#   E' una fusione tra localization e reset_node con l'aggiunta della funzionalità di reset
+
+
+
+
 class LocalizationReset(Node):
     def __init__(self):
         super().__init__('localization_reset')
