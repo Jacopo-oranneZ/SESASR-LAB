@@ -30,13 +30,12 @@ class Localization(Node):
         vx = msg.linear.x
         vy = msg.linear.y
 
-        if not self.msg_1:
-            self.x += self.vx_prev * self.time
-            self.y += self.vy_prev * self.time
-        else:
-            self.msg_1 = False
-
+        self.x += self.vx_prev * self.time
+        self.y += self.vy_prev * self.time
+        try:
             self.theta = math.atan2(vy, vx)
+        except ZeroDivisionError:
+            self.theta = 0.0
 
         q = Quaternion()
         q.x = 0.0
