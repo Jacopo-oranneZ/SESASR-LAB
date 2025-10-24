@@ -16,8 +16,9 @@ import rclpy
 import math
 from rclpy.node import Node
 
-from geometry_msgs.msg import Laserscan, Odometry
-
+from geometry_msgs.msg import Twist
+from nav_msgs.msg import Odometry
+from sensor_msgs.msg import LaserScan
 
 class Controller(Node):
 
@@ -25,16 +26,18 @@ class Controller(Node):
         super().__init__('controller')
         
         #Publisher part
-        self.publisher_ = self.create_publisher(Odometry, '/odom', 10)
-        self.message = Odometry()
+        self.publisher_ = self.create_publisher(Twist, '/cmd_vel', 10)
+        # self.message = Twist()
 
         #Subscriber part
-        self.subscription = self.create_subscription(Laserscan, '/scan', self.listener_callback, 10)
-        
+        self.subscription = self.create_subscription(LaserScan, '/scan', self.listener_scan, 10)
+        self.subscription = self.create_subscription(Odometry, '/odom', self.listener_odom, 10)
+        self.laser = LaserScan()
+        self.odom = Odometry()        
 
 
         timer_period = 1  # seconds
-        self.timer = self.create_timer(timer_period, self.publish_pose)
+        self.timer = self.create_timer(timer_period, self.temp)
 
 
        
@@ -44,18 +47,23 @@ class Controller(Node):
 
 
     
-    def publish_pose(self):
+    def temp(self):
         # self.publisher_.publish(self.message)
         #Log nel bash del messaggio pubblicato
-        self.get_logger().info(f'/pose pubblicato: {self.message}')
+        self.get_logger().info(f'published')
 
 
 
 
 
-    def listener_callback(self, msg):
-    
-        self.message=msg
+    def listener_scan(self, msg):
+        self.laser=msg
+        # self.get_logger().info(f'Laser: {self.laser}')
+
+
+    def listener_odom(self, msg):
+        self.odom=msg
+        self.get_logger().info(f'Odometry: {self.odom}')
 
         
         
