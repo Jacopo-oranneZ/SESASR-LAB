@@ -19,6 +19,12 @@ from geometry_msgs.msg import Twist
 from std_msgs.msg import Bool
 
 
+#   IMPORTANTE:
+#   E' una fusione tra controller e reset_node con l'aggiunta della funzionalità di reset
+
+
+
+
 class ControllerReset(Node):
 
     def __init__(self):
@@ -39,8 +45,9 @@ class ControllerReset(Node):
 
 
     def reset_callback(self, msg: Bool):
+        self.get_logger().info(f'Reset ricevuto:{msg.data}.')
         if msg.data:
-            self.get_logger().info('Reset ricevuto, ripristino stato iniziale.')
+            self.get_logger().info(f'Reset ricevuto: {msg.data}, ripristino stato iniziale.')
             self.N = 1
             self.phi = 0
             self.t_phi = 0
@@ -75,7 +82,7 @@ class ControllerReset(Node):
         #Verifico se e` necessario un incremento temporale
         if self.t_phi >= self.N:
             self.phi = (self.phi + 1) % 4 #Il modulo in questo modo mi restituisce valori da 0 a 3 e in tal modo so` quando posso swhitchare fase
-            self.t_phi = 0 #non chiarissimo del perche devo fare quiesto            
+            self.t_phi = 0        
             if self.phi == 0:
                 self.N +=1
                 self.get_logger().info(f'Ciclo completato, incremento del tempo di spostamento a {self.N}')
