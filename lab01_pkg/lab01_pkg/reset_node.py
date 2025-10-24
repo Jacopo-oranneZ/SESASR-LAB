@@ -20,25 +20,18 @@ class ResetNode(Node):
 
     def pose_callback(self, msg: Pose):
         distance = (msg.position.x**2 + msg.position.y**2)**0.5
+        reset_msg = Bool()
 
-        if distance >= self.dm:
-            reset_msg = Bool()
-            reset_msg.data = True
-            self.publisher.publish(reset_msg)
-            self.get_logger().info('Reset inviato.')
-        elif distance < self.dm:
-            reset_msg = Bool()
-            reset_msg.data = False
-            self.publisher.publish(reset_msg)
+        reset_msg.data = True if distance >= self.dm else False
+            
+        self.get_logger().info(f'Reset: {reset_msg.data}.')
+        self.publisher.publish(reset_msg)
 
 
 
 def main(args=None):
     rclpy.init(args=args)
     node = ResetNode()
-    try:
-        rclpy.spin(node)
-    except KeyboardInterrupt:
-        pass
+    rclpy.spin(node)
     node.destroy_node()
     rclpy.shutdown()
