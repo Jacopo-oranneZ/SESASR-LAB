@@ -37,7 +37,7 @@ class Controller(Node):
 
 
         timer_period = 1  # seconds
-        self.timer = self.create_timer(timer_period, self.temp)
+        self.timer = self.create_timer(timer_period, self.move)
 
 
        
@@ -47,11 +47,13 @@ class Controller(Node):
 
 
     
-    def temp(self):
+    def move(self):
         # self.publisher_.publish(self.message)
         #Log nel bash del messaggio pubblicato
         self.get_logger().info(f'published')
-
+        moving_params=Twist()
+        moving_params.linear.x=0.5
+        self.publisher_.publish(moving_params)
 
 
 
