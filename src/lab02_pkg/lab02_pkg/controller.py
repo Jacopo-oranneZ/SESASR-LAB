@@ -34,6 +34,9 @@ class Controller(Node):
         self.subscription = self.create_subscription(Odometry, '/odom', self.listener_odom, 10)
         self.laser = LaserScan()
         self.odom = Odometry()        
+        self.moving_params=Twist()
+
+
 
 
         timer_period = 1  # seconds
@@ -48,13 +51,22 @@ class Controller(Node):
 
     
     def move(self):
-        # self.publisher_.publish(self.message)
-        #Log nel bash del messaggio pubblicato
-        self.get_logger().info(f'published')
-        moving_params=Twist()
-        moving_params.linear.x=0.5
-        self.publisher_.publish(moving_params)
+        
+        # self.get_logger().info(f'\# Lasers is {len(self.laser.ranges)}')
 
+        self.moving_params.angular.z=0.0
+        self.moving_params.linear.x=0.5
+        self.publisher_.publish(self.moving_params)
+
+        if self.laser.ranges[0]<1:
+            if self.laser.ranges[89]>self.laser.ranges[269]:
+                self.moving_params.angular.z=0.5
+                self.moving_params.linear.x=0.0
+                self.publisher_.publish(self.moving_params)
+            else:
+                self.moving_params.angular.z=-0.5
+                self.moving_params.linear.x=0.0
+                self.publisher_.publish(self.moving_params)
 
 
 
@@ -62,11 +74,14 @@ class Controller(Node):
         self.laser=msg
         # self.get_logger().info(f'Laser: {self.laser}')
 
+        # Get useful laser data
+        self.lasers_distances = msg.ranges
+
 
     def listener_odom(self, msg):
         self.odom=msg
-        self.get_logger().info(f'Odometry: {self.odom}')
-
+        # self.get_logger().info(f'Odometry: {self.odom}')
+        
         
         
 
