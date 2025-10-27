@@ -1,4 +1,6 @@
 from setuptools import find_packages, setup
+import os
+from glob import glob
 
 package_name = 'lab01_pkg'
 
@@ -10,6 +12,7 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        (os.path.join('share', package_name), glob('launch/*.py')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -25,7 +28,10 @@ setup(
     entry_points={
         'console_scripts': [
             'controller = lab01_pkg.controller:main',
-            'localization = lab01_pkg.localization:main'
+            'localization = lab01_pkg.localization:main',
+            'reset_node = lab01_pkg.reset_node:main',
+            'controller_reset = lab01_pkg.controller_reset:main',
+            'localization_reset = lab01_pkg.localization_reset:main'
         ],
     },
 )
