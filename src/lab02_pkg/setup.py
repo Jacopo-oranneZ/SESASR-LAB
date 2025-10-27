@@ -13,10 +13,10 @@ setup(
     ],
     install_requires=['setuptools'],
     zip_safe=True,
-    maintainer='jacopo',
-    maintainer_email='jacopo.zennaro.1@gmail.com',
+    maintainer='l0dz',
+    maintainer_email='andrea.test004@gmail.com',
     description='TODO: Package description',
-    license='TODO: License declaration',
+    license='Apache-2.0',
     extras_require={
         'test': [
             'pytest',
@@ -24,6 +24,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
+            'controller = lab02_pkg.controller:main'
         ],
     },
 )

@@ -1,12 +1,48 @@
 #!/usr/bin/env python3
 import rclpy
+import math
 from rclpy.node import Node
+<<<<<<< HEAD
+
+from geometry_msgs.msg import Pose, Twist, Quaternion
+
+=======
 from geometry_msgs.msg import Pose, Twist, Quaternion
 import math
+>>>>>>> main
 
 class Localization(Node):
     def __init__(self):
         super().__init__('localization')
+<<<<<<< HEAD
+        
+        #Publisher part
+        self.publisher_ = self.create_publisher(Pose, '/pose', 10)
+        self.message = Pose()
+
+        #Subscriber part
+        self.subscription = self.create_subscription(Twist, '/cmd_vel', self.listener_callback, 10)
+        
+
+
+        timer_period = 1  # seconds
+        self.timer = self.create_timer(timer_period, self.publish_pose)
+        self.x=0.0
+        self.y=0.0
+
+
+       
+
+        self.get_logger().info('Nodo localization avviato')
+
+
+
+    
+    def publish_pose(self):
+        self.publisher_.publish(self.message)
+        #Log nel bash del messaggio pubblicato
+        self.get_logger().info(f'/pose pubblicato: {self.message}')
+=======
 
         #Inizializzazione delle variabili di stato
         self.x = 0.0
@@ -41,6 +77,7 @@ class Localization(Node):
             self.theta = math.atan2(vy, vx)
         except ZeroDivisionError:
             self.theta = 0.0
+>>>>>>> main
 
         # Creazione del quaternion dall'angolo theta
         q = Quaternion()
@@ -59,9 +96,37 @@ class Localization(Node):
         # Pubblicazione del messaggio di posa
         self.publisher.publish(pose)
 
+<<<<<<< HEAD
+
+    def listener_callback(self, msg: Twist):
+    
+        vx = msg.linear.x
+        vy = msg.linear.y
+
+
+        #Velocità comunicate da controller
+        self.x += vx
+        self.y += vy
+
+        theta = math.atan2(vy, vx) 
+
+        #Parametri di tipo Pose da pubblicare
+        msg=Pose()
+        msg.position.x=self.x
+        msg.position.y=self.y
+        msg.position.z=0.0
+        msg.orientation=Quaternion(x=0.0, y=0.0, z=math.sin(theta/2), w=math.cos(theta/2)) #Nessuna rotazione implicata
+
+        #Pubblico la posizione attuale
+        self.message=msg
+
+        
+        
+=======
         # Aggiornamento delle velocità precedenti
         self.vx_prev = vx
         self.vy_prev = vy
+>>>>>>> main
 
        
         self.get_logger().info(
