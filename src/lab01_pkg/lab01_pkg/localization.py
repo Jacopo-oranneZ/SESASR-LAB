@@ -1,28 +1,20 @@
-# Copyright 2016 Open Source Robotics Foundation, Inc.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
+#!/usr/bin/env python3
 import rclpy
 import math
 from rclpy.node import Node
+<<<<<<< HEAD
 
 from geometry_msgs.msg import Pose, Twist, Quaternion
 
+=======
+from geometry_msgs.msg import Pose, Twist, Quaternion
+import math
+>>>>>>> main
 
 class Localization(Node):
-
     def __init__(self):
         super().__init__('localization')
+<<<<<<< HEAD
         
         #Publisher part
         self.publisher_ = self.create_publisher(Pose, '/pose', 10)
@@ -50,10 +42,61 @@ class Localization(Node):
         self.publisher_.publish(self.message)
         #Log nel bash del messaggio pubblicato
         self.get_logger().info(f'/pose pubblicato: {self.message}')
+=======
+
+        #Inizializzazione delle variabili di stato
+        self.x = 0.0
+        self.y = 0.0
+        self.yaw = 0.0         
+        self.time = 1.0           
+        self.vx_prev = 0.0
+        self.vy_prev = 0.0
+        self.msg_1 = True  
+
+        #Sottoscrizione al topic /cmd_vel e pubblicazione sul topic /pose
+        self.subscriber = self.create_subscription(Twist, '/cmd_vel', self.cmd_callback, 10)
+        self.publisher = self.create_publisher(Pose, '/pose', 10)
+
+        # Log di avvio
+        self.get_logger().info('Nodo Localization inizializzato.')
 
 
 
+# Callback per la ricezione dei comandi di velocità
+    def cmd_callback(self, msg: Twist):
+        # Estrazione delle velocità lineari dai messaggi ricevuti
+        vx = msg.linear.x
+        vy = msg.linear.y
 
+        # Aggiornamento della posizione e dell'orientamento
+        self.x += self.vx_prev * self.time
+        self.y += self.vy_prev * self.time
+
+        # Calcolo dell'angolo di orientamento theta
+        try:
+            self.theta = math.atan2(vy, vx)
+        except ZeroDivisionError:
+            self.theta = 0.0
+>>>>>>> main
+
+        # Creazione del quaternion dall'angolo theta
+        q = Quaternion()
+        q.x = 0.0
+        q.y = 0.0
+        q.z = math.sin(self.theta / 2.0)
+        q.w = math.cos(self.theta / 2.0)
+
+        # Pubblicazione della posa aggiornata
+        pose = Pose()
+        pose.position.x = self.x
+        pose.position.y = self.y
+        pose.position.z = 0.0
+        pose.orientation = q
+
+        # Pubblicazione del messaggio di posa
+        self.publisher.publish(pose)
+
+<<<<<<< HEAD
 
     def listener_callback(self, msg: Twist):
     
@@ -79,16 +122,23 @@ class Localization(Node):
 
         
         
+=======
+        # Aggiornamento delle velocità precedenti
+        self.vx_prev = vx
+        self.vy_prev = vy
+>>>>>>> main
 
+       
+        self.get_logger().info(
+            f"Pose → x={self.x:.2f}, y={self.y:.2f}, theta={math.degrees(self.theta):.1f}°, "
+            f"quat=({q.x:.2f}, {q.y:.2f}, {q.z:.2f}, {q.w:.2f})"
+        )
 
+def main(args=None):
 
-def main (args=None):
-
+    # Inizializzazione del nodo ROS2
     rclpy.init(args=args)
-    localization = Localization()
-    rclpy.spin(localization)
-    localization.destroy_node
+    node = Localization()
+    rclpy.spin(node)
+    node.destroy_node()
     rclpy.shutdown()
-
-if __name__=='__main__':
-    main()

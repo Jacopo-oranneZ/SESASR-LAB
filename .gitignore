@@ -1,6 +1,8 @@
 build/
 install/
 log/
+turtlebot3_ws/
+
 .colcon/
 .vscode/
 .idea/
