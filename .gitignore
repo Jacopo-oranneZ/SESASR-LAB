@@ -1,6 +1,8 @@
 *
 !.gitignore
 
+!/src
+
 !lab01_pkg/
 !lab02_pkg/
 
