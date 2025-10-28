@@ -1,5 +1,8 @@
 *
 !.gitignore
 
-!lab01_pkg
-!lab02_pkg
+!lab01_pkg/
+!lab02_pkg/
+
+!lab01_pkg/**
+!lab02_pkg/**
