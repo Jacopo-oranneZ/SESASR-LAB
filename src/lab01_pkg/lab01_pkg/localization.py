@@ -2,19 +2,13 @@
 import rclpy
 import math
 from rclpy.node import Node
-<<<<<<< HEAD
 
 from geometry_msgs.msg import Pose, Twist, Quaternion
 
-=======
-from geometry_msgs.msg import Pose, Twist, Quaternion
-import math
->>>>>>> main
 
 class Localization(Node):
     def __init__(self):
         super().__init__('localization')
-<<<<<<< HEAD
         
         #Publisher part
         self.publisher_ = self.create_publisher(Pose, '/pose', 10)
@@ -42,42 +36,6 @@ class Localization(Node):
         self.publisher_.publish(self.message)
         #Log nel bash del messaggio pubblicato
         self.get_logger().info(f'/pose pubblicato: {self.message}')
-=======
-
-        #Inizializzazione delle variabili di stato
-        self.x = 0.0
-        self.y = 0.0
-        self.yaw = 0.0         
-        self.time = 1.0           
-        self.vx_prev = 0.0
-        self.vy_prev = 0.0
-        self.msg_1 = True  
-
-        #Sottoscrizione al topic /cmd_vel e pubblicazione sul topic /pose
-        self.subscriber = self.create_subscription(Twist, '/cmd_vel', self.cmd_callback, 10)
-        self.publisher = self.create_publisher(Pose, '/pose', 10)
-
-        # Log di avvio
-        self.get_logger().info('Nodo Localization inizializzato.')
-
-
-
-# Callback per la ricezione dei comandi di velocità
-    def cmd_callback(self, msg: Twist):
-        # Estrazione delle velocità lineari dai messaggi ricevuti
-        vx = msg.linear.x
-        vy = msg.linear.y
-
-        # Aggiornamento della posizione e dell'orientamento
-        self.x += self.vx_prev * self.time
-        self.y += self.vy_prev * self.time
-
-        # Calcolo dell'angolo di orientamento theta
-        try:
-            self.theta = math.atan2(vy, vx)
-        except ZeroDivisionError:
-            self.theta = 0.0
->>>>>>> main
 
         # Creazione del quaternion dall'angolo theta
         q = Quaternion()
@@ -96,7 +54,6 @@ class Localization(Node):
         # Pubblicazione del messaggio di posa
         self.publisher.publish(pose)
 
-<<<<<<< HEAD
 
     def listener_callback(self, msg: Twist):
     
@@ -122,11 +79,6 @@ class Localization(Node):
 
         
         
-=======
-        # Aggiornamento delle velocità precedenti
-        self.vx_prev = vx
-        self.vy_prev = vy
->>>>>>> main
 
        
         self.get_logger().info(

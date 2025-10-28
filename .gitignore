@@ -1,6 +1,7 @@
 build/
 install/
 log/
+src/turtlebot3_simulations/
 
 .colcon/
 .vscode/
