@@ -1,17 +1,5 @@
-build/
-install/
-log/
-src/turtlebot3_simulations/
+*
+!.gitignore
 
-.colcon/
-.vscode/
-.idea/
-
-*.pyc
-__pycache__/
-
-.DS_Store
-Thumbs.db
-
-.env
-*.swp
+!lab01_pkg
+!lab02_pkg
