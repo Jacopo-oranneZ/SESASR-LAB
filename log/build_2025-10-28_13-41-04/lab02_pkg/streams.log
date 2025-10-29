@@ -1,0 +1,19 @@
+[2.434s] Invoking command in '/root/SESASR-LAB/build/lab02_pkg': PYTHONPATH=/root/SESASR-LAB/build/lab02_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/root/SESASR-LAB/install/lab02_pkg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /root/SESASR-LAB/build/lab02_pkg/build --no-deps symlink_data --force
+[2.926s] running develop
+[3.258s] running egg_info
+[3.258s] writing lab02_pkg.egg-info/PKG-INFO
+[3.259s] writing dependency_links to lab02_pkg.egg-info/dependency_links.txt
+[3.259s] writing entry points to lab02_pkg.egg-info/entry_points.txt
+[3.260s] writing requirements to lab02_pkg.egg-info/requires.txt
+[3.260s] writing top-level names to lab02_pkg.egg-info/top_level.txt
+[3.263s] reading manifest file 'lab02_pkg.egg-info/SOURCES.txt'
+[3.265s] writing manifest file 'lab02_pkg.egg-info/SOURCES.txt'
+[3.268s] running build_ext
+[3.268s] Creating /root/SESASR-LAB/install/lab02_pkg/lib/python3.10/site-packages/lab02-pkg.egg-link (link to .)
+[3.270s] Installing controller script to /root/SESASR-LAB/install/lab02_pkg/lib/lab02_pkg
+[3.271s] 
+[3.271s] Installed /root/SESASR-LAB/build/lab02_pkg
+[3.272s] running symlink_data
+[3.272s] symbolically linking /root/SESASR-LAB/build/lab02_pkg/resource/lab02_pkg -> /root/SESASR-LAB/install/lab02_pkg/share/ament_index/resource_index/packages
+[3.272s] symbolically linking /root/SESASR-LAB/build/lab02_pkg/package.xml -> /root/SESASR-LAB/install/lab02_pkg/share/lab02_pkg
+[3.370s] Invoked command in '/root/SESASR-LAB/build/lab02_pkg' returned '0': PYTHONPATH=/root/SESASR-LAB/build/lab02_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/root/SESASR-LAB/install/lab02_pkg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /root/SESASR-LAB/build/lab02_pkg/build --no-deps symlink_data --force

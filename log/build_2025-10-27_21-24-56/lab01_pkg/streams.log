@@ -1,0 +1,54 @@
+[2.570s] Invoking command in '/root/SESASR-LAB/build/lab01_pkg': PYTHONPATH=/root/SESASR-LAB/build/lab01_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/root/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --uninstall --editable --build-directory /root/SESASR-LAB/build/lab01_pkg/build
+[3.167s] running develop
+[3.572s] Removing /root/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages/lab01-pkg.egg-link (link to .)
+[3.674s] Invoked command in '/root/SESASR-LAB/build/lab01_pkg' returned '0': PYTHONPATH=/root/SESASR-LAB/build/lab01_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/root/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --uninstall --editable --build-directory /root/SESASR-LAB/build/lab01_pkg/build
+[3.679s] Invoking command in '/root/SESASR-LAB/src/lab01_pkg': PYTHONPATH=/root/SESASR-LAB/build/lab01_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/root/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/lab01_pkg build --build-base /root/SESASR-LAB/build/lab01_pkg/build install --record /root/SESASR-LAB/build/lab01_pkg/install.log --single-version-externally-managed install_data --force
+[4.277s] running egg_info
+[4.278s] writing ../../build/lab01_pkg/lab01_pkg.egg-info/PKG-INFO
+[4.278s] writing dependency_links to ../../build/lab01_pkg/lab01_pkg.egg-info/dependency_links.txt
+[4.279s] writing entry points to ../../build/lab01_pkg/lab01_pkg.egg-info/entry_points.txt
+[4.280s] writing requirements to ../../build/lab01_pkg/lab01_pkg.egg-info/requires.txt
+[4.280s] writing top-level names to ../../build/lab01_pkg/lab01_pkg.egg-info/top_level.txt
+[4.286s] reading manifest file '../../build/lab01_pkg/lab01_pkg.egg-info/SOURCES.txt'
+[4.308s] writing manifest file '../../build/lab01_pkg/lab01_pkg.egg-info/SOURCES.txt'
+[4.309s] running build
+[4.309s] running build_py
+[4.310s] creating /root/SESASR-LAB/build/lab01_pkg/build
+[4.313s] creating /root/SESASR-LAB/build/lab01_pkg/build/lib
+[4.313s] creating /root/SESASR-LAB/build/lab01_pkg/build/lib/lab01_pkg
+[4.315s] copying lab01_pkg/controller.py -> /root/SESASR-LAB/build/lab01_pkg/build/lib/lab01_pkg
+[4.316s] copying lab01_pkg/__init__.py -> /root/SESASR-LAB/build/lab01_pkg/build/lib/lab01_pkg
+[4.317s] copying lab01_pkg/controller_reset.py -> /root/SESASR-LAB/build/lab01_pkg/build/lib/lab01_pkg
+[4.318s] copying lab01_pkg/localization.py -> /root/SESASR-LAB/build/lab01_pkg/build/lib/lab01_pkg
+[4.318s] copying lab01_pkg/reset_node.py -> /root/SESASR-LAB/build/lab01_pkg/build/lib/lab01_pkg
+[4.319s] copying lab01_pkg/localization_reset.py -> /root/SESASR-LAB/build/lab01_pkg/build/lib/lab01_pkg
+[4.319s] running install
+[4.323s] running install_lib
+[4.323s] creating /root/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages/lab01_pkg
+[4.324s] copying /root/SESASR-LAB/build/lab01_pkg/build/lib/lab01_pkg/controller.py -> /root/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages/lab01_pkg
+[4.324s] copying /root/SESASR-LAB/build/lab01_pkg/build/lib/lab01_pkg/__init__.py -> /root/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages/lab01_pkg
+[4.326s] copying /root/SESASR-LAB/build/lab01_pkg/build/lib/lab01_pkg/controller_reset.py -> /root/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages/lab01_pkg
+[4.327s] copying /root/SESASR-LAB/build/lab01_pkg/build/lib/lab01_pkg/localization.py -> /root/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages/lab01_pkg
+[4.327s] copying /root/SESASR-LAB/build/lab01_pkg/build/lib/lab01_pkg/reset_node.py -> /root/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages/lab01_pkg
+[4.327s] copying /root/SESASR-LAB/build/lab01_pkg/build/lib/lab01_pkg/localization_reset.py -> /root/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages/lab01_pkg
+[4.328s] byte-compiling /root/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages/lab01_pkg/controller.py to controller.cpython-310.pyc
+[4.332s] byte-compiling /root/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages/lab01_pkg/__init__.py to __init__.cpython-310.pyc
+[4.333s] byte-compiling /root/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages/lab01_pkg/controller_reset.py to controller_reset.cpython-310.pyc
+[4.333s] byte-compiling /root/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages/lab01_pkg/localization.py to localization.cpython-310.pyc
+[4.335s] byte-compiling /root/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages/lab01_pkg/reset_node.py to reset_node.cpython-310.pyc
+[4.335s] byte-compiling /root/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages/lab01_pkg/localization_reset.py to localization_reset.cpython-310.pyc
+[4.336s] running install_data
+[4.337s] copying resource/lab01_pkg -> /root/SESASR-LAB/install/lab01_pkg/share/ament_index/resource_index/packages
+[4.338s] copying package.xml -> /root/SESASR-LAB/install/lab01_pkg/share/lab01_pkg
+[4.338s] copying launch/launchR.py -> /root/SESASR-LAB/install/lab01_pkg/share/lab01_pkg
+[4.338s] copying launch/launch.py -> /root/SESASR-LAB/install/lab01_pkg/share/lab01_pkg
+[4.338s] running install_egg_info
+[4.339s] Copying ../../build/lab01_pkg/lab01_pkg.egg-info to /root/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages/lab01_pkg-0.0.0-py3.10.egg-info
+[4.341s] running install_scripts
+[4.390s] Installing controller script to /root/SESASR-LAB/install/lab01_pkg/lib/lab01_pkg
+[4.391s] Installing controller_reset script to /root/SESASR-LAB/install/lab01_pkg/lib/lab01_pkg
+[4.391s] Installing localization script to /root/SESASR-LAB/install/lab01_pkg/lib/lab01_pkg
+[4.392s] Installing localization_reset script to /root/SESASR-LAB/install/lab01_pkg/lib/lab01_pkg
+[4.392s] Installing reset_node script to /root/SESASR-LAB/install/lab01_pkg/lib/lab01_pkg
+[4.393s] writing list of installed files to '/root/SESASR-LAB/build/lab01_pkg/install.log'
+[4.520s] Invoked command in '/root/SESASR-LAB/src/lab01_pkg' returned '0': PYTHONPATH=/root/SESASR-LAB/build/lab01_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/root/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/lab01_pkg build --build-base /root/SESASR-LAB/build/lab01_pkg/build install --record /root/SESASR-LAB/build/lab01_pkg/install.log --single-version-externally-managed install_data --force

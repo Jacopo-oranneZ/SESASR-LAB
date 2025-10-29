@@ -1,0 +1,20 @@
+[2.439s] Invoking command in '/root/SESASR-LAB/build/py_pubsub': PYTHONPATH=/root/SESASR-LAB/build/py_pubsub/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/root/SESASR-LAB/install/py_pubsub/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /root/SESASR-LAB/build/py_pubsub/build --no-deps symlink_data --force
+[2.939s] running develop
+[3.264s] running egg_info
+[3.264s] writing py_pubsub.egg-info/PKG-INFO
+[3.266s] writing dependency_links to py_pubsub.egg-info/dependency_links.txt
+[3.266s] writing entry points to py_pubsub.egg-info/entry_points.txt
+[3.267s] writing requirements to py_pubsub.egg-info/requires.txt
+[3.267s] writing top-level names to py_pubsub.egg-info/top_level.txt
+[3.273s] reading manifest file 'py_pubsub.egg-info/SOURCES.txt'
+[3.275s] writing manifest file 'py_pubsub.egg-info/SOURCES.txt'
+[3.278s] running build_ext
+[3.278s] Creating /root/SESASR-LAB/install/py_pubsub/lib/python3.10/site-packages/py-pubsub.egg-link (link to .)
+[3.280s] Installing listener script to /root/SESASR-LAB/install/py_pubsub/lib/py_pubsub
+[3.280s] Installing talker script to /root/SESASR-LAB/install/py_pubsub/lib/py_pubsub
+[3.281s] 
+[3.281s] Installed /root/SESASR-LAB/build/py_pubsub
+[3.281s] running symlink_data
+[3.282s] symbolically linking /root/SESASR-LAB/build/py_pubsub/resource/py_pubsub -> /root/SESASR-LAB/install/py_pubsub/share/ament_index/resource_index/packages
+[3.282s] symbolically linking /root/SESASR-LAB/build/py_pubsub/package.xml -> /root/SESASR-LAB/install/py_pubsub/share/py_pubsub
+[3.379s] Invoked command in '/root/SESASR-LAB/build/py_pubsub' returned '0': PYTHONPATH=/root/SESASR-LAB/build/py_pubsub/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/root/SESASR-LAB/install/py_pubsub/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /root/SESASR-LAB/build/py_pubsub/build --no-deps symlink_data --force

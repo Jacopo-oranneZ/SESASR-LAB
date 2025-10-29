@@ -1,0 +1,54 @@
+[0.044s] Invoking command in '/root/SESASR-LAB/build/turtlebot3_fake_node': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/SESASR-LAB/install/py_pubsub:/root/SESASR-LAB/install/lab01_pkg:/opt/ros/humble /usr/bin/cmake --build /root/SESASR-LAB/build/turtlebot3_fake_node -- -j12 -l12
+[0.822s] -- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.823s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[0.823s] -- Found geometry_msgs: 4.9.0 (/opt/ros/humble/share/geometry_msgs/cmake)
+[0.823s] -- Found rosidl_generator_c: 3.1.7 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.824s] -- Found rosidl_adapter: 3.1.7 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.824s] -- Found rosidl_generator_cpp: 3.1.7 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[0.824s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.824s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.825s] -- Found nav_msgs: 4.9.0 (/opt/ros/humble/share/nav_msgs/cmake)
+[0.825s] -- Found rclcpp: 16.0.15 (/opt/ros/humble/share/rclcpp/cmake)
+[0.825s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[0.825s] -- Found rmw_fastrtps_cpp: 6.2.9 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[3.379s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[3.450s] -- Found sensor_msgs: 4.9.0 (/opt/ros/humble/share/sensor_msgs/cmake)
+[3.482s] -- Found tf2: 0.25.16 (/opt/ros/humble/share/tf2/cmake)
+[3.493s] -- Found tf2_msgs: 0.25.16 (/opt/ros/humble/share/tf2_msgs/cmake)
+[3.565s] -- Found turtlebot3_msgs: 2.4.0 (/opt/ros/humble/share/turtlebot3_msgs/cmake)
+[3.695s] -- Configuring done
+[3.719s] -- Generating done
+[3.727s] -- Build files have been written to: /root/SESASR-LAB/build/turtlebot3_fake_node
+[3.768s] [35m[1mConsolidate compiler generated dependencies of target turtlebot3_fake_node[0m
+[3.830s] [ 50%] [32mBuilding CXX object CMakeFiles/turtlebot3_fake_node.dir/src/turtlebot3_fake_node.cpp.o[0m
+[14.262s] [100%] [32m[1mLinking CXX executable turtlebot3_fake_node[0m
+[14.943s] [100%] Built target turtlebot3_fake_node
+[14.962s] Invoked command in '/root/SESASR-LAB/build/turtlebot3_fake_node' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/SESASR-LAB/install/py_pubsub:/root/SESASR-LAB/install/lab01_pkg:/opt/ros/humble /usr/bin/cmake --build /root/SESASR-LAB/build/turtlebot3_fake_node -- -j12 -l12
+[14.978s] Invoking command in '/root/SESASR-LAB/build/turtlebot3_fake_node': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/SESASR-LAB/install/py_pubsub:/root/SESASR-LAB/install/lab01_pkg:/opt/ros/humble /usr/bin/cmake --install /root/SESASR-LAB/build/turtlebot3_fake_node
+[14.991s] -- Install configuration: ""
+[14.992s] -- Execute custom install script
+[14.992s] -- Up-to-date symlink: /root/SESASR-LAB/install/turtlebot3_fake_node/lib/turtlebot3_fake_node/turtlebot3_fake_node
+[14.993s] -- Up-to-date symlink: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/launch/rviz2.launch.py
+[14.993s] -- Up-to-date symlink: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/launch/turtlebot3_fake_node.launch.py
+[14.993s] -- Up-to-date symlink: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/param/burger.yaml
+[14.993s] -- Up-to-date symlink: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/param/waffle.yaml
+[14.994s] -- Up-to-date symlink: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/param/waffle_pi.yaml
+[14.994s] -- Up-to-date symlink: /root/SESASR-LAB/install/turtlebot3_fake_node/include//turtlebot3_fake_node/turtlebot3_fake_node.hpp
+[14.994s] -- Up-to-date symlink: /root/SESASR-LAB/install/turtlebot3_fake_node/share/ament_index/resource_index/package_run_dependencies/turtlebot3_fake_node
+[14.995s] -- Up-to-date symlink: /root/SESASR-LAB/install/turtlebot3_fake_node/share/ament_index/resource_index/parent_prefix_path/turtlebot3_fake_node
+[14.995s] -- Up-to-date symlink: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/environment/ament_prefix_path.sh
+[14.995s] -- Up-to-date symlink: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/environment/ament_prefix_path.dsv
+[14.995s] -- Up-to-date symlink: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/environment/path.sh
+[14.996s] -- Up-to-date symlink: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/environment/path.dsv
+[14.996s] -- Up-to-date symlink: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/local_setup.bash
+[14.997s] -- Up-to-date symlink: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/local_setup.sh
+[14.997s] -- Up-to-date symlink: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/local_setup.zsh
+[14.997s] -- Up-to-date symlink: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/local_setup.dsv
+[14.998s] -- Symlinking: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/package.dsv
+[15.013s] -- Up-to-date symlink: /root/SESASR-LAB/install/turtlebot3_fake_node/share/ament_index/resource_index/packages/turtlebot3_fake_node
+[15.014s] -- Up-to-date symlink: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/cmake/ament_cmake_export_include_directories-extras.cmake
+[15.014s] -- Up-to-date symlink: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/cmake/ament_cmake_export_dependencies-extras.cmake
+[15.014s] -- Up-to-date symlink: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/cmake/turtlebot3_fake_nodeConfig.cmake
+[15.014s] -- Up-to-date symlink: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/cmake/turtlebot3_fake_nodeConfig-version.cmake
+[15.014s] -- Up-to-date symlink: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/package.xml
+[15.018s] Invoked command in '/root/SESASR-LAB/build/turtlebot3_fake_node' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/SESASR-LAB/install/py_pubsub:/root/SESASR-LAB/install/lab01_pkg:/opt/ros/humble /usr/bin/cmake --install /root/SESASR-LAB/build/turtlebot3_fake_node

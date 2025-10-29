@@ -1,0 +1,650 @@
+[0.000000] (-) TimerEvent: {}
+[0.000489] (lab01_pkg) JobQueued: {'identifier': 'lab01_pkg', 'dependencies': OrderedDict()}
+[0.000560] (turtlebot3_fake_node) JobQueued: {'identifier': 'turtlebot3_fake_node', 'dependencies': OrderedDict()}
+[0.000581] (turtlebot3_gazebo) JobQueued: {'identifier': 'turtlebot3_gazebo', 'dependencies': OrderedDict()}
+[0.000596] (turtlebot3_simulations) JobQueued: {'identifier': 'turtlebot3_simulations', 'dependencies': OrderedDict([('turtlebot3_fake_node', '/root/SESASR-LAB/install/turtlebot3_fake_node')])}
+[0.000610] (turtlebot3_fake_node) JobStarted: {'identifier': 'turtlebot3_fake_node'}
+[0.008310] (lab01_pkg) JobStarted: {'identifier': 'lab01_pkg'}
+[0.014489] (turtlebot3_gazebo) JobStarted: {'identifier': 'turtlebot3_gazebo'}
+[0.019416] (turtlebot3_fake_node) JobProgress: {'identifier': 'turtlebot3_fake_node', 'progress': 'cmake'}
+[0.020587] (turtlebot3_fake_node) Command: {'cmd': ['/usr/bin/cmake', '/root/SESASR-LAB/src/turtlebot3_simulations/turtlebot3_fake_node', '-DAMENT_CMAKE_SYMLINK_INSTALL=1', '-DCMAKE_INSTALL_PREFIX=/root/SESASR-LAB/install/turtlebot3_fake_node'], 'cwd': '/root/SESASR-LAB/build/turtlebot3_fake_node', 'env': OrderedDict([('PYTHON_BASIC_REPL', '1'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'root'), ('GIT_ASKPASS', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/extensions/git/dist/askpass.sh'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/zenoh_cpp_vendor/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/root'), ('OLDPWD', '/root/SESASR-LAB/src'), ('TERM_PROGRAM_VERSION', '1.105.1'), ('VSCODE_IPC_HOOK_CLI', '/run/user/0/vscode-ipc-0f89df02-5a0e-4fee-b1a4-0db448d76e5a.sock'), ('ROS_PYTHON_VERSION', '3'), ('VSCODE_GIT_ASKPASS_MAIN', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/extensions/git/dist/askpass-main.js'), ('VSCODE_GIT_ASKPASS_NODE', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/node'), ('PYDEVD_DISABLE_FILE_VALIDATION', '1'), ('BUNDLED_DEBUGPY_PATH', '/root/.vscode-server/extensions/ms-python.debugpy-2025.14.1-linux-x64/bundled/libs/debugpy'), ('VSCODE_PYTHON_AUTOACTIVATE_GUARD', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/0/bus'), ('COLORTERM', 'truecolor'), ('WSL_DISTRO_NAME', 'Ubuntu-22.04'), ('WAYLAND_DISPLAY', 'wayland-0'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'root'), ('NAME', 'DESKTOP-STVJ2LU'), ('WSL_INTEROP', '/run/WSL/383_interop'), ('PULSE_SERVER', 'unix:/mnt/wslg/PulseServer'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm-256color'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/bin/remote-cli:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files (x86)/Windows Kits/8.1/Windows Performance Toolkit/:/mnt/c/Program Files/MATLAB/R2025b/bin:/mnt/c/Users/Giulia/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/Giulia/AppData/Local/Programs/Microsoft VS Code/bin:/snap/bin:/root/.vscode-server/extensions/ms-python.debugpy-2025.14.1-linux-x64/bundled/scripts/noConfigScripts:/root/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand'), ('XDG_RUNTIME_DIR', '/run/user/0/'), ('DISPLAY', ':0'), ('VSCODE_DEBUGPY_ADAPTER_ENDPOINTS', '/root/.vscode-server/extensions/ms-python.debugpy-2025.14.1-linux-x64/.noConfigDebugAdapterEndpoints/endpoint-296e5a237fe1b1bb.txt'), ('LANG', 'en_US.UTF-8'), ('PYTHONSTARTUP', '/root/.vscode-server/data/User/workspaceStorage/cb43f42d6e5455536f77cc921d6652f3/ms-python.python/pythonrc.py'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('VSCODE_GIT_IPC_HANDLE', '/run/user/0/vscode-git-2e5385b64f.sock'), ('TERM_PROGRAM', 'vscode'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('VSCODE_GIT_ASKPASS_EXTRA_ARGS', ''), ('PWD', '/root/SESASR-LAB/build/turtlebot3_fake_node'), ('XDG_DATA_DIRS', '/usr/local/share:/usr/share:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('WSL2_GUI_APPS_ENABLED', '1'), ('HOSTTYPE', 'x86_64'), ('WSLENV', 'VSCODE_WSL_EXT_LOCATION/up'), ('CMAKE_PREFIX_PATH', '/opt/ros/humble')]), 'shell': False}
+[0.099790] (-) TimerEvent: {}
+[0.200259] (-) TimerEvent: {}
+[0.274761] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)\n'}
+[0.275420] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Override CMake install command with custom implementation using symlinks instead of copying resources\n'}
+[0.275682] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Found geometry_msgs: 4.9.0 (/opt/ros/humble/share/geometry_msgs/cmake)\n'}
+[0.276119] (turtlebot3_gazebo) JobProgress: {'identifier': 'turtlebot3_gazebo', 'progress': 'cmake'}
+[0.277335] (turtlebot3_gazebo) Command: {'cmd': ['/usr/bin/cmake', '/root/SESASR-LAB/src/turtlebot3_simulations/turtlebot3_gazebo', '-DAMENT_CMAKE_SYMLINK_INSTALL=1', '-DCMAKE_INSTALL_PREFIX=/root/SESASR-LAB/install/turtlebot3_gazebo'], 'cwd': '/root/SESASR-LAB/build/turtlebot3_gazebo', 'env': OrderedDict([('PYTHON_BASIC_REPL', '1'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'root'), ('GIT_ASKPASS', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/extensions/git/dist/askpass.sh'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/zenoh_cpp_vendor/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/root'), ('OLDPWD', '/root/SESASR-LAB/src'), ('TERM_PROGRAM_VERSION', '1.105.1'), ('VSCODE_IPC_HOOK_CLI', '/run/user/0/vscode-ipc-0f89df02-5a0e-4fee-b1a4-0db448d76e5a.sock'), ('ROS_PYTHON_VERSION', '3'), ('VSCODE_GIT_ASKPASS_MAIN', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/extensions/git/dist/askpass-main.js'), ('VSCODE_GIT_ASKPASS_NODE', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/node'), ('PYDEVD_DISABLE_FILE_VALIDATION', '1'), ('BUNDLED_DEBUGPY_PATH', '/root/.vscode-server/extensions/ms-python.debugpy-2025.14.1-linux-x64/bundled/libs/debugpy'), ('VSCODE_PYTHON_AUTOACTIVATE_GUARD', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/0/bus'), ('COLORTERM', 'truecolor'), ('WSL_DISTRO_NAME', 'Ubuntu-22.04'), ('WAYLAND_DISPLAY', 'wayland-0'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'root'), ('NAME', 'DESKTOP-STVJ2LU'), ('WSL_INTEROP', '/run/WSL/383_interop'), ('PULSE_SERVER', 'unix:/mnt/wslg/PulseServer'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm-256color'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/bin/remote-cli:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files (x86)/Windows Kits/8.1/Windows Performance Toolkit/:/mnt/c/Program Files/MATLAB/R2025b/bin:/mnt/c/Users/Giulia/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/Giulia/AppData/Local/Programs/Microsoft VS Code/bin:/snap/bin:/root/.vscode-server/extensions/ms-python.debugpy-2025.14.1-linux-x64/bundled/scripts/noConfigScripts:/root/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand'), ('XDG_RUNTIME_DIR', '/run/user/0/'), ('DISPLAY', ':0'), ('VSCODE_DEBUGPY_ADAPTER_ENDPOINTS', '/root/.vscode-server/extensions/ms-python.debugpy-2025.14.1-linux-x64/.noConfigDebugAdapterEndpoints/endpoint-296e5a237fe1b1bb.txt'), ('LANG', 'en_US.UTF-8'), ('PYTHONSTARTUP', '/root/.vscode-server/data/User/workspaceStorage/cb43f42d6e5455536f77cc921d6652f3/ms-python.python/pythonrc.py'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('VSCODE_GIT_IPC_HANDLE', '/run/user/0/vscode-git-2e5385b64f.sock'), ('TERM_PROGRAM', 'vscode'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('VSCODE_GIT_ASKPASS_EXTRA_ARGS', ''), ('PWD', '/root/SESASR-LAB/build/turtlebot3_gazebo'), ('XDG_DATA_DIRS', '/usr/local/share:/usr/share:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('WSL2_GUI_APPS_ENABLED', '1'), ('HOSTTYPE', 'x86_64'), ('WSLENV', 'VSCODE_WSL_EXT_LOCATION/up'), ('CMAKE_PREFIX_PATH', '/opt/ros/humble')]), 'shell': False}
+[0.292578] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)\n'}
+[0.300465] (-) TimerEvent: {}
+[0.348131] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Found rosidl_generator_c: 3.1.7 (/opt/ros/humble/share/rosidl_generator_c/cmake)\n'}
+[0.353350] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Found rosidl_adapter: 3.1.7 (/opt/ros/humble/share/rosidl_adapter/cmake)\n'}
+[0.362406] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Found rosidl_generator_cpp: 3.1.7 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)\n'}
+[0.377060] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[0.395208] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[0.400616] (-) TimerEvent: {}
+[0.407992] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Override CMake install command with custom implementation using symlinks instead of copying resources\n'}
+[0.422709] (turtlebot3_gazebo) StderrLine: {'line': b'\x1b[33mCMake Warning (dev) at /usr/share/cmake-3.22/Modules/FindPackageHandleStandardArgs.cmake:438 (message):\n'}
+[0.422926] (turtlebot3_gazebo) StderrLine: {'line': b'  The package name passed to `find_package_handle_standard_args` (PkgConfig)\n'}
+[0.422985] (turtlebot3_gazebo) StderrLine: {'line': b'  does not match the name of the calling package (gazebo).  This can lead to\n'}
+[0.423035] (turtlebot3_gazebo) StderrLine: {'line': b'  problems in calling code that expects `find_package` result variables\n'}
+[0.423082] (turtlebot3_gazebo) StderrLine: {'line': b'  (e.g., `_FOUND`) to follow a certain pattern.\n'}
+[0.423127] (turtlebot3_gazebo) StderrLine: {'line': b'Call Stack (most recent call first):\n'}
+[0.423169] (turtlebot3_gazebo) StderrLine: {'line': b'  /usr/share/cmake-3.22/Modules/FindPkgConfig.cmake:99 (find_package_handle_standard_args)\n'}
+[0.423213] (turtlebot3_gazebo) StderrLine: {'line': b'  /usr/lib/x86_64-linux-gnu/cmake/gazebo/gazebo-config.cmake:72 (include)\n'}
+[0.423255] (turtlebot3_gazebo) StderrLine: {'line': b'  CMakeLists.txt:23 (find_package)\n'}
+[0.423296] (turtlebot3_gazebo) StderrLine: {'line': b'This warning is for project developers.  Use -Wno-dev to suppress it.\n'}
+[0.423337] (turtlebot3_gazebo) StderrLine: {'line': b'\x1b[0m\n'}
+[0.445259] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Found nav_msgs: 4.9.0 (/opt/ros/humble/share/nav_msgs/cmake)\n'}
+[0.457551] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Found DART: /usr/include (Required is at least version "6.6") found components: dart \n'}
+[0.463753] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Found rclcpp: 16.0.15 (/opt/ros/humble/share/rclcpp/cmake)\n'}
+[0.501387] (-) TimerEvent: {}
+[0.507390] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)\n'}
+[0.509614] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Found Protobuf: /usr/lib/x86_64-linux-gnu/libprotobuf.so (found version "3.12.4") \n'}
+[0.510937] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Found rmw_fastrtps_cpp: 6.2.9 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)\n'}
+[0.512614] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Looking for ignition-math6 -- found version 6.15.1\n'}
+[0.521200] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Searching for dependencies of ignition-math6\n'}
+[0.523864] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Looking for OGRE...\n'}
+[0.531424] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Found Ogre Ghadamon (1.9.0)\n'}
+[0.532030] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Found OGRE: optimized;/usr/lib/x86_64-linux-gnu/libOgreMain.so;debug;/usr/lib/x86_64-linux-gnu/libOgreMain.so\n'}
+[0.540541] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Looking for OGRE_Paging...\n'}
+[0.540853] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Found OGRE_Paging: optimized;/usr/lib/x86_64-linux-gnu/libOgrePaging.so;debug;/usr/lib/x86_64-linux-gnu/libOgrePaging.so\n'}
+[0.541388] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Looking for OGRE_Terrain...\n'}
+[0.541713] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Found OGRE_Terrain: optimized;/usr/lib/x86_64-linux-gnu/libOgreTerrain.so;debug;/usr/lib/x86_64-linux-gnu/libOgreTerrain.so\n'}
+[0.541904] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Looking for OGRE_Property...\n'}
+[0.541983] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Found OGRE_Property: optimized;/usr/lib/x86_64-linux-gnu/libOgreProperty.so;debug;/usr/lib/x86_64-linux-gnu/libOgreProperty.so\n'}
+[0.542039] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Looking for OGRE_RTShaderSystem...\n'}
+[0.542088] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Found OGRE_RTShaderSystem: optimized;/usr/lib/x86_64-linux-gnu/libOgreRTShaderSystem.so;debug;/usr/lib/x86_64-linux-gnu/libOgreRTShaderSystem.so\n'}
+[0.542135] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Looking for OGRE_Volume...\n'}
+[0.542178] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Found OGRE_Volume: optimized;/usr/lib/x86_64-linux-gnu/libOgreVolume.so;debug;/usr/lib/x86_64-linux-gnu/libOgreVolume.so\n'}
+[0.542223] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Looking for OGRE_Overlay...\n'}
+[0.542289] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Found OGRE_Overlay: optimized;/usr/lib/x86_64-linux-gnu/libOgreOverlay.so;debug;/usr/lib/x86_64-linux-gnu/libOgreOverlay.so\n'}
+[0.601913] (-) TimerEvent: {}
+[0.702842] (-) TimerEvent: {}
+[0.745342] (lab01_pkg) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'develop', '--editable', '--build-directory', '/root/SESASR-LAB/build/lab01_pkg/build', '--no-deps', 'symlink_data'], 'cwd': '/root/SESASR-LAB/build/lab01_pkg', 'env': {'PYTHON_BASIC_REPL': '1', 'LESSOPEN': '| /usr/bin/lesspipe %s', 'USER': 'root', 'GIT_ASKPASS': '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/extensions/git/dist/askpass.sh', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/opt/ros/humble/opt/zenoh_cpp_vendor/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib', 'HOME': '/root', 'OLDPWD': '/root/SESASR-LAB/src', 'TERM_PROGRAM_VERSION': '1.105.1', 'VSCODE_IPC_HOOK_CLI': '/run/user/0/vscode-ipc-0f89df02-5a0e-4fee-b1a4-0db448d76e5a.sock', 'ROS_PYTHON_VERSION': '3', 'VSCODE_GIT_ASKPASS_MAIN': '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/extensions/git/dist/askpass-main.js', 'VSCODE_GIT_ASKPASS_NODE': '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/node', 'PYDEVD_DISABLE_FILE_VALIDATION': '1', 'BUNDLED_DEBUGPY_PATH': '/root/.vscode-server/extensions/ms-python.debugpy-2025.14.1-linux-x64/bundled/libs/debugpy', 'VSCODE_PYTHON_AUTOACTIVATE_GUARD': '1', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/0/bus', 'COLORTERM': 'truecolor', 'WSL_DISTRO_NAME': 'Ubuntu-22.04', 'WAYLAND_DISPLAY': 'wayland-0', 'ROS_DISTRO': 'humble', 'LOGNAME': 'root', 'NAME': 'DESKTOP-STVJ2LU', 'WSL_INTEROP': '/run/WSL/383_interop', 'PULSE_SERVER': 'unix:/mnt/wslg/PulseServer', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'TERM': 'xterm-256color', 'ROS_LOCALHOST_ONLY': '0', 'PATH': '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/bin/remote-cli:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files (x86)/Windows Kits/8.1/Windows Performance Toolkit/:/mnt/c/Program Files/MATLAB/R2025b/bin:/mnt/c/Users/Giulia/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/Giulia/AppData/Local/Programs/Microsoft VS Code/bin:/snap/bin:/root/.vscode-server/extensions/ms-python.debugpy-2025.14.1-linux-x64/bundled/scripts/noConfigScripts:/root/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand', 'XDG_RUNTIME_DIR': '/run/user/0/', 'DISPLAY': ':0', 'VSCODE_DEBUGPY_ADAPTER_ENDPOINTS': '/root/.vscode-server/extensions/ms-python.debugpy-2025.14.1-linux-x64/.noConfigDebugAdapterEndpoints/endpoint-296e5a237fe1b1bb.txt', 'LANG': 'en_US.UTF-8', 'PYTHONSTARTUP': '/root/.vscode-server/data/User/workspaceStorage/cb43f42d6e5455536f77cc921d6652f3/ms-python.python/pythonrc.py', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:', 'VSCODE_GIT_IPC_HANDLE': '/run/user/0/vscode-git-2e5385b64f.sock', 'TERM_PROGRAM': 'vscode', 'AMENT_PREFIX_PATH': '/opt/ros/humble', 'SHELL': '/bin/bash', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'VSCODE_GIT_ASKPASS_EXTRA_ARGS': '', 'PWD': '/root/SESASR-LAB/build/lab01_pkg', 'XDG_DATA_DIRS': '/usr/local/share:/usr/share:/var/lib/snapd/desktop', 'PYTHONPATH': '/root/SESASR-LAB/build/lab01_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/root/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages', 'COLCON': '1', 'WSL2_GUI_APPS_ENABLED': '1', 'HOSTTYPE': 'x86_64', 'WSLENV': 'VSCODE_WSL_EXT_LOCATION/up'}, 'shell': False}
+[0.803721] (-) TimerEvent: {}
+[0.904663] (-) TimerEvent: {}
+[0.983021] (lab01_pkg) StdoutLine: {'line': b'running develop\n'}
+[1.004857] (-) TimerEvent: {}
+[1.105291] (-) TimerEvent: {}
+[1.162075] (lab01_pkg) StdoutLine: {'line': b'running egg_info\n'}
+[1.162511] (lab01_pkg) StdoutLine: {'line': b'writing lab01_pkg.egg-info/PKG-INFO\n'}
+[1.162733] (lab01_pkg) StdoutLine: {'line': b'writing dependency_links to lab01_pkg.egg-info/dependency_links.txt\n'}
+[1.162982] (lab01_pkg) StdoutLine: {'line': b'writing entry points to lab01_pkg.egg-info/entry_points.txt\n'}
+[1.163197] (lab01_pkg) StdoutLine: {'line': b'writing requirements to lab01_pkg.egg-info/requires.txt\n'}
+[1.163280] (lab01_pkg) StdoutLine: {'line': b'writing top-level names to lab01_pkg.egg-info/top_level.txt\n'}
+[1.165017] (lab01_pkg) StdoutLine: {'line': b"reading manifest file 'lab01_pkg.egg-info/SOURCES.txt'\n"}
+[1.166236] (lab01_pkg) StdoutLine: {'line': b"writing manifest file 'lab01_pkg.egg-info/SOURCES.txt'\n"}
+[1.167327] (lab01_pkg) StdoutLine: {'line': b'running build_ext\n'}
+[1.167545] (lab01_pkg) StdoutLine: {'line': b'Creating /root/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages/lab01-pkg.egg-link (link to .)\n'}
+[1.168131] (lab01_pkg) StdoutLine: {'line': b'Installing controller script to /root/SESASR-LAB/install/lab01_pkg/lib/lab01_pkg\n'}
+[1.168388] (lab01_pkg) StdoutLine: {'line': b'Installing localization script to /root/SESASR-LAB/install/lab01_pkg/lib/lab01_pkg\n'}
+[1.168581] (lab01_pkg) StdoutLine: {'line': b'\n'}
+[1.168796] (lab01_pkg) StdoutLine: {'line': b'Installed /root/SESASR-LAB/build/lab01_pkg\n'}
+[1.169018] (lab01_pkg) StdoutLine: {'line': b'running symlink_data\n'}
+[1.200485] (lab01_pkg) CommandEnded: {'returncode': 0}
+[1.205533] (-) TimerEvent: {}
+[1.221806] (lab01_pkg) JobEnded: {'identifier': 'lab01_pkg', 'rc': 0}
+[1.306626] (-) TimerEvent: {}
+[1.408236] (-) TimerEvent: {}
+[1.509817] (-) TimerEvent: {}
+[1.611365] (-) TimerEvent: {}
+[1.712949] (-) TimerEvent: {}
+[1.813571] (-) TimerEvent: {}
+[1.913994] (-) TimerEvent: {}
+[2.014385] (-) TimerEvent: {}
+[2.115349] (-) TimerEvent: {}
+[2.216430] (-) TimerEvent: {}
+[2.316877] (-) TimerEvent: {}
+[2.417879] (-) TimerEvent: {}
+[2.518329] (-) TimerEvent: {}
+[2.618842] (-) TimerEvent: {}
+[2.719389] (-) TimerEvent: {}
+[2.819837] (-) TimerEvent: {}
+[2.886387] (turtlebot3_fake_node) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_fastrtps_cpp' as default\n"}
+[2.920119] (-) TimerEvent: {}
+[2.937629] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Found sensor_msgs: 4.9.0 (/opt/ros/humble/share/sensor_msgs/cmake)\n'}
+[2.959363] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Found tf2: 0.25.16 (/opt/ros/humble/share/tf2/cmake)\n'}
+[2.965537] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Found tf2_msgs: 0.25.16 (/opt/ros/humble/share/tf2_msgs/cmake)\n'}
+[3.018228] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Found turtlebot3_msgs: 2.4.0 (/opt/ros/humble/share/turtlebot3_msgs/cmake)\n'}
+[3.020253] (-) TimerEvent: {}
+[3.113668] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Configuring done\n'}
+[3.120526] (-) TimerEvent: {}
+[3.136298] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Generating done\n'}
+[3.141146] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Build files have been written to: /root/SESASR-LAB/build/turtlebot3_fake_node\n'}
+[3.157280] (turtlebot3_fake_node) CommandEnded: {'returncode': 0}
+[3.159946] (turtlebot3_fake_node) JobProgress: {'identifier': 'turtlebot3_fake_node', 'progress': 'build'}
+[3.160088] (turtlebot3_fake_node) Command: {'cmd': ['/usr/bin/cmake', '--build', '/root/SESASR-LAB/build/turtlebot3_fake_node', '--', '-j12', '-l12'], 'cwd': '/root/SESASR-LAB/build/turtlebot3_fake_node', 'env': OrderedDict([('PYTHON_BASIC_REPL', '1'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'root'), ('GIT_ASKPASS', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/extensions/git/dist/askpass.sh'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/zenoh_cpp_vendor/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/root'), ('OLDPWD', '/root/SESASR-LAB/src'), ('TERM_PROGRAM_VERSION', '1.105.1'), ('VSCODE_IPC_HOOK_CLI', '/run/user/0/vscode-ipc-0f89df02-5a0e-4fee-b1a4-0db448d76e5a.sock'), ('ROS_PYTHON_VERSION', '3'), ('VSCODE_GIT_ASKPASS_MAIN', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/extensions/git/dist/askpass-main.js'), ('VSCODE_GIT_ASKPASS_NODE', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/node'), ('PYDEVD_DISABLE_FILE_VALIDATION', '1'), ('BUNDLED_DEBUGPY_PATH', '/root/.vscode-server/extensions/ms-python.debugpy-2025.14.1-linux-x64/bundled/libs/debugpy'), ('VSCODE_PYTHON_AUTOACTIVATE_GUARD', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/0/bus'), ('COLORTERM', 'truecolor'), ('WSL_DISTRO_NAME', 'Ubuntu-22.04'), ('WAYLAND_DISPLAY', 'wayland-0'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'root'), ('NAME', 'DESKTOP-STVJ2LU'), ('WSL_INTEROP', '/run/WSL/383_interop'), ('PULSE_SERVER', 'unix:/mnt/wslg/PulseServer'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm-256color'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/bin/remote-cli:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files (x86)/Windows Kits/8.1/Windows Performance Toolkit/:/mnt/c/Program Files/MATLAB/R2025b/bin:/mnt/c/Users/Giulia/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/Giulia/AppData/Local/Programs/Microsoft VS Code/bin:/snap/bin:/root/.vscode-server/extensions/ms-python.debugpy-2025.14.1-linux-x64/bundled/scripts/noConfigScripts:/root/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand'), ('XDG_RUNTIME_DIR', '/run/user/0/'), ('DISPLAY', ':0'), ('VSCODE_DEBUGPY_ADAPTER_ENDPOINTS', '/root/.vscode-server/extensions/ms-python.debugpy-2025.14.1-linux-x64/.noConfigDebugAdapterEndpoints/endpoint-296e5a237fe1b1bb.txt'), ('LANG', 'en_US.UTF-8'), ('PYTHONSTARTUP', '/root/.vscode-server/data/User/workspaceStorage/cb43f42d6e5455536f77cc921d6652f3/ms-python.python/pythonrc.py'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('VSCODE_GIT_IPC_HANDLE', '/run/user/0/vscode-git-2e5385b64f.sock'), ('TERM_PROGRAM', 'vscode'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('VSCODE_GIT_ASKPASS_EXTRA_ARGS', ''), ('PWD', '/root/SESASR-LAB/build/turtlebot3_fake_node'), ('XDG_DATA_DIRS', '/usr/local/share:/usr/share:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('WSL2_GUI_APPS_ENABLED', '1'), ('HOSTTYPE', 'x86_64'), ('WSLENV', 'VSCODE_WSL_EXT_LOCATION/up'), ('CMAKE_PREFIX_PATH', '/opt/ros/humble')]), 'shell': False}
+[3.220755] (-) TimerEvent: {}
+[3.221344] (turtlebot3_fake_node) StdoutLine: {'line': b'[ 50%] \x1b[32mBuilding CXX object CMakeFiles/turtlebot3_fake_node.dir/src/turtlebot3_fake_node.cpp.o\x1b[0m\n'}
+[3.321240] (-) TimerEvent: {}
+[3.422359] (-) TimerEvent: {}
+[3.522905] (-) TimerEvent: {}
+[3.623417] (-) TimerEvent: {}
+[3.723948] (-) TimerEvent: {}
+[3.825046] (-) TimerEvent: {}
+[3.926182] (-) TimerEvent: {}
+[4.027322] (-) TimerEvent: {}
+[4.128062] (-) TimerEvent: {}
+[4.229324] (-) TimerEvent: {}
+[4.329792] (-) TimerEvent: {}
+[4.430469] (-) TimerEvent: {}
+[4.531746] (-) TimerEvent: {}
+[4.632733] (-) TimerEvent: {}
+[4.733871] (-) TimerEvent: {}
+[4.835044] (-) TimerEvent: {}
+[4.935539] (-) TimerEvent: {}
+[5.036223] (-) TimerEvent: {}
+[5.136823] (-) TimerEvent: {}
+[5.237506] (-) TimerEvent: {}
+[5.337957] (-) TimerEvent: {}
+[5.438392] (-) TimerEvent: {}
+[5.538909] (-) TimerEvent: {}
+[5.639349] (-) TimerEvent: {}
+[5.739790] (-) TimerEvent: {}
+[5.840196] (-) TimerEvent: {}
+[5.940671] (-) TimerEvent: {}
+[6.041932] (-) TimerEvent: {}
+[6.143250] (-) TimerEvent: {}
+[6.244409] (-) TimerEvent: {}
+[6.345012] (-) TimerEvent: {}
+[6.445542] (-) TimerEvent: {}
+[6.546738] (-) TimerEvent: {}
+[6.648751] (-) TimerEvent: {}
+[6.751468] (-) TimerEvent: {}
+[6.852134] (-) TimerEvent: {}
+[6.954883] (-) TimerEvent: {}
+[7.057702] (-) TimerEvent: {}
+[7.160520] (-) TimerEvent: {}
+[7.263522] (-) TimerEvent: {}
+[7.364660] (-) TimerEvent: {}
+[7.465794] (-) TimerEvent: {}
+[7.567002] (-) TimerEvent: {}
+[7.668121] (-) TimerEvent: {}
+[7.769540] (-) TimerEvent: {}
+[7.870697] (-) TimerEvent: {}
+[7.971868] (-) TimerEvent: {}
+[8.072783] (-) TimerEvent: {}
+[8.173807] (-) TimerEvent: {}
+[8.233741] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Looking for ignition-math6 -- found version 6.15.1\n'}
+[8.236930] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Looking for ignition-transport8 -- found version 8.2.1\n'}
+[8.237554] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Searching for dependencies of ignition-transport8\n'}
+[8.274690] (-) TimerEvent: {}
+[8.375865] (-) TimerEvent: {}
+[8.476568] (-) TimerEvent: {}
+[8.577349] (-) TimerEvent: {}
+[8.679460] (-) TimerEvent: {}
+[8.782327] (-) TimerEvent: {}
+[8.884567] (-) TimerEvent: {}
+[8.946980] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Found Protobuf: /usr/lib/x86_64-linux-gnu/libprotobuf.so (found suitable version "3.12.4", minimum required is "3") \n'}
+[8.984777] (-) TimerEvent: {}
+[9.086903] (-) TimerEvent: {}
+[9.189062] (-) TimerEvent: {}
+[9.291340] (-) TimerEvent: {}
+[9.393657] (-) TimerEvent: {}
+[9.496116] (-) TimerEvent: {}
+[9.598346] (-) TimerEvent: {}
+[9.632850] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Config-file not installed for ZeroMQ -- checking for pkg-config\n'}
+[9.639526] (turtlebot3_gazebo) StdoutLine: {'line': b"-- Checking for module 'libzmq >= 4'\n"}
+[9.659385] (turtlebot3_gazebo) StdoutLine: {'line': b'--   Found libzmq , version 4.3.4\n'}
+[9.698513] (-) TimerEvent: {}
+[9.716150] (turtlebot3_gazebo) StdoutLine: {'line': b"-- Checking for module 'uuid'\n"}
+[9.734489] (turtlebot3_gazebo) StdoutLine: {'line': b'--   Found uuid, version 2.37.2\n'}
+[9.781884] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Looking for ignition-msgs5 -- found version 5.8.1\n'}
+[9.782310] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Searching for dependencies of ignition-msgs5\n'}
+[9.799011] (-) TimerEvent: {}
+[9.899443] (-) TimerEvent: {}
+[10.001033] (-) TimerEvent: {}
+[10.103278] (-) TimerEvent: {}
+[10.205485] (-) TimerEvent: {}
+[10.305932] (-) TimerEvent: {}
+[10.339566] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Looking for ignition-math6 -- found version 6.15.1\n'}
+[10.348288] (turtlebot3_gazebo) StdoutLine: {'line': b"-- Checking for module 'tinyxml2'\n"}
+[10.366450] (turtlebot3_gazebo) StdoutLine: {'line': b'--   Found tinyxml2, version 9.0.0\n'}
+[10.406089] (-) TimerEvent: {}
+[10.416730] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Looking for ignition-msgs5 -- found version 5.8.1\n'}
+[10.418172] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Looking for ignition-common3 -- found version 3.14.0\n'}
+[10.418714] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Searching for dependencies of ignition-common3\n'}
+[10.419234] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Looking for dlfcn.h - found\n'}
+[10.419347] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Looking for libdl - found\n'}
+[10.462324] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Searching for <ignition-common3> component [graphics]\n'}
+[10.463329] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Looking for ignition-common3-graphics -- found version 3.14.0\n'}
+[10.463756] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Searching for dependencies of ignition-common3-graphics\n'}
+[10.464087] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Looking for ignition-math6 -- found version 6.15.1\n'}
+[10.466866] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Looking for ignition-fuel_tools4 -- found version 4.4.0\n'}
+[10.467341] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Searching for dependencies of ignition-fuel_tools4\n'}
+[10.507073] (-) TimerEvent: {}
+[10.607552] (-) TimerEvent: {}
+[10.708025] (-) TimerEvent: {}
+[10.810778] (-) TimerEvent: {}
+[10.913571] (-) TimerEvent: {}
+[11.014583] (-) TimerEvent: {}
+[11.114285] (turtlebot3_gazebo) StdoutLine: {'line': b"-- Checking for module 'jsoncpp'\n"}
+[11.114577] (-) TimerEvent: {}
+[11.133750] (turtlebot3_gazebo) StdoutLine: {'line': b'--   Found jsoncpp, version 1.9.5\n'}
+[11.187867] (turtlebot3_gazebo) StdoutLine: {'line': b"-- Checking for module 'libzip'\n"}
+[11.206346] (turtlebot3_gazebo) StdoutLine: {'line': b'--   Found libzip, version 1.7.3\n'}
+[11.214786] (-) TimerEvent: {}
+[11.253182] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Looking for ignition-common3 -- found version 3.14.0\n'}
+[11.253762] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Looking for ignition-math6 -- found version 6.15.1\n'}
+[11.254075] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Looking for ignition-msgs5 -- found version 5.8.1\n'}
+[11.259503] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Found gazebo_ros_pkgs: 3.9.0 (/opt/ros/humble/share/gazebo_ros_pkgs/cmake)\n'}
+[11.261760] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Found geometry_msgs: 4.9.0 (/opt/ros/humble/share/geometry_msgs/cmake)\n'}
+[11.314985] (-) TimerEvent: {}
+[11.315400] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Found rosidl_generator_c: 3.1.7 (/opt/ros/humble/share/rosidl_generator_c/cmake)\n'}
+[11.321436] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Found rosidl_adapter: 3.1.7 (/opt/ros/humble/share/rosidl_adapter/cmake)\n'}
+[11.331698] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Found rosidl_generator_cpp: 3.1.7 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)\n'}
+[11.348886] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[11.366380] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[11.402839] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Found nav_msgs: 4.9.0 (/opt/ros/humble/share/nav_msgs/cmake)\n'}
+[11.415399] (-) TimerEvent: {}
+[11.419061] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Found rclcpp: 16.0.15 (/opt/ros/humble/share/rclcpp/cmake)\n'}
+[11.458369] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)\n'}
+[11.460690] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Found rmw_fastrtps_cpp: 6.2.9 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)\n'}
+[11.516846] (-) TimerEvent: {}
+[11.619595] (-) TimerEvent: {}
+[11.722338] (-) TimerEvent: {}
+[11.822759] (-) TimerEvent: {}
+[11.923200] (-) TimerEvent: {}
+[12.023749] (-) TimerEvent: {}
+[12.092133] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  \n'}
+[12.123932] (-) TimerEvent: {}
+[12.226630] (-) TimerEvent: {}
+[12.327067] (-) TimerEvent: {}
+[12.427606] (-) TimerEvent: {}
+[12.528328] (-) TimerEvent: {}
+[12.629516] (-) TimerEvent: {}
+[12.729966] (-) TimerEvent: {}
+[12.737865] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Found FastRTPS: /opt/ros/humble/include  \n'}
+[12.830346] (-) TimerEvent: {}
+[12.932402] (-) TimerEvent: {}
+[12.985339] (turtlebot3_fake_node) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking CXX executable turtlebot3_fake_node\x1b[0m\n'}
+[13.032617] (-) TimerEvent: {}
+[13.135023] (-) TimerEvent: {}
+[13.236399] (-) TimerEvent: {}
+[13.336902] (-) TimerEvent: {}
+[13.437998] (-) TimerEvent: {}
+[13.538925] (-) TimerEvent: {}
+[13.590221] (turtlebot3_fake_node) StdoutLine: {'line': b'[100%] Built target turtlebot3_fake_node\n'}
+[13.605394] (turtlebot3_fake_node) CommandEnded: {'returncode': 0}
+[13.606659] (turtlebot3_fake_node) JobProgress: {'identifier': 'turtlebot3_fake_node', 'progress': 'install'}
+[13.620291] (turtlebot3_fake_node) Command: {'cmd': ['/usr/bin/cmake', '--install', '/root/SESASR-LAB/build/turtlebot3_fake_node'], 'cwd': '/root/SESASR-LAB/build/turtlebot3_fake_node', 'env': OrderedDict([('PYTHON_BASIC_REPL', '1'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'root'), ('GIT_ASKPASS', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/extensions/git/dist/askpass.sh'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/zenoh_cpp_vendor/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/root'), ('OLDPWD', '/root/SESASR-LAB/src'), ('TERM_PROGRAM_VERSION', '1.105.1'), ('VSCODE_IPC_HOOK_CLI', '/run/user/0/vscode-ipc-0f89df02-5a0e-4fee-b1a4-0db448d76e5a.sock'), ('ROS_PYTHON_VERSION', '3'), ('VSCODE_GIT_ASKPASS_MAIN', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/extensions/git/dist/askpass-main.js'), ('VSCODE_GIT_ASKPASS_NODE', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/node'), ('PYDEVD_DISABLE_FILE_VALIDATION', '1'), ('BUNDLED_DEBUGPY_PATH', '/root/.vscode-server/extensions/ms-python.debugpy-2025.14.1-linux-x64/bundled/libs/debugpy'), ('VSCODE_PYTHON_AUTOACTIVATE_GUARD', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/0/bus'), ('COLORTERM', 'truecolor'), ('WSL_DISTRO_NAME', 'Ubuntu-22.04'), ('WAYLAND_DISPLAY', 'wayland-0'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'root'), ('NAME', 'DESKTOP-STVJ2LU'), ('WSL_INTEROP', '/run/WSL/383_interop'), ('PULSE_SERVER', 'unix:/mnt/wslg/PulseServer'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm-256color'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/bin/remote-cli:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files (x86)/Windows Kits/8.1/Windows Performance Toolkit/:/mnt/c/Program Files/MATLAB/R2025b/bin:/mnt/c/Users/Giulia/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/Giulia/AppData/Local/Programs/Microsoft VS Code/bin:/snap/bin:/root/.vscode-server/extensions/ms-python.debugpy-2025.14.1-linux-x64/bundled/scripts/noConfigScripts:/root/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand'), ('XDG_RUNTIME_DIR', '/run/user/0/'), ('DISPLAY', ':0'), ('VSCODE_DEBUGPY_ADAPTER_ENDPOINTS', '/root/.vscode-server/extensions/ms-python.debugpy-2025.14.1-linux-x64/.noConfigDebugAdapterEndpoints/endpoint-296e5a237fe1b1bb.txt'), ('LANG', 'en_US.UTF-8'), ('PYTHONSTARTUP', '/root/.vscode-server/data/User/workspaceStorage/cb43f42d6e5455536f77cc921d6652f3/ms-python.python/pythonrc.py'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('VSCODE_GIT_IPC_HANDLE', '/run/user/0/vscode-git-2e5385b64f.sock'), ('TERM_PROGRAM', 'vscode'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('VSCODE_GIT_ASKPASS_EXTRA_ARGS', ''), ('PWD', '/root/SESASR-LAB/build/turtlebot3_fake_node'), ('XDG_DATA_DIRS', '/usr/local/share:/usr/share:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('WSL2_GUI_APPS_ENABLED', '1'), ('HOSTTYPE', 'x86_64'), ('WSLENV', 'VSCODE_WSL_EXT_LOCATION/up'), ('CMAKE_PREFIX_PATH', '/opt/ros/humble')]), 'shell': False}
+[13.627859] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[13.628270] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Execute custom install script\n'}
+[13.629769] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_fake_node/lib/turtlebot3_fake_node/turtlebot3_fake_node\n'}
+[13.639048] (-) TimerEvent: {}
+[13.641219] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/launch/rviz2.launch.py\n'}
+[13.652923] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/launch/turtlebot3_fake_node.launch.py\n'}
+[13.666127] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/param/burger.yaml\n'}
+[13.677396] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/param/waffle.yaml\n'}
+[13.688681] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/param/waffle_pi.yaml\n'}
+[13.700311] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_fake_node/include//turtlebot3_fake_node/turtlebot3_fake_node.hpp\n'}
+[13.712301] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_fake_node/share/ament_index/resource_index/package_run_dependencies/turtlebot3_fake_node\n'}
+[13.723257] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_fake_node/share/ament_index/resource_index/parent_prefix_path/turtlebot3_fake_node\n'}
+[13.734210] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/environment/ament_prefix_path.sh\n'}
+[13.739217] (-) TimerEvent: {}
+[13.744272] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/environment/ament_prefix_path.dsv\n'}
+[13.755861] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/environment/path.sh\n'}
+[13.766570] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/environment/path.dsv\n'}
+[13.777611] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/local_setup.bash\n'}
+[13.788561] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/local_setup.sh\n'}
+[13.799102] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/local_setup.zsh\n'}
+[13.809483] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/local_setup.dsv\n'}
+[13.821008] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/package.dsv\n'}
+[13.834330] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_fake_node/share/ament_index/resource_index/packages/turtlebot3_fake_node\n'}
+[13.839375] (-) TimerEvent: {}
+[13.844696] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/cmake/ament_cmake_export_include_directories-extras.cmake\n'}
+[13.856287] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/cmake/ament_cmake_export_dependencies-extras.cmake\n'}
+[13.867997] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/cmake/turtlebot3_fake_nodeConfig.cmake\n'}
+[13.878344] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/cmake/turtlebot3_fake_nodeConfig-version.cmake\n'}
+[13.888834] (turtlebot3_fake_node) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/package.xml\n'}
+[13.903549] (turtlebot3_fake_node) CommandEnded: {'returncode': 0}
+[13.905900] (turtlebot3_gazebo) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_fastrtps_cpp' as default\n"}
+[13.915389] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Found Threads: TRUE  \n'}
+[13.920890] (turtlebot3_fake_node) JobEnded: {'identifier': 'turtlebot3_fake_node', 'rc': 0}
+[13.922282] (turtlebot3_simulations) JobStarted: {'identifier': 'turtlebot3_simulations'}
+[13.939662] (-) TimerEvent: {}
+[13.955516] (turtlebot3_simulations) JobProgress: {'identifier': 'turtlebot3_simulations', 'progress': 'cmake'}
+[13.960592] (turtlebot3_simulations) Command: {'cmd': ['/usr/bin/cmake', '/root/SESASR-LAB/src/turtlebot3_simulations/turtlebot3_simulations', '-DAMENT_CMAKE_SYMLINK_INSTALL=1', '-DCMAKE_INSTALL_PREFIX=/root/SESASR-LAB/install/turtlebot3_simulations'], 'cwd': '/root/SESASR-LAB/build/turtlebot3_simulations', 'env': OrderedDict([('PYTHON_BASIC_REPL', '1'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'root'), ('GIT_ASKPASS', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/extensions/git/dist/askpass.sh'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/zenoh_cpp_vendor/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/root'), ('OLDPWD', '/root/SESASR-LAB/src'), ('TERM_PROGRAM_VERSION', '1.105.1'), ('VSCODE_IPC_HOOK_CLI', '/run/user/0/vscode-ipc-0f89df02-5a0e-4fee-b1a4-0db448d76e5a.sock'), ('ROS_PYTHON_VERSION', '3'), ('VSCODE_GIT_ASKPASS_MAIN', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/extensions/git/dist/askpass-main.js'), ('VSCODE_GIT_ASKPASS_NODE', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/node'), ('PYDEVD_DISABLE_FILE_VALIDATION', '1'), ('BUNDLED_DEBUGPY_PATH', '/root/.vscode-server/extensions/ms-python.debugpy-2025.14.1-linux-x64/bundled/libs/debugpy'), ('VSCODE_PYTHON_AUTOACTIVATE_GUARD', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/0/bus'), ('COLORTERM', 'truecolor'), ('WSL_DISTRO_NAME', 'Ubuntu-22.04'), ('WAYLAND_DISPLAY', 'wayland-0'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'root'), ('NAME', 'DESKTOP-STVJ2LU'), ('WSL_INTEROP', '/run/WSL/383_interop'), ('PULSE_SERVER', 'unix:/mnt/wslg/PulseServer'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm-256color'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/bin/remote-cli:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files (x86)/Windows Kits/8.1/Windows Performance Toolkit/:/mnt/c/Program Files/MATLAB/R2025b/bin:/mnt/c/Users/Giulia/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/Giulia/AppData/Local/Programs/Microsoft VS Code/bin:/snap/bin:/root/.vscode-server/extensions/ms-python.debugpy-2025.14.1-linux-x64/bundled/scripts/noConfigScripts:/root/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand'), ('XDG_RUNTIME_DIR', '/run/user/0/'), ('DISPLAY', ':0'), ('VSCODE_DEBUGPY_ADAPTER_ENDPOINTS', '/root/.vscode-server/extensions/ms-python.debugpy-2025.14.1-linux-x64/.noConfigDebugAdapterEndpoints/endpoint-296e5a237fe1b1bb.txt'), ('LANG', 'en_US.UTF-8'), ('PYTHONSTARTUP', '/root/.vscode-server/data/User/workspaceStorage/cb43f42d6e5455536f77cc921d6652f3/ms-python.python/pythonrc.py'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('VSCODE_GIT_IPC_HANDLE', '/run/user/0/vscode-git-2e5385b64f.sock'), ('TERM_PROGRAM', 'vscode'), ('AMENT_PREFIX_PATH', '/root/SESASR-LAB/install/turtlebot3_fake_node:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('VSCODE_GIT_ASKPASS_EXTRA_ARGS', ''), ('PWD', '/root/SESASR-LAB/build/turtlebot3_simulations'), ('XDG_DATA_DIRS', '/usr/local/share:/usr/share:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('WSL2_GUI_APPS_ENABLED', '1'), ('HOSTTYPE', 'x86_64'), ('WSLENV', 'VSCODE_WSL_EXT_LOCATION/up'), ('CMAKE_PREFIX_PATH', '/root/SESASR-LAB/install/turtlebot3_fake_node:/opt/ros/humble')]), 'shell': False}
+[13.970845] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Found sensor_msgs: 4.9.0 (/opt/ros/humble/share/sensor_msgs/cmake)\n'}
+[13.993333] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Found tf2: 0.25.16 (/opt/ros/humble/share/tf2/cmake)\n'}
+[14.040063] (-) TimerEvent: {}
+[14.076792] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Configuring done\n'}
+[14.127718] (turtlebot3_simulations) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[14.140247] (-) TimerEvent: {}
+[14.150933] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Generating done\n'}
+[14.160227] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Build files have been written to: /root/SESASR-LAB/build/turtlebot3_gazebo\n'}
+[14.175239] (turtlebot3_gazebo) CommandEnded: {'returncode': 0}
+[14.177351] (turtlebot3_gazebo) JobProgress: {'identifier': 'turtlebot3_gazebo', 'progress': 'build'}
+[14.177805] (turtlebot3_gazebo) Command: {'cmd': ['/usr/bin/cmake', '--build', '/root/SESASR-LAB/build/turtlebot3_gazebo', '--', '-j12', '-l12'], 'cwd': '/root/SESASR-LAB/build/turtlebot3_gazebo', 'env': OrderedDict([('PYTHON_BASIC_REPL', '1'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'root'), ('GIT_ASKPASS', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/extensions/git/dist/askpass.sh'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/zenoh_cpp_vendor/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/root'), ('OLDPWD', '/root/SESASR-LAB/src'), ('TERM_PROGRAM_VERSION', '1.105.1'), ('VSCODE_IPC_HOOK_CLI', '/run/user/0/vscode-ipc-0f89df02-5a0e-4fee-b1a4-0db448d76e5a.sock'), ('ROS_PYTHON_VERSION', '3'), ('VSCODE_GIT_ASKPASS_MAIN', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/extensions/git/dist/askpass-main.js'), ('VSCODE_GIT_ASKPASS_NODE', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/node'), ('PYDEVD_DISABLE_FILE_VALIDATION', '1'), ('BUNDLED_DEBUGPY_PATH', '/root/.vscode-server/extensions/ms-python.debugpy-2025.14.1-linux-x64/bundled/libs/debugpy'), ('VSCODE_PYTHON_AUTOACTIVATE_GUARD', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/0/bus'), ('COLORTERM', 'truecolor'), ('WSL_DISTRO_NAME', 'Ubuntu-22.04'), ('WAYLAND_DISPLAY', 'wayland-0'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'root'), ('NAME', 'DESKTOP-STVJ2LU'), ('WSL_INTEROP', '/run/WSL/383_interop'), ('PULSE_SERVER', 'unix:/mnt/wslg/PulseServer'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm-256color'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/bin/remote-cli:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files (x86)/Windows Kits/8.1/Windows Performance Toolkit/:/mnt/c/Program Files/MATLAB/R2025b/bin:/mnt/c/Users/Giulia/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/Giulia/AppData/Local/Programs/Microsoft VS Code/bin:/snap/bin:/root/.vscode-server/extensions/ms-python.debugpy-2025.14.1-linux-x64/bundled/scripts/noConfigScripts:/root/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand'), ('XDG_RUNTIME_DIR', '/run/user/0/'), ('DISPLAY', ':0'), ('VSCODE_DEBUGPY_ADAPTER_ENDPOINTS', '/root/.vscode-server/extensions/ms-python.debugpy-2025.14.1-linux-x64/.noConfigDebugAdapterEndpoints/endpoint-296e5a237fe1b1bb.txt'), ('LANG', 'en_US.UTF-8'), ('PYTHONSTARTUP', '/root/.vscode-server/data/User/workspaceStorage/cb43f42d6e5455536f77cc921d6652f3/ms-python.python/pythonrc.py'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('VSCODE_GIT_IPC_HANDLE', '/run/user/0/vscode-git-2e5385b64f.sock'), ('TERM_PROGRAM', 'vscode'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('VSCODE_GIT_ASKPASS_EXTRA_ARGS', ''), ('PWD', '/root/SESASR-LAB/build/turtlebot3_gazebo'), ('XDG_DATA_DIRS', '/usr/local/share:/usr/share:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('WSL2_GUI_APPS_ENABLED', '1'), ('HOSTTYPE', 'x86_64'), ('WSLENV', 'VSCODE_WSL_EXT_LOCATION/up'), ('CMAKE_PREFIX_PATH', '/opt/ros/humble')]), 'shell': False}
+[14.238263] (turtlebot3_gazebo) StdoutLine: {'line': b'[ 37%] \x1b[32mBuilding CXX object CMakeFiles/turtlebot3_drive.dir/src/turtlebot3_drive.cpp.o\x1b[0m\n'}
+[14.238630] (turtlebot3_gazebo) StdoutLine: {'line': b'[ 37%] \x1b[32mBuilding CXX object CMakeFiles/obstacle1.dir/models/turtlebot3_dqn_world/obstacle_plugin/obstacle1.cc.o\x1b[0m\n'}
+[14.238756] (turtlebot3_gazebo) StdoutLine: {'line': b'[ 37%] \x1b[32mBuilding CXX object CMakeFiles/obstacle2.dir/models/turtlebot3_dqn_world/obstacle_plugin/obstacle2.cc.o\x1b[0m\n'}
+[14.238834] (turtlebot3_gazebo) StdoutLine: {'line': b'[ 50%] \x1b[32mBuilding CXX object CMakeFiles/obstacles.dir/models/turtlebot3_dqn_world/obstacle_plugin/obstacles.cc.o\x1b[0m\n'}
+[14.240394] (-) TimerEvent: {}
+[14.341082] (-) TimerEvent: {}
+[14.378630] (turtlebot3_simulations) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[14.441299] (-) TimerEvent: {}
+[14.539624] (turtlebot3_simulations) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[14.541456] (-) TimerEvent: {}
+[14.641902] (-) TimerEvent: {}
+[14.670072] (turtlebot3_simulations) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[14.679776] (turtlebot3_simulations) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[14.680335] (turtlebot3_simulations) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[14.681079] (turtlebot3_simulations) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[14.684991] (turtlebot3_simulations) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[14.742100] (-) TimerEvent: {}
+[14.835595] (turtlebot3_simulations) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[14.842335] (turtlebot3_simulations) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[14.842729] (-) TimerEvent: {}
+[14.842929] (turtlebot3_simulations) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[14.843304] (turtlebot3_simulations) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[14.846464] (turtlebot3_simulations) StdoutLine: {'line': b'-- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)\n'}
+[14.942911] (-) TimerEvent: {}
+[15.043443] (turtlebot3_simulations) StdoutLine: {'line': b'-- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter \n'}
+[15.043677] (-) TimerEvent: {}
+[15.121916] (turtlebot3_simulations) StdoutLine: {'line': b'-- Override CMake install command with custom implementation using symlinks instead of copying resources\n'}
+[15.144380] (-) TimerEvent: {}
+[15.244958] (-) TimerEvent: {}
+[15.254948] (turtlebot3_simulations) StdoutLine: {'line': b'-- Configuring done\n'}
+[15.264922] (turtlebot3_simulations) StdoutLine: {'line': b'-- Generating done\n'}
+[15.267697] (turtlebot3_simulations) StdoutLine: {'line': b'-- Build files have been written to: /root/SESASR-LAB/build/turtlebot3_simulations\n'}
+[15.273382] (turtlebot3_simulations) CommandEnded: {'returncode': 0}
+[15.274172] (turtlebot3_simulations) JobProgress: {'identifier': 'turtlebot3_simulations', 'progress': 'build'}
+[15.275534] (turtlebot3_simulations) Command: {'cmd': ['/usr/bin/cmake', '--build', '/root/SESASR-LAB/build/turtlebot3_simulations', '--', '-j12', '-l12'], 'cwd': '/root/SESASR-LAB/build/turtlebot3_simulations', 'env': OrderedDict([('PYTHON_BASIC_REPL', '1'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'root'), ('GIT_ASKPASS', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/extensions/git/dist/askpass.sh'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/zenoh_cpp_vendor/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/root'), ('OLDPWD', '/root/SESASR-LAB/src'), ('TERM_PROGRAM_VERSION', '1.105.1'), ('VSCODE_IPC_HOOK_CLI', '/run/user/0/vscode-ipc-0f89df02-5a0e-4fee-b1a4-0db448d76e5a.sock'), ('ROS_PYTHON_VERSION', '3'), ('VSCODE_GIT_ASKPASS_MAIN', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/extensions/git/dist/askpass-main.js'), ('VSCODE_GIT_ASKPASS_NODE', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/node'), ('PYDEVD_DISABLE_FILE_VALIDATION', '1'), ('BUNDLED_DEBUGPY_PATH', '/root/.vscode-server/extensions/ms-python.debugpy-2025.14.1-linux-x64/bundled/libs/debugpy'), ('VSCODE_PYTHON_AUTOACTIVATE_GUARD', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/0/bus'), ('COLORTERM', 'truecolor'), ('WSL_DISTRO_NAME', 'Ubuntu-22.04'), ('WAYLAND_DISPLAY', 'wayland-0'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'root'), ('NAME', 'DESKTOP-STVJ2LU'), ('WSL_INTEROP', '/run/WSL/383_interop'), ('PULSE_SERVER', 'unix:/mnt/wslg/PulseServer'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm-256color'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/bin/remote-cli:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files (x86)/Windows Kits/8.1/Windows Performance Toolkit/:/mnt/c/Program Files/MATLAB/R2025b/bin:/mnt/c/Users/Giulia/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/Giulia/AppData/Local/Programs/Microsoft VS Code/bin:/snap/bin:/root/.vscode-server/extensions/ms-python.debugpy-2025.14.1-linux-x64/bundled/scripts/noConfigScripts:/root/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand'), ('XDG_RUNTIME_DIR', '/run/user/0/'), ('DISPLAY', ':0'), ('VSCODE_DEBUGPY_ADAPTER_ENDPOINTS', '/root/.vscode-server/extensions/ms-python.debugpy-2025.14.1-linux-x64/.noConfigDebugAdapterEndpoints/endpoint-296e5a237fe1b1bb.txt'), ('LANG', 'en_US.UTF-8'), ('PYTHONSTARTUP', '/root/.vscode-server/data/User/workspaceStorage/cb43f42d6e5455536f77cc921d6652f3/ms-python.python/pythonrc.py'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('VSCODE_GIT_IPC_HANDLE', '/run/user/0/vscode-git-2e5385b64f.sock'), ('TERM_PROGRAM', 'vscode'), ('AMENT_PREFIX_PATH', '/root/SESASR-LAB/install/turtlebot3_fake_node:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('VSCODE_GIT_ASKPASS_EXTRA_ARGS', ''), ('PWD', '/root/SESASR-LAB/build/turtlebot3_simulations'), ('XDG_DATA_DIRS', '/usr/local/share:/usr/share:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('WSL2_GUI_APPS_ENABLED', '1'), ('HOSTTYPE', 'x86_64'), ('WSLENV', 'VSCODE_WSL_EXT_LOCATION/up'), ('CMAKE_PREFIX_PATH', '/root/SESASR-LAB/install/turtlebot3_fake_node:/opt/ros/humble')]), 'shell': False}
+[15.335941] (turtlebot3_simulations) CommandEnded: {'returncode': 0}
+[15.337169] (turtlebot3_simulations) JobProgress: {'identifier': 'turtlebot3_simulations', 'progress': 'install'}
+[15.337608] (turtlebot3_simulations) Command: {'cmd': ['/usr/bin/cmake', '--install', '/root/SESASR-LAB/build/turtlebot3_simulations'], 'cwd': '/root/SESASR-LAB/build/turtlebot3_simulations', 'env': OrderedDict([('PYTHON_BASIC_REPL', '1'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'root'), ('GIT_ASKPASS', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/extensions/git/dist/askpass.sh'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/zenoh_cpp_vendor/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/root'), ('OLDPWD', '/root/SESASR-LAB/src'), ('TERM_PROGRAM_VERSION', '1.105.1'), ('VSCODE_IPC_HOOK_CLI', '/run/user/0/vscode-ipc-0f89df02-5a0e-4fee-b1a4-0db448d76e5a.sock'), ('ROS_PYTHON_VERSION', '3'), ('VSCODE_GIT_ASKPASS_MAIN', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/extensions/git/dist/askpass-main.js'), ('VSCODE_GIT_ASKPASS_NODE', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/node'), ('PYDEVD_DISABLE_FILE_VALIDATION', '1'), ('BUNDLED_DEBUGPY_PATH', '/root/.vscode-server/extensions/ms-python.debugpy-2025.14.1-linux-x64/bundled/libs/debugpy'), ('VSCODE_PYTHON_AUTOACTIVATE_GUARD', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/0/bus'), ('COLORTERM', 'truecolor'), ('WSL_DISTRO_NAME', 'Ubuntu-22.04'), ('WAYLAND_DISPLAY', 'wayland-0'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'root'), ('NAME', 'DESKTOP-STVJ2LU'), ('WSL_INTEROP', '/run/WSL/383_interop'), ('PULSE_SERVER', 'unix:/mnt/wslg/PulseServer'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm-256color'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/bin/remote-cli:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files (x86)/Windows Kits/8.1/Windows Performance Toolkit/:/mnt/c/Program Files/MATLAB/R2025b/bin:/mnt/c/Users/Giulia/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/Giulia/AppData/Local/Programs/Microsoft VS Code/bin:/snap/bin:/root/.vscode-server/extensions/ms-python.debugpy-2025.14.1-linux-x64/bundled/scripts/noConfigScripts:/root/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand'), ('XDG_RUNTIME_DIR', '/run/user/0/'), ('DISPLAY', ':0'), ('VSCODE_DEBUGPY_ADAPTER_ENDPOINTS', '/root/.vscode-server/extensions/ms-python.debugpy-2025.14.1-linux-x64/.noConfigDebugAdapterEndpoints/endpoint-296e5a237fe1b1bb.txt'), ('LANG', 'en_US.UTF-8'), ('PYTHONSTARTUP', '/root/.vscode-server/data/User/workspaceStorage/cb43f42d6e5455536f77cc921d6652f3/ms-python.python/pythonrc.py'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('VSCODE_GIT_IPC_HANDLE', '/run/user/0/vscode-git-2e5385b64f.sock'), ('TERM_PROGRAM', 'vscode'), ('AMENT_PREFIX_PATH', '/root/SESASR-LAB/install/turtlebot3_fake_node:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('VSCODE_GIT_ASKPASS_EXTRA_ARGS', ''), ('PWD', '/root/SESASR-LAB/build/turtlebot3_simulations'), ('XDG_DATA_DIRS', '/usr/local/share:/usr/share:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('WSL2_GUI_APPS_ENABLED', '1'), ('HOSTTYPE', 'x86_64'), ('WSLENV', 'VSCODE_WSL_EXT_LOCATION/up'), ('CMAKE_PREFIX_PATH', '/root/SESASR-LAB/install/turtlebot3_fake_node:/opt/ros/humble')]), 'shell': False}
+[15.345234] (-) TimerEvent: {}
+[15.351878] (turtlebot3_simulations) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[15.352578] (turtlebot3_simulations) StdoutLine: {'line': b'-- Execute custom install script\n'}
+[15.356955] (turtlebot3_simulations) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_simulations/share/ament_index/resource_index/package_run_dependencies/turtlebot3_simulations\n'}
+[15.377195] (turtlebot3_simulations) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_simulations/share/ament_index/resource_index/parent_prefix_path/turtlebot3_simulations\n'}
+[15.395247] (turtlebot3_simulations) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_simulations/share/turtlebot3_simulations/environment/ament_prefix_path.sh\n'}
+[15.413752] (turtlebot3_simulations) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_simulations/share/turtlebot3_simulations/environment/ament_prefix_path.dsv\n'}
+[15.433025] (turtlebot3_simulations) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_simulations/share/turtlebot3_simulations/environment/path.sh\n'}
+[15.445572] (-) TimerEvent: {}
+[15.448088] (turtlebot3_simulations) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_simulations/share/turtlebot3_simulations/environment/path.dsv\n'}
+[15.465259] (turtlebot3_simulations) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_simulations/share/turtlebot3_simulations/local_setup.bash\n'}
+[15.480205] (turtlebot3_simulations) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_simulations/share/turtlebot3_simulations/local_setup.sh\n'}
+[15.494841] (turtlebot3_simulations) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_simulations/share/turtlebot3_simulations/local_setup.zsh\n'}
+[15.509017] (turtlebot3_simulations) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_simulations/share/turtlebot3_simulations/local_setup.dsv\n'}
+[15.522790] (turtlebot3_simulations) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_simulations/share/turtlebot3_simulations/package.dsv\n'}
+[15.541704] (turtlebot3_simulations) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_simulations/share/ament_index/resource_index/packages/turtlebot3_simulations\n'}
+[15.545825] (-) TimerEvent: {}
+[15.558541] (turtlebot3_simulations) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_simulations/share/turtlebot3_simulations/cmake/turtlebot3_simulationsConfig.cmake\n'}
+[15.574880] (turtlebot3_simulations) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_simulations/share/turtlebot3_simulations/cmake/turtlebot3_simulationsConfig-version.cmake\n'}
+[15.587963] (turtlebot3_simulations) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_simulations/share/turtlebot3_simulations/package.xml\n'}
+[15.607286] (turtlebot3_simulations) CommandEnded: {'returncode': 0}
+[15.629981] (turtlebot3_simulations) JobEnded: {'identifier': 'turtlebot3_simulations', 'rc': 0}
+[15.646015] (-) TimerEvent: {}
+[15.746471] (-) TimerEvent: {}
+[15.847462] (-) TimerEvent: {}
+[15.948108] (-) TimerEvent: {}
+[16.048682] (-) TimerEvent: {}
+[16.150231] (-) TimerEvent: {}
+[16.251876] (-) TimerEvent: {}
+[16.352394] (-) TimerEvent: {}
+[16.452937] (-) TimerEvent: {}
+[16.554110] (-) TimerEvent: {}
+[16.655183] (-) TimerEvent: {}
+[16.755654] (-) TimerEvent: {}
+[16.856178] (-) TimerEvent: {}
+[16.956881] (-) TimerEvent: {}
+[17.057620] (-) TimerEvent: {}
+[17.158160] (-) TimerEvent: {}
+[17.258647] (-) TimerEvent: {}
+[17.359339] (-) TimerEvent: {}
+[17.460431] (-) TimerEvent: {}
+[17.561003] (-) TimerEvent: {}
+[17.661744] (-) TimerEvent: {}
+[17.762269] (-) TimerEvent: {}
+[17.862800] (-) TimerEvent: {}
+[17.963423] (-) TimerEvent: {}
+[18.063944] (-) TimerEvent: {}
+[18.164500] (-) TimerEvent: {}
+[18.265165] (-) TimerEvent: {}
+[18.366113] (-) TimerEvent: {}
+[18.467412] (-) TimerEvent: {}
+[18.568709] (-) TimerEvent: {}
+[18.669992] (-) TimerEvent: {}
+[18.770616] (-) TimerEvent: {}
+[18.871251] (-) TimerEvent: {}
+[18.971848] (-) TimerEvent: {}
+[19.072522] (-) TimerEvent: {}
+[19.173282] (-) TimerEvent: {}
+[19.273786] (-) TimerEvent: {}
+[19.374490] (-) TimerEvent: {}
+[19.475319] (-) TimerEvent: {}
+[19.576125] (-) TimerEvent: {}
+[19.677495] (-) TimerEvent: {}
+[19.778882] (-) TimerEvent: {}
+[19.880403] (-) TimerEvent: {}
+[19.981548] (-) TimerEvent: {}
+[20.082374] (-) TimerEvent: {}
+[20.183999] (-) TimerEvent: {}
+[20.285590] (-) TimerEvent: {}
+[20.387269] (-) TimerEvent: {}
+[20.488552] (-) TimerEvent: {}
+[20.589982] (-) TimerEvent: {}
+[20.691432] (-) TimerEvent: {}
+[20.793158] (-) TimerEvent: {}
+[20.894419] (-) TimerEvent: {}
+[20.995007] (-) TimerEvent: {}
+[21.095711] (-) TimerEvent: {}
+[21.196401] (-) TimerEvent: {}
+[21.297362] (-) TimerEvent: {}
+[21.398868] (-) TimerEvent: {}
+[21.501617] (-) TimerEvent: {}
+[21.604467] (-) TimerEvent: {}
+[21.707341] (-) TimerEvent: {}
+[21.809069] (-) TimerEvent: {}
+[21.909772] (-) TimerEvent: {}
+[22.011869] (-) TimerEvent: {}
+[22.114694] (-) TimerEvent: {}
+[22.217470] (-) TimerEvent: {}
+[22.318616] (-) TimerEvent: {}
+[22.419415] (-) TimerEvent: {}
+[22.520595] (-) TimerEvent: {}
+[22.621888] (-) TimerEvent: {}
+[22.723145] (-) TimerEvent: {}
+[22.824259] (-) TimerEvent: {}
+[22.925537] (-) TimerEvent: {}
+[23.026687] (-) TimerEvent: {}
+[23.127929] (-) TimerEvent: {}
+[23.228559] (-) TimerEvent: {}
+[23.329195] (-) TimerEvent: {}
+[23.430253] (-) TimerEvent: {}
+[23.532568] (-) TimerEvent: {}
+[23.634867] (-) TimerEvent: {}
+[23.737747] (-) TimerEvent: {}
+[23.839543] (-) TimerEvent: {}
+[23.940125] (-) TimerEvent: {}
+[24.041496] (-) TimerEvent: {}
+[24.142886] (-) TimerEvent: {}
+[24.244145] (-) TimerEvent: {}
+[24.344717] (-) TimerEvent: {}
+[24.446035] (-) TimerEvent: {}
+[24.547164] (-) TimerEvent: {}
+[24.647791] (-) TimerEvent: {}
+[24.748393] (-) TimerEvent: {}
+[24.849629] (-) TimerEvent: {}
+[24.950114] (-) TimerEvent: {}
+[25.051531] (-) TimerEvent: {}
+[25.153168] (-) TimerEvent: {}
+[25.254818] (-) TimerEvent: {}
+[25.355331] (-) TimerEvent: {}
+[25.455885] (-) TimerEvent: {}
+[25.557075] (-) TimerEvent: {}
+[25.658729] (-) TimerEvent: {}
+[25.759359] (-) TimerEvent: {}
+[25.860003] (-) TimerEvent: {}
+[25.960625] (-) TimerEvent: {}
+[26.061246] (-) TimerEvent: {}
+[26.162374] (-) TimerEvent: {}
+[26.263805] (-) TimerEvent: {}
+[26.364803] (-) TimerEvent: {}
+[26.465943] (-) TimerEvent: {}
+[26.567287] (-) TimerEvent: {}
+[26.668356] (-) TimerEvent: {}
+[26.769719] (-) TimerEvent: {}
+[26.870859] (-) TimerEvent: {}
+[26.971966] (-) TimerEvent: {}
+[27.072825] (-) TimerEvent: {}
+[27.173992] (-) TimerEvent: {}
+[27.275305] (-) TimerEvent: {}
+[27.376447] (-) TimerEvent: {}
+[27.477098] (-) TimerEvent: {}
+[27.577681] (-) TimerEvent: {}
+[27.679438] (-) TimerEvent: {}
+[27.781143] (-) TimerEvent: {}
+[27.882956] (-) TimerEvent: {}
+[27.984736] (-) TimerEvent: {}
+[28.085432] (-) TimerEvent: {}
+[28.187346] (-) TimerEvent: {}
+[28.288431] (-) TimerEvent: {}
+[28.389480] (-) TimerEvent: {}
+[28.490723] (-) TimerEvent: {}
+[28.592511] (-) TimerEvent: {}
+[28.694164] (-) TimerEvent: {}
+[28.795182] (-) TimerEvent: {}
+[28.896940] (-) TimerEvent: {}
+[28.998660] (-) TimerEvent: {}
+[29.100301] (-) TimerEvent: {}
+[29.201992] (-) TimerEvent: {}
+[29.303798] (-) TimerEvent: {}
+[29.400684] (turtlebot3_gazebo) StdoutLine: {'line': b'[ 62%] \x1b[32m\x1b[1mLinking CXX executable turtlebot3_drive\x1b[0m\n'}
+[29.404007] (-) TimerEvent: {}
+[29.504578] (-) TimerEvent: {}
+[29.605249] (-) TimerEvent: {}
+[29.705851] (-) TimerEvent: {}
+[29.808095] (-) TimerEvent: {}
+[29.910992] (-) TimerEvent: {}
+[30.013841] (-) TimerEvent: {}
+[30.116831] (-) TimerEvent: {}
+[30.219764] (-) TimerEvent: {}
+[30.276234] (turtlebot3_gazebo) StdoutLine: {'line': b'[ 62%] Built target turtlebot3_drive\n'}
+[30.320954] (-) TimerEvent: {}
+[30.422879] (-) TimerEvent: {}
+[30.525921] (-) TimerEvent: {}
+[30.628816] (-) TimerEvent: {}
+[30.731692] (-) TimerEvent: {}
+[30.834549] (-) TimerEvent: {}
+[30.935071] (-) TimerEvent: {}
+[31.035559] (-) TimerEvent: {}
+[31.073397] (turtlebot3_gazebo) StdoutLine: {'line': b'[ 75%] \x1b[32m\x1b[1mLinking CXX shared library libobstacles.so\x1b[0m\n'}
+[31.135786] (-) TimerEvent: {}
+[31.198333] (turtlebot3_gazebo) StdoutLine: {'line': b'[ 87%] \x1b[32m\x1b[1mLinking CXX shared library libobstacle1.so\x1b[0m\n'}
+[31.235979] (-) TimerEvent: {}
+[31.336697] (-) TimerEvent: {}
+[31.437704] (-) TimerEvent: {}
+[31.452335] (turtlebot3_gazebo) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking CXX shared library libobstacle2.so\x1b[0m\n'}
+[31.471028] (turtlebot3_gazebo) StdoutLine: {'line': b'[100%] Built target obstacles\n'}
+[31.527105] (turtlebot3_gazebo) StdoutLine: {'line': b'[100%] Built target obstacle1\n'}
+[31.537876] (-) TimerEvent: {}
+[31.639330] (-) TimerEvent: {}
+[31.738261] (turtlebot3_gazebo) StdoutLine: {'line': b'[100%] Built target obstacle2\n'}
+[31.739435] (-) TimerEvent: {}
+[31.755499] (turtlebot3_gazebo) CommandEnded: {'returncode': 0}
+[31.757239] (turtlebot3_gazebo) JobProgress: {'identifier': 'turtlebot3_gazebo', 'progress': 'install'}
+[31.758983] (turtlebot3_gazebo) Command: {'cmd': ['/usr/bin/cmake', '--install', '/root/SESASR-LAB/build/turtlebot3_gazebo'], 'cwd': '/root/SESASR-LAB/build/turtlebot3_gazebo', 'env': OrderedDict([('PYTHON_BASIC_REPL', '1'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'root'), ('GIT_ASKPASS', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/extensions/git/dist/askpass.sh'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/humble/opt/zenoh_cpp_vendor/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/root'), ('OLDPWD', '/root/SESASR-LAB/src'), ('TERM_PROGRAM_VERSION', '1.105.1'), ('VSCODE_IPC_HOOK_CLI', '/run/user/0/vscode-ipc-0f89df02-5a0e-4fee-b1a4-0db448d76e5a.sock'), ('ROS_PYTHON_VERSION', '3'), ('VSCODE_GIT_ASKPASS_MAIN', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/extensions/git/dist/askpass-main.js'), ('VSCODE_GIT_ASKPASS_NODE', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/node'), ('PYDEVD_DISABLE_FILE_VALIDATION', '1'), ('BUNDLED_DEBUGPY_PATH', '/root/.vscode-server/extensions/ms-python.debugpy-2025.14.1-linux-x64/bundled/libs/debugpy'), ('VSCODE_PYTHON_AUTOACTIVATE_GUARD', '1'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/0/bus'), ('COLORTERM', 'truecolor'), ('WSL_DISTRO_NAME', 'Ubuntu-22.04'), ('WAYLAND_DISPLAY', 'wayland-0'), ('ROS_DISTRO', 'humble'), ('LOGNAME', 'root'), ('NAME', 'DESKTOP-STVJ2LU'), ('WSL_INTEROP', '/run/WSL/383_interop'), ('PULSE_SERVER', 'unix:/mnt/wslg/PulseServer'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm-256color'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/root/.vscode-server/bin/7d842fb85a0275a4a8e4d7e040d2625abbf7f084/bin/remote-cli:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files (x86)/Windows Kits/8.1/Windows Performance Toolkit/:/mnt/c/Program Files/MATLAB/R2025b/bin:/mnt/c/Users/Giulia/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/Giulia/AppData/Local/Programs/Microsoft VS Code/bin:/snap/bin:/root/.vscode-server/extensions/ms-python.debugpy-2025.14.1-linux-x64/bundled/scripts/noConfigScripts:/root/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand'), ('XDG_RUNTIME_DIR', '/run/user/0/'), ('DISPLAY', ':0'), ('VSCODE_DEBUGPY_ADAPTER_ENDPOINTS', '/root/.vscode-server/extensions/ms-python.debugpy-2025.14.1-linux-x64/.noConfigDebugAdapterEndpoints/endpoint-296e5a237fe1b1bb.txt'), ('LANG', 'en_US.UTF-8'), ('PYTHONSTARTUP', '/root/.vscode-server/data/User/workspaceStorage/cb43f42d6e5455536f77cc921d6652f3/ms-python.python/pythonrc.py'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('VSCODE_GIT_IPC_HANDLE', '/run/user/0/vscode-git-2e5385b64f.sock'), ('TERM_PROGRAM', 'vscode'), ('AMENT_PREFIX_PATH', '/opt/ros/humble'), ('SHELL', '/bin/bash'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('VSCODE_GIT_ASKPASS_EXTRA_ARGS', ''), ('PWD', '/root/SESASR-LAB/build/turtlebot3_gazebo'), ('XDG_DATA_DIRS', '/usr/local/share:/usr/share:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('WSL2_GUI_APPS_ENABLED', '1'), ('HOSTTYPE', 'x86_64'), ('WSLENV', 'VSCODE_WSL_EXT_LOCATION/up'), ('CMAKE_PREFIX_PATH', '/opt/ros/humble')]), 'shell': False}
+[31.767891] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[31.768357] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Execute custom install script\n'}
+[31.770772] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/lib/turtlebot3_gazebo/turtlebot3_drive\n'}
+[31.783442] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//launch/empty_world.launch.py\n'}
+[31.793818] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//launch/lab02.launch.py\n'}
+[31.804779] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//launch/lab04.launch.py\n'}
+[31.815843] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//launch/project.launch.py\n'}
+[31.826486] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//launch/robot_state_publisher.launch.py\n'}
+[31.836842] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//launch/spawn_turtlebot3.launch.py\n'}
+[31.839598] (-) TimerEvent: {}
+[31.846949] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//launch/turtlebot3_dqn_stage1.launch.py\n'}
+[31.858302] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//launch/turtlebot3_dqn_stage2.launch.py\n'}
+[31.869329] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//launch/turtlebot3_dqn_stage3.launch.py\n'}
+[31.880636] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//launch/turtlebot3_dqn_stage4.launch.py\n'}
+[31.890850] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//launch/turtlebot3_house.launch.py\n'}
+[31.900957] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//launch/turtlebot3_world.launch.py\n'}
+[31.913342] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_burger/model-1_4.sdf\n'}
+[31.923845] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_burger/model.config\n'}
+[31.934878] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_burger/model.sdf\n'}
+[31.939831] (-) TimerEvent: {}
+[31.946007] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_common/meshes/burger_base.dae\n'}
+[31.958144] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_common/meshes/lds.dae\n'}
+[31.968214] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_common/meshes/r200.dae\n'}
+[31.979293] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_common/meshes/tire.dae\n'}
+[31.989943] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_common/meshes/waffle_base.dae\n'}
+[31.999881] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_common/meshes/waffle_pi_base.dae\n'}
+[32.011014] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_common/model.config\n'}
+[32.023018] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_dqn_world/goal_box/model.config\n'}
+[32.033447] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_dqn_world/goal_box/model.sdf\n'}
+[32.040009] (-) TimerEvent: {}
+[32.044749] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_dqn_world/inner_walls/model.config\n'}
+[32.056068] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_dqn_world/inner_walls/model.sdf\n'}
+[32.067148] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_dqn_world/model.config\n'}
+[32.078736] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_dqn_world/model.sdf\n'}
+[32.089706] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_dqn_world/obstacle1/model.config\n'}
+[32.099945] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_dqn_world/obstacle1/model.sdf\n'}
+[32.110851] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_dqn_world/obstacle2/model.config\n'}
+[32.120748] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_dqn_world/obstacle2/model.sdf\n'}
+[32.132008] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_dqn_world/obstacle_plugin/CMakeLists.txt\n'}
+[32.140391] (-) TimerEvent: {}
+[32.142550] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_dqn_world/obstacle_plugin/obstacle1.cc\n'}
+[32.153922] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_dqn_world/obstacle_plugin/obstacle2.cc\n'}
+[32.164768] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_dqn_world/obstacle_plugin/obstacles.cc\n'}
+[32.175522] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_dqn_world/obstacles/model.config\n'}
+[32.186868] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_dqn_world/obstacles/model.sdf\n'}
+[32.198780] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_house/model.config\n'}
+[32.211164] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_house/model.sdf\n'}
+[32.225654] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_waffle/model-1_4.sdf\n'}
+[32.236723] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_waffle/model.config\n'}
+[32.240605] (-) TimerEvent: {}
+[32.248380] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_waffle/model.sdf\n'}
+[32.260348] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_waffle_pi/model-1_4_.sdf\n'}
+[32.271348] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_waffle_pi/model.config\n'}
+[32.284315] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_waffle_pi/model.sdf\n'}
+[32.298309] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_world/meshes/hexagon.dae\n'}
+[32.310848] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_world/meshes/wall.dae\n'}
+[32.325060] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_world/model-1_4.sdf\n'}
+[32.336895] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_world/model.config\n'}
+[32.340795] (-) TimerEvent: {}
+[32.348721] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//models/turtlebot3_world/model.sdf\n'}
+[32.363525] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//rviz/tb3_gazebo.rviz\n'}
+[32.377251] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//urdf/common_properties.urdf\n'}
+[32.390468] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//urdf/turtlebot3_burger.urdf\n'}
+[32.403318] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//urdf/turtlebot3_waffle.urdf\n'}
+[32.416103] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//urdf/turtlebot3_waffle_pi.urdf\n'}
+[32.428819] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//worlds/empty_world.world\n'}
+[32.440030] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//worlds/hard_maze.world\n'}
+[32.440916] (-) TimerEvent: {}
+[32.451680] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//worlds/maze.world\n'}
+[32.462985] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//worlds/turtlebot3_dqn_stage1.world\n'}
+[32.474340] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//worlds/turtlebot3_dqn_stage2.world\n'}
+[32.484490] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//worlds/turtlebot3_dqn_stage3.world\n'}
+[32.495193] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//worlds/turtlebot3_dqn_stage4.world\n'}
+[32.505787] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//worlds/turtlebot3_house.world\n'}
+[32.516669] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo//worlds/turtlebot3_world.world\n'}
+[32.529013] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/include//turtlebot3_gazebo/turtlebot3_drive.hpp\n'}
+[32.540840] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo/environment/turtlebot3_gazebo.dsv\n'}
+[32.541133] (-) TimerEvent: {}
+[32.556429] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/ament_index/resource_index/package_run_dependencies/turtlebot3_gazebo\n'}
+[32.572986] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/ament_index/resource_index/parent_prefix_path/turtlebot3_gazebo\n'}
+[32.585261] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo/environment/ament_prefix_path.sh\n'}
+[32.596957] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo/environment/ament_prefix_path.dsv\n'}
+[32.612161] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo/environment/path.sh\n'}
+[32.625297] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo/environment/path.dsv\n'}
+[32.637686] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo/local_setup.bash\n'}
+[32.641364] (-) TimerEvent: {}
+[32.649636] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo/local_setup.sh\n'}
+[32.661069] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo/local_setup.zsh\n'}
+[32.673638] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo/local_setup.dsv\n'}
+[32.684713] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo/package.dsv\n'}
+[32.696246] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/ament_index/resource_index/packages/turtlebot3_gazebo\n'}
+[32.707803] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo/cmake/ament_cmake_export_include_directories-extras.cmake\n'}
+[32.719032] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo/cmake/ament_cmake_export_dependencies-extras.cmake\n'}
+[32.731120] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo/cmake/turtlebot3_gazeboConfig.cmake\n'}
+[32.741763] (-) TimerEvent: {}
+[32.743893] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo/cmake/turtlebot3_gazeboConfig-version.cmake\n'}
+[32.756509] (turtlebot3_gazebo) StdoutLine: {'line': b'-- Symlinking: /root/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo/package.xml\n'}
+[32.770853] (turtlebot3_gazebo) CommandEnded: {'returncode': 0}
+[32.794644] (turtlebot3_gazebo) JobEnded: {'identifier': 'turtlebot3_gazebo', 'rc': 0}
+[32.796984] (-) EventReactorShutdown: {}

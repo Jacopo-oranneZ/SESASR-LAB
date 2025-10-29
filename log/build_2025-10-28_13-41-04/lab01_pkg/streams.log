@@ -1,0 +1,25 @@
+[2.461s] Invoking command in '/root/SESASR-LAB/build/lab01_pkg': PYTHONPATH=/root/SESASR-LAB/build/lab01_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/root/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /root/SESASR-LAB/build/lab01_pkg/build --no-deps symlink_data --force
+[2.926s] running develop
+[3.243s] running egg_info
+[3.243s] writing lab01_pkg.egg-info/PKG-INFO
+[3.244s] writing dependency_links to lab01_pkg.egg-info/dependency_links.txt
+[3.245s] writing entry points to lab01_pkg.egg-info/entry_points.txt
+[3.245s] writing requirements to lab01_pkg.egg-info/requires.txt
+[3.245s] writing top-level names to lab01_pkg.egg-info/top_level.txt
+[3.248s] reading manifest file 'lab01_pkg.egg-info/SOURCES.txt'
+[3.251s] writing manifest file 'lab01_pkg.egg-info/SOURCES.txt'
+[3.254s] running build_ext
+[3.255s] Creating /root/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages/lab01-pkg.egg-link (link to .)
+[3.256s] Installing controller script to /root/SESASR-LAB/install/lab01_pkg/lib/lab01_pkg
+[3.257s] Installing controller_reset script to /root/SESASR-LAB/install/lab01_pkg/lib/lab01_pkg
+[3.257s] Installing localization script to /root/SESASR-LAB/install/lab01_pkg/lib/lab01_pkg
+[3.257s] Installing localization_reset script to /root/SESASR-LAB/install/lab01_pkg/lib/lab01_pkg
+[3.258s] Installing reset_node script to /root/SESASR-LAB/install/lab01_pkg/lib/lab01_pkg
+[3.258s] 
+[3.258s] Installed /root/SESASR-LAB/build/lab01_pkg
+[3.259s] running symlink_data
+[3.259s] symbolically linking /root/SESASR-LAB/build/lab01_pkg/resource/lab01_pkg -> /root/SESASR-LAB/install/lab01_pkg/share/ament_index/resource_index/packages
+[3.260s] symbolically linking /root/SESASR-LAB/build/lab01_pkg/package.xml -> /root/SESASR-LAB/install/lab01_pkg/share/lab01_pkg
+[3.260s] symbolically linking /root/SESASR-LAB/build/lab01_pkg/launch/launchR.py -> /root/SESASR-LAB/install/lab01_pkg/share/lab01_pkg
+[3.260s] symbolically linking /root/SESASR-LAB/build/lab01_pkg/launch/launch.py -> /root/SESASR-LAB/install/lab01_pkg/share/lab01_pkg
+[3.348s] Invoked command in '/root/SESASR-LAB/build/lab01_pkg' returned '0': PYTHONPATH=/root/SESASR-LAB/build/lab01_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/root/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /root/SESASR-LAB/build/lab01_pkg/build --no-deps symlink_data --force
