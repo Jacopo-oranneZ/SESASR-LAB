@@ -1,0 +1,41 @@
+[0.936s] Invoking command in '/home/l0dz/SESASR-LAB/src/lab01_pkg': PYTHONPATH=/home/l0dz/SESASR-LAB/build/lab01_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/l0dz/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/lab01_pkg build --build-base /home/l0dz/SESASR-LAB/build/lab01_pkg/build install --record /home/l0dz/SESASR-LAB/build/lab01_pkg/install.log --single-version-externally-managed install_data
+[1.164s] running egg_info
+[1.164s] creating ../../build/lab01_pkg/lab01_pkg.egg-info
+[1.165s] writing ../../build/lab01_pkg/lab01_pkg.egg-info/PKG-INFO
+[1.165s] writing dependency_links to ../../build/lab01_pkg/lab01_pkg.egg-info/dependency_links.txt
+[1.165s] writing entry points to ../../build/lab01_pkg/lab01_pkg.egg-info/entry_points.txt
+[1.166s] writing requirements to ../../build/lab01_pkg/lab01_pkg.egg-info/requires.txt
+[1.166s] writing top-level names to ../../build/lab01_pkg/lab01_pkg.egg-info/top_level.txt
+[1.166s] writing manifest file '../../build/lab01_pkg/lab01_pkg.egg-info/SOURCES.txt'
+[1.168s] reading manifest file '../../build/lab01_pkg/lab01_pkg.egg-info/SOURCES.txt'
+[1.169s] writing manifest file '../../build/lab01_pkg/lab01_pkg.egg-info/SOURCES.txt'
+[1.169s] running build
+[1.169s] running build_py
+[1.169s] creating /home/l0dz/SESASR-LAB/build/lab01_pkg/build
+[1.170s] creating /home/l0dz/SESASR-LAB/build/lab01_pkg/build/lib
+[1.170s] creating /home/l0dz/SESASR-LAB/build/lab01_pkg/build/lib/lab01_pkg
+[1.171s] copying lab01_pkg/controller.py -> /home/l0dz/SESASR-LAB/build/lab01_pkg/build/lib/lab01_pkg
+[1.171s] copying lab01_pkg/__init__.py -> /home/l0dz/SESASR-LAB/build/lab01_pkg/build/lib/lab01_pkg
+[1.171s] copying lab01_pkg/localization.py -> /home/l0dz/SESASR-LAB/build/lab01_pkg/build/lib/lab01_pkg
+[1.172s] running install
+[1.172s] running install_lib
+[1.173s] creating /home/l0dz/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages/lab01_pkg
+[1.174s] copying /home/l0dz/SESASR-LAB/build/lab01_pkg/build/lib/lab01_pkg/controller.py -> /home/l0dz/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages/lab01_pkg
+[1.174s] copying /home/l0dz/SESASR-LAB/build/lab01_pkg/build/lib/lab01_pkg/__init__.py -> /home/l0dz/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages/lab01_pkg
+[1.174s] copying /home/l0dz/SESASR-LAB/build/lab01_pkg/build/lib/lab01_pkg/localization.py -> /home/l0dz/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages/lab01_pkg
+[1.175s] byte-compiling /home/l0dz/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages/lab01_pkg/controller.py to controller.cpython-310.pyc
+[1.176s] byte-compiling /home/l0dz/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages/lab01_pkg/__init__.py to __init__.cpython-310.pyc
+[1.176s] byte-compiling /home/l0dz/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages/lab01_pkg/localization.py to localization.cpython-310.pyc
+[1.177s] running install_data
+[1.177s] creating /home/l0dz/SESASR-LAB/install/lab01_pkg/share/ament_index
+[1.178s] creating /home/l0dz/SESASR-LAB/install/lab01_pkg/share/ament_index/resource_index
+[1.178s] creating /home/l0dz/SESASR-LAB/install/lab01_pkg/share/ament_index/resource_index/packages
+[1.179s] copying resource/lab01_pkg -> /home/l0dz/SESASR-LAB/install/lab01_pkg/share/ament_index/resource_index/packages
+[1.179s] copying package.xml -> /home/l0dz/SESASR-LAB/install/lab01_pkg/share/lab01_pkg
+[1.180s] running install_egg_info
+[1.182s] Copying ../../build/lab01_pkg/lab01_pkg.egg-info to /home/l0dz/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages/lab01_pkg-0.0.0-py3.10.egg-info
+[1.184s] running install_scripts
+[1.204s] Installing controller script to /home/l0dz/SESASR-LAB/install/lab01_pkg/lib/lab01_pkg
+[1.205s] Installing localization script to /home/l0dz/SESASR-LAB/install/lab01_pkg/lib/lab01_pkg
+[1.205s] writing list of installed files to '/home/l0dz/SESASR-LAB/build/lab01_pkg/install.log'
+[1.244s] Invoked command in '/home/l0dz/SESASR-LAB/src/lab01_pkg' returned '0': PYTHONPATH=/home/l0dz/SESASR-LAB/build/lab01_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/l0dz/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/lab01_pkg build --build-base /home/l0dz/SESASR-LAB/build/lab01_pkg/build install --record /home/l0dz/SESASR-LAB/build/lab01_pkg/install.log --single-version-externally-managed install_data

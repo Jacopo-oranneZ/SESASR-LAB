@@ -1,0 +1,21 @@
+[1.676s] Invoking command in '/home/l0dz/SESASR-LAB/build/lab01_pkg': PYTHONPATH=/home/l0dz/SESASR-LAB/build/lab01_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/l0dz/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/l0dz/SESASR-LAB/build/lab01_pkg/build --no-deps symlink_data
+[1.970s] running develop
+[2.138s] running egg_info
+[2.139s] writing lab01_pkg.egg-info/PKG-INFO
+[2.139s] writing dependency_links to lab01_pkg.egg-info/dependency_links.txt
+[2.140s] writing entry points to lab01_pkg.egg-info/entry_points.txt
+[2.140s] writing requirements to lab01_pkg.egg-info/requires.txt
+[2.140s] writing top-level names to lab01_pkg.egg-info/top_level.txt
+[2.142s] reading manifest file 'lab01_pkg.egg-info/SOURCES.txt'
+[2.143s] writing manifest file 'lab01_pkg.egg-info/SOURCES.txt'
+[2.145s] running build_ext
+[2.146s] Creating /home/l0dz/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages/lab01-pkg.egg-link (link to .)
+[2.147s] Installing controller script to /home/l0dz/SESASR-LAB/install/lab01_pkg/lib/lab01_pkg
+[2.147s] Installing controller_reset script to /home/l0dz/SESASR-LAB/install/lab01_pkg/lib/lab01_pkg
+[2.148s] Installing localization script to /home/l0dz/SESASR-LAB/install/lab01_pkg/lib/lab01_pkg
+[2.148s] Installing localization_reset script to /home/l0dz/SESASR-LAB/install/lab01_pkg/lib/lab01_pkg
+[2.148s] Installing reset_node script to /home/l0dz/SESASR-LAB/install/lab01_pkg/lib/lab01_pkg
+[2.148s] 
+[2.148s] Installed /home/l0dz/SESASR-LAB/build/lab01_pkg
+[2.148s] running symlink_data
+[2.205s] Invoked command in '/home/l0dz/SESASR-LAB/build/lab01_pkg' returned '0': PYTHONPATH=/home/l0dz/SESASR-LAB/build/lab01_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/l0dz/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/l0dz/SESASR-LAB/build/lab01_pkg/build --no-deps symlink_data

@@ -1,0 +1,428 @@
+[0.536s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build', '--symlink-install']
+[0.537s] DEBUG:colcon:Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=True, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=16, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=None, packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, allow_overriding=[], cmake_args=None, cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, mixin_files=None, mixin=None, verb_parser=<colcon_mixin.mixin.mixin_argument.MixinArgumentDecorator object at 0x7209b6042a40>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x7209b6137a00>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x7209b6137a00>>, mixin_verb=('build',))
+[1.061s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[1.061s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[1.062s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[1.062s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[1.062s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[1.062s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[1.062s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/home/l0dz/SESASR-LAB'
+[1.062s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[1.062s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[1.063s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[1.063s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[1.063s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[1.063s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[1.063s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[1.063s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[1.063s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[1.082s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['cmake', 'python']
+[1.082s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'cmake'
+[1.082s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python'
+[1.082s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['python_setup_py']
+[1.082s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python_setup_py'
+[1.082s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extensions ['ignore', 'ignore_ament_install']
+[1.083s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extension 'ignore'
+[1.083s] Level 1:colcon.colcon_core.package_identification:_identify(build) ignored
+[1.083s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extensions ['ignore', 'ignore_ament_install']
+[1.083s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extension 'ignore'
+[1.083s] Level 1:colcon.colcon_core.package_identification:_identify(install) ignored
+[1.083s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extensions ['ignore', 'ignore_ament_install']
+[1.083s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extension 'ignore'
+[1.083s] Level 1:colcon.colcon_core.package_identification:_identify(log) ignored
+[1.084s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ignore', 'ignore_ament_install']
+[1.084s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore'
+[1.084s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore_ament_install'
+[1.084s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_pkg']
+[1.084s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_pkg'
+[1.084s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_meta']
+[1.084s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_meta'
+[1.085s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ros']
+[1.085s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ros'
+[1.085s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['cmake', 'python']
+[1.085s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'cmake'
+[1.085s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python'
+[1.085s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['python_setup_py']
+[1.085s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python_setup_py'
+[1.085s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab01_pkg) by extensions ['ignore', 'ignore_ament_install']
+[1.085s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab01_pkg) by extension 'ignore'
+[1.086s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab01_pkg) by extension 'ignore_ament_install'
+[1.086s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab01_pkg) by extensions ['colcon_pkg']
+[1.086s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab01_pkg) by extension 'colcon_pkg'
+[1.086s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab01_pkg) by extensions ['colcon_meta']
+[1.086s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab01_pkg) by extension 'colcon_meta'
+[1.086s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab01_pkg) by extensions ['ros']
+[1.086s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab01_pkg) by extension 'ros'
+[1.090s] DEBUG:colcon.colcon_core.package_identification:Package 'src/lab01_pkg' with type 'ros.ament_python' and name 'lab01_pkg'
+[1.090s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg) by extensions ['ignore', 'ignore_ament_install']
+[1.091s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg) by extension 'ignore'
+[1.091s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg) by extension 'ignore_ament_install'
+[1.091s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg) by extensions ['colcon_pkg']
+[1.091s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg) by extension 'colcon_pkg'
+[1.091s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg) by extensions ['colcon_meta']
+[1.091s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg) by extension 'colcon_meta'
+[1.091s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg) by extensions ['ros']
+[1.091s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg) by extension 'ros'
+[1.091s] DEBUG:colcon.colcon_core.package_identification:Failed to parse potential ROS package manifest in'src/lab02_pkg': Error(s) in package 'src/lab02_pkg/package.xml':
+The manifest contains invalid XML:
+not well-formed (invalid token): line 7, column 1
+[1.092s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg) by extensions ['cmake', 'python']
+[1.092s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg) by extension 'cmake'
+[1.092s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg) by extension 'python'
+[1.092s] DEBUG:colcon.colcon_core.package_identification:Python package in 'src/lab02_pkg' passes arguments to the setup() function which requires a different identification extension than 'python'
+[1.092s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg) by extensions ['python_setup_py']
+[1.092s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg) by extension 'python_setup_py'
+[1.596s] ERROR:colcon.colcon_core.package_identification:Exception in package identification extension 'python_setup_py' in 'src/lab02_pkg': Command '['/usr/bin/python3', '-c', 'import sys;from contextlib import suppress;exec("with suppress(ImportError):    from setuptools.extern.packaging.specifiers    import SpecifierSet");exec("with suppress(ImportError):    from packaging.specifiers import SpecifierSet");from distutils.core import run_setup;dist = run_setup(    \'setup.py\', script_args=(\'--dry-run\',), stop_after=\'config\');skip_keys = (\'cmdclass\', \'distclass\', \'ext_modules\', \'metadata\');data = {    key: value for key, value in dist.__dict__.items()     if (        not key.startswith(\'_\') and         not callable(value) and         key not in skip_keys and         key not in dist.display_option_names    )};data[\'metadata\'] = {    k: v for k, v in dist.metadata.__dict__.items()     if k not in (\'license_files\', \'provides_extras\')};sys.stdout.buffer.write(repr(data).encode(\'utf-8\'))']' returned non-zero exit status 1.
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/colcon_core/package_identification/__init__.py", line 144, in _identify
+    retval = extension.identify(_reused_descriptor_instance)
+  File "/usr/lib/python3/dist-packages/colcon_python_setup_py/package_identification/python_setup_py.py", line 48, in identify
+    config = get_setup_information(setup_py)
+  File "/usr/lib/python3/dist-packages/colcon_python_setup_py/package_identification/python_setup_py.py", line 249, in get_setup_information
+    _setup_information_cache[hashable_env] = _get_setup_information(
+  File "/usr/lib/python3/dist-packages/colcon_python_setup_py/package_identification/python_setup_py.py", line 296, in _get_setup_information
+    result = subprocess.run(
+  File "/usr/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/usr/bin/python3', '-c', 'import sys;from contextlib import suppress;exec("with suppress(ImportError):    from setuptools.extern.packaging.specifiers    import SpecifierSet");exec("with suppress(ImportError):    from packaging.specifiers import SpecifierSet");from distutils.core import run_setup;dist = run_setup(    \'setup.py\', script_args=(\'--dry-run\',), stop_after=\'config\');skip_keys = (\'cmdclass\', \'distclass\', \'ext_modules\', \'metadata\');data = {    key: value for key, value in dist.__dict__.items()     if (        not key.startswith(\'_\') and         not callable(value) and         key not in skip_keys and         key not in dist.display_option_names    )};data[\'metadata\'] = {    k: v for k, v in dist.metadata.__dict__.items()     if k not in (\'license_files\', \'provides_extras\')};sys.stdout.buffer.write(repr(data).encode(\'utf-8\'))']' returned non-zero exit status 1.
+
+[1.596s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg) by extensions ['ignore', 'ignore_ament_install']
+[1.596s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg) by extension 'ignore'
+[1.596s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg) by extension 'ignore_ament_install'
+[1.597s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg) by extensions ['colcon_pkg']
+[1.597s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg) by extension 'colcon_pkg'
+[1.597s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg) by extensions ['colcon_meta']
+[1.597s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg) by extension 'colcon_meta'
+[1.597s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg) by extensions ['ros']
+[1.597s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg) by extension 'ros'
+[1.597s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg) by extensions ['cmake', 'python']
+[1.597s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg) by extension 'cmake'
+[1.597s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg) by extension 'python'
+[1.597s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg) by extensions ['python_setup_py']
+[1.597s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg) by extension 'python_setup_py'
+[1.597s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg/__pycache__) by extensions ['ignore', 'ignore_ament_install']
+[1.598s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg/__pycache__) by extension 'ignore'
+[1.598s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg/__pycache__) by extension 'ignore_ament_install'
+[1.598s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg/__pycache__) by extensions ['colcon_pkg']
+[1.598s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg/__pycache__) by extension 'colcon_pkg'
+[1.598s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg/__pycache__) by extensions ['colcon_meta']
+[1.598s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg/__pycache__) by extension 'colcon_meta'
+[1.598s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg/__pycache__) by extensions ['ros']
+[1.598s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg/__pycache__) by extension 'ros'
+[1.598s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg/__pycache__) by extensions ['cmake', 'python']
+[1.598s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg/__pycache__) by extension 'cmake'
+[1.598s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg/__pycache__) by extension 'python'
+[1.598s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg/__pycache__) by extensions ['python_setup_py']
+[1.598s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg/__pycache__) by extension 'python_setup_py'
+[1.598s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/resource) by extensions ['ignore', 'ignore_ament_install']
+[1.598s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/resource) by extension 'ignore'
+[1.598s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/resource) by extension 'ignore_ament_install'
+[1.598s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/resource) by extensions ['colcon_pkg']
+[1.599s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/resource) by extension 'colcon_pkg'
+[1.599s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/resource) by extensions ['colcon_meta']
+[1.599s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/resource) by extension 'colcon_meta'
+[1.599s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/resource) by extensions ['ros']
+[1.599s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/resource) by extension 'ros'
+[1.599s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/resource) by extensions ['cmake', 'python']
+[1.599s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/resource) by extension 'cmake'
+[1.599s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/resource) by extension 'python'
+[1.599s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/resource) by extensions ['python_setup_py']
+[1.599s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/resource) by extension 'python_setup_py'
+[1.599s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/test) by extensions ['ignore', 'ignore_ament_install']
+[1.599s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/test) by extension 'ignore'
+[1.599s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/test) by extension 'ignore_ament_install'
+[1.599s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/test) by extensions ['colcon_pkg']
+[1.599s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/test) by extension 'colcon_pkg'
+[1.600s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/test) by extensions ['colcon_meta']
+[1.600s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/test) by extension 'colcon_meta'
+[1.600s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/test) by extensions ['ros']
+[1.600s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/test) by extension 'ros'
+[1.600s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/test) by extensions ['cmake', 'python']
+[1.600s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/test) by extension 'cmake'
+[1.600s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/test) by extension 'python'
+[1.600s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/test) by extensions ['python_setup_py']
+[1.600s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/test) by extension 'python_setup_py'
+[1.600s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations) by extensions ['ignore', 'ignore_ament_install']
+[1.600s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations) by extension 'ignore'
+[1.600s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations) by extension 'ignore_ament_install'
+[1.601s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations) by extensions ['colcon_pkg']
+[1.601s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations) by extension 'colcon_pkg'
+[1.601s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations) by extensions ['colcon_meta']
+[1.601s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations) by extension 'colcon_meta'
+[1.601s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations) by extensions ['ros']
+[1.601s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations) by extension 'ros'
+[1.601s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations) by extensions ['cmake', 'python']
+[1.601s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations) by extension 'cmake'
+[1.601s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations) by extension 'python'
+[1.602s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations) by extensions ['python_setup_py']
+[1.602s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations) by extension 'python_setup_py'
+[1.603s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations/turtlebot3_fake_node) by extensions ['ignore', 'ignore_ament_install']
+[1.603s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations/turtlebot3_fake_node) by extension 'ignore'
+[1.604s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations/turtlebot3_fake_node) by extension 'ignore_ament_install'
+[1.604s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations/turtlebot3_fake_node) by extensions ['colcon_pkg']
+[1.604s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations/turtlebot3_fake_node) by extension 'colcon_pkg'
+[1.604s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations/turtlebot3_fake_node) by extensions ['colcon_meta']
+[1.604s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations/turtlebot3_fake_node) by extension 'colcon_meta'
+[1.605s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations/turtlebot3_fake_node) by extensions ['ros']
+[1.605s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations/turtlebot3_fake_node) by extension 'ros'
+[1.608s] DEBUG:colcon.colcon_core.package_identification:Package 'src/turtlebot3_simulations/turtlebot3_fake_node' with type 'ros.ament_cmake' and name 'turtlebot3_fake_node'
+[1.608s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations/turtlebot3_gazebo) by extensions ['ignore', 'ignore_ament_install']
+[1.609s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations/turtlebot3_gazebo) by extension 'ignore'
+[1.609s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations/turtlebot3_gazebo) by extension 'ignore_ament_install'
+[1.610s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations/turtlebot3_gazebo) by extensions ['colcon_pkg']
+[1.610s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations/turtlebot3_gazebo) by extension 'colcon_pkg'
+[1.610s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations/turtlebot3_gazebo) by extensions ['colcon_meta']
+[1.610s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations/turtlebot3_gazebo) by extension 'colcon_meta'
+[1.610s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations/turtlebot3_gazebo) by extensions ['ros']
+[1.610s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations/turtlebot3_gazebo) by extension 'ros'
+[1.612s] DEBUG:colcon.colcon_core.package_identification:Package 'src/turtlebot3_simulations/turtlebot3_gazebo' with type 'ros.ament_cmake' and name 'turtlebot3_gazebo'
+[1.613s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations/turtlebot3_ignition) by extensions ['ignore', 'ignore_ament_install']
+[1.614s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations/turtlebot3_ignition) by extension 'ignore'
+[1.614s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations/turtlebot3_ignition) ignored
+[1.615s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations/turtlebot3_simulations) by extensions ['ignore', 'ignore_ament_install']
+[1.615s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations/turtlebot3_simulations) by extension 'ignore'
+[1.616s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations/turtlebot3_simulations) by extension 'ignore_ament_install'
+[1.617s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations/turtlebot3_simulations) by extensions ['colcon_pkg']
+[1.617s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations/turtlebot3_simulations) by extension 'colcon_pkg'
+[1.618s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations/turtlebot3_simulations) by extensions ['colcon_meta']
+[1.618s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations/turtlebot3_simulations) by extension 'colcon_meta'
+[1.618s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations/turtlebot3_simulations) by extensions ['ros']
+[1.618s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations/turtlebot3_simulations) by extension 'ros'
+[1.619s] DEBUG:colcon.colcon_core.package_identification:Package 'src/turtlebot3_simulations/turtlebot3_simulations' with type 'ros.ament_cmake' and name 'turtlebot3_simulations'
+[1.620s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[1.620s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[1.620s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[1.620s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[1.620s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[1.703s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) check parameters
+[1.703s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) discover
+[1.712s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 5 installed packages in /home/l0dz/SESASR-LAB/install
+[1.714s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 339 installed packages in /opt/ros/humble
+[1.716s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) using defaults
+[1.781s] Level 5:colcon.colcon_core.verb:set package 'lab01_pkg' build argument 'cmake_args' from command line to 'None'
+[1.781s] Level 5:colcon.colcon_core.verb:set package 'lab01_pkg' build argument 'cmake_target' from command line to 'None'
+[1.781s] Level 5:colcon.colcon_core.verb:set package 'lab01_pkg' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[1.781s] Level 5:colcon.colcon_core.verb:set package 'lab01_pkg' build argument 'cmake_clean_cache' from command line to 'False'
+[1.782s] Level 5:colcon.colcon_core.verb:set package 'lab01_pkg' build argument 'cmake_clean_first' from command line to 'False'
+[1.782s] Level 5:colcon.colcon_core.verb:set package 'lab01_pkg' build argument 'cmake_force_configure' from command line to 'False'
+[1.782s] Level 5:colcon.colcon_core.verb:set package 'lab01_pkg' build argument 'ament_cmake_args' from command line to 'None'
+[1.782s] Level 5:colcon.colcon_core.verb:set package 'lab01_pkg' build argument 'catkin_cmake_args' from command line to 'None'
+[1.782s] Level 5:colcon.colcon_core.verb:set package 'lab01_pkg' build argument 'catkin_skip_building_tests' from command line to 'False'
+[1.782s] DEBUG:colcon.colcon_core.verb:Building package 'lab01_pkg' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/l0dz/SESASR-LAB/build/lab01_pkg', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/l0dz/SESASR-LAB/install/lab01_pkg', 'merge_install': False, 'path': '/home/l0dz/SESASR-LAB/src/lab01_pkg', 'symlink_install': True, 'test_result_base': None}
+[1.782s] Level 5:colcon.colcon_core.verb:set package 'turtlebot3_fake_node' build argument 'cmake_args' from command line to 'None'
+[1.782s] Level 5:colcon.colcon_core.verb:set package 'turtlebot3_fake_node' build argument 'cmake_target' from command line to 'None'
+[1.782s] Level 5:colcon.colcon_core.verb:set package 'turtlebot3_fake_node' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[1.782s] Level 5:colcon.colcon_core.verb:set package 'turtlebot3_fake_node' build argument 'cmake_clean_cache' from command line to 'False'
+[1.782s] Level 5:colcon.colcon_core.verb:set package 'turtlebot3_fake_node' build argument 'cmake_clean_first' from command line to 'False'
+[1.782s] Level 5:colcon.colcon_core.verb:set package 'turtlebot3_fake_node' build argument 'cmake_force_configure' from command line to 'False'
+[1.782s] Level 5:colcon.colcon_core.verb:set package 'turtlebot3_fake_node' build argument 'ament_cmake_args' from command line to 'None'
+[1.783s] Level 5:colcon.colcon_core.verb:set package 'turtlebot3_fake_node' build argument 'catkin_cmake_args' from command line to 'None'
+[1.783s] Level 5:colcon.colcon_core.verb:set package 'turtlebot3_fake_node' build argument 'catkin_skip_building_tests' from command line to 'False'
+[1.783s] DEBUG:colcon.colcon_core.verb:Building package 'turtlebot3_fake_node' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/l0dz/SESASR-LAB/build/turtlebot3_fake_node', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node', 'merge_install': False, 'path': '/home/l0dz/SESASR-LAB/src/turtlebot3_simulations/turtlebot3_fake_node', 'symlink_install': True, 'test_result_base': None}
+[1.783s] Level 5:colcon.colcon_core.verb:set package 'turtlebot3_gazebo' build argument 'cmake_args' from command line to 'None'
+[1.783s] Level 5:colcon.colcon_core.verb:set package 'turtlebot3_gazebo' build argument 'cmake_target' from command line to 'None'
+[1.783s] Level 5:colcon.colcon_core.verb:set package 'turtlebot3_gazebo' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[1.783s] Level 5:colcon.colcon_core.verb:set package 'turtlebot3_gazebo' build argument 'cmake_clean_cache' from command line to 'False'
+[1.783s] Level 5:colcon.colcon_core.verb:set package 'turtlebot3_gazebo' build argument 'cmake_clean_first' from command line to 'False'
+[1.783s] Level 5:colcon.colcon_core.verb:set package 'turtlebot3_gazebo' build argument 'cmake_force_configure' from command line to 'False'
+[1.783s] Level 5:colcon.colcon_core.verb:set package 'turtlebot3_gazebo' build argument 'ament_cmake_args' from command line to 'None'
+[1.783s] Level 5:colcon.colcon_core.verb:set package 'turtlebot3_gazebo' build argument 'catkin_cmake_args' from command line to 'None'
+[1.783s] Level 5:colcon.colcon_core.verb:set package 'turtlebot3_gazebo' build argument 'catkin_skip_building_tests' from command line to 'False'
+[1.784s] DEBUG:colcon.colcon_core.verb:Building package 'turtlebot3_gazebo' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/l0dz/SESASR-LAB/build/turtlebot3_gazebo', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo', 'merge_install': False, 'path': '/home/l0dz/SESASR-LAB/src/turtlebot3_simulations/turtlebot3_gazebo', 'symlink_install': True, 'test_result_base': None}
+[1.784s] Level 5:colcon.colcon_core.verb:set package 'turtlebot3_simulations' build argument 'cmake_args' from command line to 'None'
+[1.785s] Level 5:colcon.colcon_core.verb:set package 'turtlebot3_simulations' build argument 'cmake_target' from command line to 'None'
+[1.785s] Level 5:colcon.colcon_core.verb:set package 'turtlebot3_simulations' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[1.785s] Level 5:colcon.colcon_core.verb:set package 'turtlebot3_simulations' build argument 'cmake_clean_cache' from command line to 'False'
+[1.785s] Level 5:colcon.colcon_core.verb:set package 'turtlebot3_simulations' build argument 'cmake_clean_first' from command line to 'False'
+[1.785s] Level 5:colcon.colcon_core.verb:set package 'turtlebot3_simulations' build argument 'cmake_force_configure' from command line to 'False'
+[1.785s] Level 5:colcon.colcon_core.verb:set package 'turtlebot3_simulations' build argument 'ament_cmake_args' from command line to 'None'
+[1.785s] Level 5:colcon.colcon_core.verb:set package 'turtlebot3_simulations' build argument 'catkin_cmake_args' from command line to 'None'
+[1.785s] Level 5:colcon.colcon_core.verb:set package 'turtlebot3_simulations' build argument 'catkin_skip_building_tests' from command line to 'False'
+[1.785s] DEBUG:colcon.colcon_core.verb:Building package 'turtlebot3_simulations' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/l0dz/SESASR-LAB/build/turtlebot3_simulations', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/l0dz/SESASR-LAB/install/turtlebot3_simulations', 'merge_install': False, 'path': '/home/l0dz/SESASR-LAB/src/turtlebot3_simulations/turtlebot3_simulations', 'symlink_install': True, 'test_result_base': None}
+[1.785s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[1.788s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[1.789s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/l0dz/SESASR-LAB/src/turtlebot3_simulations/turtlebot3_fake_node' with build type 'ament_cmake'
+[1.790s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/l0dz/SESASR-LAB/src/turtlebot3_simulations/turtlebot3_fake_node'
+[1.808s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[1.809s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.809s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[1.817s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/l0dz/SESASR-LAB/src/lab01_pkg' with build type 'ament_python'
+[1.817s] Level 1:colcon.colcon_core.shell:create_environment_hook('lab01_pkg', 'ament_prefix_path')
+[1.818s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/l0dz/SESASR-LAB/install/lab01_pkg/share/lab01_pkg/hook/ament_prefix_path.ps1'
+[1.820s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/l0dz/SESASR-LAB/install/lab01_pkg/share/lab01_pkg/hook/ament_prefix_path.dsv'
+[1.822s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/l0dz/SESASR-LAB/install/lab01_pkg/share/lab01_pkg/hook/ament_prefix_path.sh'
+[1.826s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.827s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[1.835s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/l0dz/SESASR-LAB/src/turtlebot3_simulations/turtlebot3_gazebo' with build type 'ament_cmake'
+[1.835s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/l0dz/SESASR-LAB/src/turtlebot3_simulations/turtlebot3_gazebo'
+[1.835s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.836s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[1.864s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/l0dz/SESASR-LAB/build/turtlebot3_fake_node': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/l0dz/SESASR-LAB/install/lab02_pkg:/home/l0dz/SESASR-LAB/install/lab01_pkg:/opt/ros/humble /usr/bin/cmake --build /home/l0dz/SESASR-LAB/build/turtlebot3_fake_node -- -j16 -l16
+[2.323s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/l0dz/SESASR-LAB/src/lab01_pkg'
+[2.324s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[2.324s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[2.346s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/l0dz/SESASR-LAB/build/turtlebot3_gazebo': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/l0dz/SESASR-LAB/install/lab02_pkg:/home/l0dz/SESASR-LAB/install/lab01_pkg:/opt/ros/humble /usr/bin/cmake --build /home/l0dz/SESASR-LAB/build/turtlebot3_gazebo -- -j16 -l16
+[2.347s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/l0dz/SESASR-LAB/build/turtlebot3_fake_node' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/l0dz/SESASR-LAB/install/lab02_pkg:/home/l0dz/SESASR-LAB/install/lab01_pkg:/opt/ros/humble /usr/bin/cmake --build /home/l0dz/SESASR-LAB/build/turtlebot3_fake_node -- -j16 -l16
+[2.370s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/l0dz/SESASR-LAB/build/turtlebot3_fake_node': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/l0dz/SESASR-LAB/install/lab02_pkg:/home/l0dz/SESASR-LAB/install/lab01_pkg:/opt/ros/humble /usr/bin/cmake --install /home/l0dz/SESASR-LAB/build/turtlebot3_fake_node
+[2.431s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(turtlebot3_fake_node)
+[2.432s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/l0dz/SESASR-LAB/build/turtlebot3_fake_node' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/l0dz/SESASR-LAB/install/lab02_pkg:/home/l0dz/SESASR-LAB/install/lab01_pkg:/opt/ros/humble /usr/bin/cmake --install /home/l0dz/SESASR-LAB/build/turtlebot3_fake_node
+[2.448s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node' for CMake module files
+[2.450s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node' for CMake config files
+[2.450s] Level 1:colcon.colcon_core.shell:create_environment_hook('turtlebot3_fake_node', 'cmake_prefix_path')
+[2.451s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/hook/cmake_prefix_path.ps1'
+[2.452s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/hook/cmake_prefix_path.dsv'
+[2.453s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/hook/cmake_prefix_path.sh'
+[2.456s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node/lib'
+[2.457s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node/bin'
+[2.457s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node/lib/pkgconfig/turtlebot3_fake_node.pc'
+[2.458s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node/lib/python3.10/site-packages'
+[2.459s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node/bin'
+[2.460s] INFO:colcon.colcon_core.shell:Creating package script '/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/package.ps1'
+[2.463s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/package.dsv'
+[2.466s] INFO:colcon.colcon_core.shell:Creating package script '/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/package.sh'
+[2.469s] INFO:colcon.colcon_core.shell:Creating package script '/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/package.bash'
+[2.473s] INFO:colcon.colcon_core.shell:Creating package script '/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/package.zsh'
+[2.476s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node/share/colcon-core/packages/turtlebot3_fake_node)
+[2.479s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(turtlebot3_fake_node)
+[2.480s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node' for CMake module files
+[2.481s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node' for CMake config files
+[2.482s] Level 1:colcon.colcon_core.shell:create_environment_hook('turtlebot3_fake_node', 'cmake_prefix_path')
+[2.483s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/hook/cmake_prefix_path.ps1'
+[2.485s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/hook/cmake_prefix_path.dsv'
+[2.487s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/hook/cmake_prefix_path.sh'
+[2.490s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node/lib'
+[2.490s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node/bin'
+[2.490s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node/lib/pkgconfig/turtlebot3_fake_node.pc'
+[2.490s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node/lib/python3.10/site-packages'
+[2.491s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node/bin'
+[2.492s] INFO:colcon.colcon_core.shell:Creating package script '/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/package.ps1'
+[2.494s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/package.dsv'
+[2.496s] INFO:colcon.colcon_core.shell:Creating package script '/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/package.sh'
+[2.497s] INFO:colcon.colcon_core.shell:Creating package script '/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/package.bash'
+[2.499s] INFO:colcon.colcon_core.shell:Creating package script '/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node/share/turtlebot3_fake_node/package.zsh'
+[2.500s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node/share/colcon-core/packages/turtlebot3_fake_node)
+[2.501s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/home/l0dz/SESASR-LAB/src/turtlebot3_simulations/turtlebot3_simulations' with build type 'ament_cmake'
+[2.502s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/l0dz/SESASR-LAB/src/turtlebot3_simulations/turtlebot3_simulations'
+[2.503s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[2.504s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[2.782s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/l0dz/SESASR-LAB/build/turtlebot3_simulations': CMAKE_PREFIX_PATH=/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node:/home/l0dz/SESASR-LAB/install/turtlebot3_simulations:/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo:/home/l0dz/SESASR-LAB/install/lab02_pkg:/home/l0dz/SESASR-LAB/install/lab01_pkg:/opt/ros/humble /usr/bin/cmake --build /home/l0dz/SESASR-LAB/build/turtlebot3_simulations -- -j16 -l16
+[2.818s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/l0dz/SESASR-LAB/build/turtlebot3_gazebo' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/l0dz/SESASR-LAB/install/lab02_pkg:/home/l0dz/SESASR-LAB/install/lab01_pkg:/opt/ros/humble /usr/bin/cmake --build /home/l0dz/SESASR-LAB/build/turtlebot3_gazebo -- -j16 -l16
+[2.827s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/l0dz/SESASR-LAB/build/turtlebot3_gazebo': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/l0dz/SESASR-LAB/install/lab02_pkg:/home/l0dz/SESASR-LAB/install/lab01_pkg:/opt/ros/humble /usr/bin/cmake --install /home/l0dz/SESASR-LAB/build/turtlebot3_gazebo
+[2.919s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/l0dz/SESASR-LAB/build/turtlebot3_simulations' returned '0': CMAKE_PREFIX_PATH=/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node:/home/l0dz/SESASR-LAB/install/turtlebot3_simulations:/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo:/home/l0dz/SESASR-LAB/install/lab02_pkg:/home/l0dz/SESASR-LAB/install/lab01_pkg:/opt/ros/humble /usr/bin/cmake --build /home/l0dz/SESASR-LAB/build/turtlebot3_simulations -- -j16 -l16
+[2.929s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/l0dz/SESASR-LAB/build/turtlebot3_simulations': CMAKE_PREFIX_PATH=/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node:/home/l0dz/SESASR-LAB/install/turtlebot3_simulations:/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo:/home/l0dz/SESASR-LAB/install/lab02_pkg:/home/l0dz/SESASR-LAB/install/lab01_pkg:/opt/ros/humble /usr/bin/cmake --install /home/l0dz/SESASR-LAB/build/turtlebot3_simulations
+[2.951s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(turtlebot3_gazebo)
+[2.953s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo' for CMake module files
+[2.955s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/l0dz/SESASR-LAB/build/turtlebot3_gazebo' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/l0dz/SESASR-LAB/install/lab02_pkg:/home/l0dz/SESASR-LAB/install/lab01_pkg:/opt/ros/humble /usr/bin/cmake --install /home/l0dz/SESASR-LAB/build/turtlebot3_gazebo
+[2.963s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo' for CMake config files
+[2.965s] Level 1:colcon.colcon_core.shell:create_environment_hook('turtlebot3_gazebo', 'cmake_prefix_path')
+[2.966s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo/hook/cmake_prefix_path.ps1'
+[2.968s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo/hook/cmake_prefix_path.dsv'
+[2.970s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo/hook/cmake_prefix_path.sh'
+[2.972s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo/lib'
+[2.973s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo/bin'
+[2.973s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo/lib/pkgconfig/turtlebot3_gazebo.pc'
+[2.973s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo/lib/python3.10/site-packages'
+[2.974s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo/bin'
+[2.975s] INFO:colcon.colcon_core.shell:Creating package script '/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo/package.ps1'
+[2.976s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo/package.dsv'
+[2.978s] INFO:colcon.colcon_core.shell:Creating package script '/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo/package.sh'
+[2.980s] INFO:colcon.colcon_core.shell:Creating package script '/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo/package.bash'
+[2.983s] INFO:colcon.colcon_core.shell:Creating package script '/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo/package.zsh'
+[2.986s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo/share/colcon-core/packages/turtlebot3_gazebo)
+[2.987s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(turtlebot3_gazebo)
+[2.988s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo' for CMake module files
+[2.989s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo' for CMake config files
+[2.992s] Level 1:colcon.colcon_core.shell:create_environment_hook('turtlebot3_gazebo', 'cmake_prefix_path')
+[2.992s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo/hook/cmake_prefix_path.ps1'
+[2.994s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo/hook/cmake_prefix_path.dsv'
+[2.996s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo/hook/cmake_prefix_path.sh'
+[2.998s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo/lib'
+[2.998s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo/bin'
+[2.998s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo/lib/pkgconfig/turtlebot3_gazebo.pc'
+[2.999s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo/lib/python3.10/site-packages'
+[2.999s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo/bin'
+[2.999s] INFO:colcon.colcon_core.shell:Creating package script '/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo/package.ps1'
+[3.000s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo/package.dsv'
+[3.002s] INFO:colcon.colcon_core.shell:Creating package script '/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo/package.sh'
+[3.003s] INFO:colcon.colcon_core.shell:Creating package script '/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo/package.bash'
+[3.005s] INFO:colcon.colcon_core.shell:Creating package script '/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo/share/turtlebot3_gazebo/package.zsh'
+[3.006s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo/share/colcon-core/packages/turtlebot3_gazebo)
+[3.010s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(turtlebot3_simulations)
+[3.012s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_simulations' for CMake module files
+[3.014s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/l0dz/SESASR-LAB/build/turtlebot3_simulations' returned '0': CMAKE_PREFIX_PATH=/home/l0dz/SESASR-LAB/install/turtlebot3_fake_node:/home/l0dz/SESASR-LAB/install/turtlebot3_simulations:/home/l0dz/SESASR-LAB/install/turtlebot3_gazebo:/home/l0dz/SESASR-LAB/install/lab02_pkg:/home/l0dz/SESASR-LAB/install/lab01_pkg:/opt/ros/humble /usr/bin/cmake --install /home/l0dz/SESASR-LAB/build/turtlebot3_simulations
+[3.016s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_simulations' for CMake config files
+[3.016s] Level 1:colcon.colcon_core.shell:create_environment_hook('turtlebot3_simulations', 'cmake_prefix_path')
+[3.017s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/l0dz/SESASR-LAB/install/turtlebot3_simulations/share/turtlebot3_simulations/hook/cmake_prefix_path.ps1'
+[3.019s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/l0dz/SESASR-LAB/install/turtlebot3_simulations/share/turtlebot3_simulations/hook/cmake_prefix_path.dsv'
+[3.021s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/l0dz/SESASR-LAB/install/turtlebot3_simulations/share/turtlebot3_simulations/hook/cmake_prefix_path.sh'
+[3.023s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_simulations/bin'
+[3.023s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_simulations/lib/pkgconfig/turtlebot3_simulations.pc'
+[3.023s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_simulations/lib/python3.10/site-packages'
+[3.024s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_simulations/bin'
+[3.025s] INFO:colcon.colcon_core.shell:Creating package script '/home/l0dz/SESASR-LAB/install/turtlebot3_simulations/share/turtlebot3_simulations/package.ps1'
+[3.028s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/l0dz/SESASR-LAB/install/turtlebot3_simulations/share/turtlebot3_simulations/package.dsv'
+[3.029s] INFO:colcon.colcon_core.shell:Creating package script '/home/l0dz/SESASR-LAB/install/turtlebot3_simulations/share/turtlebot3_simulations/package.sh'
+[3.030s] INFO:colcon.colcon_core.shell:Creating package script '/home/l0dz/SESASR-LAB/install/turtlebot3_simulations/share/turtlebot3_simulations/package.bash'
+[3.031s] INFO:colcon.colcon_core.shell:Creating package script '/home/l0dz/SESASR-LAB/install/turtlebot3_simulations/share/turtlebot3_simulations/package.zsh'
+[3.033s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/l0dz/SESASR-LAB/install/turtlebot3_simulations/share/colcon-core/packages/turtlebot3_simulations)
+[3.034s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(turtlebot3_simulations)
+[3.035s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_simulations' for CMake module files
+[3.036s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_simulations' for CMake config files
+[3.037s] Level 1:colcon.colcon_core.shell:create_environment_hook('turtlebot3_simulations', 'cmake_prefix_path')
+[3.037s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/l0dz/SESASR-LAB/install/turtlebot3_simulations/share/turtlebot3_simulations/hook/cmake_prefix_path.ps1'
+[3.038s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/l0dz/SESASR-LAB/install/turtlebot3_simulations/share/turtlebot3_simulations/hook/cmake_prefix_path.dsv'
+[3.039s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/l0dz/SESASR-LAB/install/turtlebot3_simulations/share/turtlebot3_simulations/hook/cmake_prefix_path.sh'
+[3.040s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_simulations/bin'
+[3.041s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_simulations/lib/pkgconfig/turtlebot3_simulations.pc'
+[3.041s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_simulations/lib/python3.10/site-packages'
+[3.042s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/turtlebot3_simulations/bin'
+[3.043s] INFO:colcon.colcon_core.shell:Creating package script '/home/l0dz/SESASR-LAB/install/turtlebot3_simulations/share/turtlebot3_simulations/package.ps1'
+[3.045s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/l0dz/SESASR-LAB/install/turtlebot3_simulations/share/turtlebot3_simulations/package.dsv'
+[3.047s] INFO:colcon.colcon_core.shell:Creating package script '/home/l0dz/SESASR-LAB/install/turtlebot3_simulations/share/turtlebot3_simulations/package.sh'
+[3.050s] INFO:colcon.colcon_core.shell:Creating package script '/home/l0dz/SESASR-LAB/install/turtlebot3_simulations/share/turtlebot3_simulations/package.bash'
+[3.051s] INFO:colcon.colcon_core.shell:Creating package script '/home/l0dz/SESASR-LAB/install/turtlebot3_simulations/share/turtlebot3_simulations/package.zsh'
+[3.053s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/l0dz/SESASR-LAB/install/turtlebot3_simulations/share/colcon-core/packages/turtlebot3_simulations)
+[3.717s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/l0dz/SESASR-LAB/build/lab01_pkg': PYTHONPATH=/home/l0dz/SESASR-LAB/build/lab01_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/l0dz/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/l0dz/SESASR-LAB/build/lab01_pkg/build --no-deps symlink_data
+[4.474s] Level 1:colcon.colcon_core.shell:create_environment_hook('lab01_pkg', 'pythonpath_develop')
+[4.475s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/l0dz/SESASR-LAB/build/lab01_pkg/share/lab01_pkg/hook/pythonpath_develop.ps1'
+[4.476s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/l0dz/SESASR-LAB/build/lab01_pkg' returned '0': PYTHONPATH=/home/l0dz/SESASR-LAB/build/lab01_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/l0dz/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/l0dz/SESASR-LAB/build/lab01_pkg/build --no-deps symlink_data
+[4.479s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/l0dz/SESASR-LAB/build/lab01_pkg/share/lab01_pkg/hook/pythonpath_develop.dsv'
+[4.480s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/l0dz/SESASR-LAB/build/lab01_pkg/share/lab01_pkg/hook/pythonpath_develop.sh'
+[4.482s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/lab01_pkg' for CMake module files
+[4.483s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/lab01_pkg' for CMake config files
+[4.484s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/lab01_pkg/lib'
+[4.485s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/lab01_pkg/bin'
+[4.485s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/lab01_pkg/lib/pkgconfig/lab01_pkg.pc'
+[4.485s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages'
+[4.485s] Level 1:colcon.colcon_core.shell:create_environment_hook('lab01_pkg', 'pythonpath')
+[4.486s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/l0dz/SESASR-LAB/install/lab01_pkg/share/lab01_pkg/hook/pythonpath.ps1'
+[4.486s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/l0dz/SESASR-LAB/install/lab01_pkg/share/lab01_pkg/hook/pythonpath.dsv'
+[4.487s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/l0dz/SESASR-LAB/install/lab01_pkg/share/lab01_pkg/hook/pythonpath.sh'
+[4.488s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/lab01_pkg/bin'
+[4.488s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(lab01_pkg)
+[4.489s] INFO:colcon.colcon_core.shell:Creating package script '/home/l0dz/SESASR-LAB/install/lab01_pkg/share/lab01_pkg/package.ps1'
+[4.490s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/l0dz/SESASR-LAB/install/lab01_pkg/share/lab01_pkg/package.dsv'
+[4.490s] INFO:colcon.colcon_core.shell:Creating package script '/home/l0dz/SESASR-LAB/install/lab01_pkg/share/lab01_pkg/package.sh'
+[4.492s] INFO:colcon.colcon_core.shell:Creating package script '/home/l0dz/SESASR-LAB/install/lab01_pkg/share/lab01_pkg/package.bash'
+[4.493s] INFO:colcon.colcon_core.shell:Creating package script '/home/l0dz/SESASR-LAB/install/lab01_pkg/share/lab01_pkg/package.zsh'
+[4.494s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/l0dz/SESASR-LAB/install/lab01_pkg/share/colcon-core/packages/lab01_pkg)
+[4.494s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[4.496s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[4.496s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '0'
+[4.497s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[4.673s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.notify_send': Could not find 'notify-send'
+[4.673s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[4.673s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[4.673s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[4.673s] DEBUG:colcon.colcon_notification.desktop_notification.notify2:Failed to initialize notify2: org.freedesktop.DBus.Error.FileNotFound: Failed to connect to socket /run/user/1000/bus: No such file or directory
+[4.673s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[4.674s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/l0dz/SESASR-LAB/install/local_setup.ps1'
+[4.678s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/l0dz/SESASR-LAB/install/_local_setup_util_ps1.py'
+[4.680s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/l0dz/SESASR-LAB/install/setup.ps1'
+[4.683s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/l0dz/SESASR-LAB/install/local_setup.sh'
+[4.685s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/l0dz/SESASR-LAB/install/_local_setup_util_sh.py'
+[4.686s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/l0dz/SESASR-LAB/install/setup.sh'
+[4.688s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/l0dz/SESASR-LAB/install/local_setup.bash'
+[4.689s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/l0dz/SESASR-LAB/install/setup.bash'
+[4.692s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/l0dz/SESASR-LAB/install/local_setup.zsh'
+[4.694s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/l0dz/SESASR-LAB/install/setup.zsh'

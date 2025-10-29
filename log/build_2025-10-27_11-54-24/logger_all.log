@@ -1,0 +1,221 @@
+[0.280s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build', '--symlink-install']
+[0.281s] DEBUG:colcon:Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=True, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=16, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=None, packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, allow_overriding=[], cmake_args=None, cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, mixin_files=None, mixin=None, verb_parser=<colcon_mixin.mixin.mixin_argument.MixinArgumentDecorator object at 0x7f47b33429e0>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x7f47b34379a0>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x7f47b34379a0>>, mixin_verb=('build',))
+[0.445s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[0.446s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[0.446s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[0.446s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[0.446s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[0.446s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[0.446s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/home/l0dz/SESASR-LAB'
+[0.446s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.446s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[0.446s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[0.446s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[0.446s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[0.446s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[0.446s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[0.446s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[0.446s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[0.457s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['cmake', 'python']
+[0.457s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'cmake'
+[0.457s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python'
+[0.458s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['python_setup_py']
+[0.458s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python_setup_py'
+[0.458s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extensions ['ignore', 'ignore_ament_install']
+[0.458s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extension 'ignore'
+[0.458s] Level 1:colcon.colcon_core.package_identification:_identify(build) ignored
+[0.458s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extensions ['ignore', 'ignore_ament_install']
+[0.458s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extension 'ignore'
+[0.458s] Level 1:colcon.colcon_core.package_identification:_identify(install) ignored
+[0.458s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extensions ['ignore', 'ignore_ament_install']
+[0.458s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extension 'ignore'
+[0.458s] Level 1:colcon.colcon_core.package_identification:_identify(log) ignored
+[0.458s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ignore', 'ignore_ament_install']
+[0.458s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore'
+[0.458s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore_ament_install'
+[0.459s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_pkg']
+[0.459s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_pkg'
+[0.459s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_meta']
+[0.459s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_meta'
+[0.459s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ros']
+[0.459s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ros'
+[0.459s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['cmake', 'python']
+[0.459s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'cmake'
+[0.459s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python'
+[0.459s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['python_setup_py']
+[0.459s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python_setup_py'
+[0.459s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab01_pkg) by extensions ['ignore', 'ignore_ament_install']
+[0.459s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab01_pkg) by extension 'ignore'
+[0.459s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab01_pkg) by extension 'ignore_ament_install'
+[0.459s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab01_pkg) by extensions ['colcon_pkg']
+[0.459s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab01_pkg) by extension 'colcon_pkg'
+[0.459s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab01_pkg) by extensions ['colcon_meta']
+[0.459s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab01_pkg) by extension 'colcon_meta'
+[0.459s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab01_pkg) by extensions ['ros']
+[0.459s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab01_pkg) by extension 'ros'
+[0.462s] DEBUG:colcon.colcon_core.package_identification:Package 'src/lab01_pkg' with type 'ros.ament_python' and name 'lab01_pkg'
+[0.462s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg) by extensions ['ignore', 'ignore_ament_install']
+[0.462s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg) by extension 'ignore'
+[0.462s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg) by extension 'ignore_ament_install'
+[0.462s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg) by extensions ['colcon_pkg']
+[0.462s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg) by extension 'colcon_pkg'
+[0.462s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg) by extensions ['colcon_meta']
+[0.462s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg) by extension 'colcon_meta'
+[0.462s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg) by extensions ['ros']
+[0.462s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg) by extension 'ros'
+[0.463s] DEBUG:colcon.colcon_core.package_identification:Failed to parse potential ROS package manifest in'src/lab02_pkg': Error(s) in package 'src/lab02_pkg/package.xml':
+The manifest contains invalid XML:
+not well-formed (invalid token): line 7, column 1
+[0.463s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg) by extensions ['cmake', 'python']
+[0.463s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg) by extension 'cmake'
+[0.463s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg) by extension 'python'
+[0.463s] DEBUG:colcon.colcon_core.package_identification:Python package in 'src/lab02_pkg' passes arguments to the setup() function which requires a different identification extension than 'python'
+[0.463s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg) by extensions ['python_setup_py']
+[0.463s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg) by extension 'python_setup_py'
+[0.750s] ERROR:colcon.colcon_core.package_identification:Exception in package identification extension 'python_setup_py' in 'src/lab02_pkg': Command '['/usr/bin/python3', '-c', 'import sys;from contextlib import suppress;exec("with suppress(ImportError):    from setuptools.extern.packaging.specifiers    import SpecifierSet");exec("with suppress(ImportError):    from packaging.specifiers import SpecifierSet");from distutils.core import run_setup;dist = run_setup(    \'setup.py\', script_args=(\'--dry-run\',), stop_after=\'config\');skip_keys = (\'cmdclass\', \'distclass\', \'ext_modules\', \'metadata\');data = {    key: value for key, value in dist.__dict__.items()     if (        not key.startswith(\'_\') and         not callable(value) and         key not in skip_keys and         key not in dist.display_option_names    )};data[\'metadata\'] = {    k: v for k, v in dist.metadata.__dict__.items()     if k not in (\'license_files\', \'provides_extras\')};sys.stdout.buffer.write(repr(data).encode(\'utf-8\'))']' returned non-zero exit status 1.
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/colcon_core/package_identification/__init__.py", line 144, in _identify
+    retval = extension.identify(_reused_descriptor_instance)
+  File "/usr/lib/python3/dist-packages/colcon_python_setup_py/package_identification/python_setup_py.py", line 48, in identify
+    config = get_setup_information(setup_py)
+  File "/usr/lib/python3/dist-packages/colcon_python_setup_py/package_identification/python_setup_py.py", line 249, in get_setup_information
+    _setup_information_cache[hashable_env] = _get_setup_information(
+  File "/usr/lib/python3/dist-packages/colcon_python_setup_py/package_identification/python_setup_py.py", line 296, in _get_setup_information
+    result = subprocess.run(
+  File "/usr/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/usr/bin/python3', '-c', 'import sys;from contextlib import suppress;exec("with suppress(ImportError):    from setuptools.extern.packaging.specifiers    import SpecifierSet");exec("with suppress(ImportError):    from packaging.specifiers import SpecifierSet");from distutils.core import run_setup;dist = run_setup(    \'setup.py\', script_args=(\'--dry-run\',), stop_after=\'config\');skip_keys = (\'cmdclass\', \'distclass\', \'ext_modules\', \'metadata\');data = {    key: value for key, value in dist.__dict__.items()     if (        not key.startswith(\'_\') and         not callable(value) and         key not in skip_keys and         key not in dist.display_option_names    )};data[\'metadata\'] = {    k: v for k, v in dist.metadata.__dict__.items()     if k not in (\'license_files\', \'provides_extras\')};sys.stdout.buffer.write(repr(data).encode(\'utf-8\'))']' returned non-zero exit status 1.
+
+[0.750s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg) by extensions ['ignore', 'ignore_ament_install']
+[0.750s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg) by extension 'ignore'
+[0.750s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg) by extension 'ignore_ament_install'
+[0.750s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg) by extensions ['colcon_pkg']
+[0.750s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg) by extension 'colcon_pkg'
+[0.750s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg) by extensions ['colcon_meta']
+[0.750s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg) by extension 'colcon_meta'
+[0.751s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg) by extensions ['ros']
+[0.751s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg) by extension 'ros'
+[0.751s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg) by extensions ['cmake', 'python']
+[0.751s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg) by extension 'cmake'
+[0.751s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg) by extension 'python'
+[0.751s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg) by extensions ['python_setup_py']
+[0.751s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/lab02_pkg) by extension 'python_setup_py'
+[0.751s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/resource) by extensions ['ignore', 'ignore_ament_install']
+[0.751s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/resource) by extension 'ignore'
+[0.751s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/resource) by extension 'ignore_ament_install'
+[0.751s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/resource) by extensions ['colcon_pkg']
+[0.751s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/resource) by extension 'colcon_pkg'
+[0.751s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/resource) by extensions ['colcon_meta']
+[0.751s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/resource) by extension 'colcon_meta'
+[0.751s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/resource) by extensions ['ros']
+[0.751s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/resource) by extension 'ros'
+[0.752s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/resource) by extensions ['cmake', 'python']
+[0.752s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/resource) by extension 'cmake'
+[0.752s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/resource) by extension 'python'
+[0.752s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/resource) by extensions ['python_setup_py']
+[0.752s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/resource) by extension 'python_setup_py'
+[0.752s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/test) by extensions ['ignore', 'ignore_ament_install']
+[0.752s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/test) by extension 'ignore'
+[0.752s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/test) by extension 'ignore_ament_install'
+[0.752s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/test) by extensions ['colcon_pkg']
+[0.752s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/test) by extension 'colcon_pkg'
+[0.752s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/test) by extensions ['colcon_meta']
+[0.752s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/test) by extension 'colcon_meta'
+[0.752s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/test) by extensions ['ros']
+[0.752s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/test) by extension 'ros'
+[0.753s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/test) by extensions ['cmake', 'python']
+[0.753s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/test) by extension 'cmake'
+[0.753s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/test) by extension 'python'
+[0.753s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/test) by extensions ['python_setup_py']
+[0.753s] Level 1:colcon.colcon_core.package_identification:_identify(src/lab02_pkg/test) by extension 'python_setup_py'
+[0.753s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations) by extensions ['ignore', 'ignore_ament_install']
+[0.753s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations) by extension 'ignore'
+[0.753s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations) by extension 'ignore_ament_install'
+[0.753s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations) by extensions ['colcon_pkg']
+[0.753s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations) by extension 'colcon_pkg'
+[0.754s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations) by extensions ['colcon_meta']
+[0.754s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations) by extension 'colcon_meta'
+[0.754s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations) by extensions ['ros']
+[0.754s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations) by extension 'ros'
+[0.754s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations) by extensions ['cmake', 'python']
+[0.754s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations) by extension 'cmake'
+[0.754s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations) by extension 'python'
+[0.754s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations) by extensions ['python_setup_py']
+[0.754s] Level 1:colcon.colcon_core.package_identification:_identify(src/turtlebot3_simulations) by extension 'python_setup_py'
+[0.754s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[0.754s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[0.754s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[0.754s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[0.754s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[0.795s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) check parameters
+[0.795s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) discover
+[0.798s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 5 installed packages in /home/l0dz/SESASR-LAB/install
+[0.800s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 339 installed packages in /opt/ros/humble
+[0.801s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) using defaults
+[0.844s] Level 5:colcon.colcon_core.verb:set package 'lab01_pkg' build argument 'cmake_args' from command line to 'None'
+[0.845s] Level 5:colcon.colcon_core.verb:set package 'lab01_pkg' build argument 'cmake_target' from command line to 'None'
+[0.845s] Level 5:colcon.colcon_core.verb:set package 'lab01_pkg' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.845s] Level 5:colcon.colcon_core.verb:set package 'lab01_pkg' build argument 'cmake_clean_cache' from command line to 'False'
+[0.845s] Level 5:colcon.colcon_core.verb:set package 'lab01_pkg' build argument 'cmake_clean_first' from command line to 'False'
+[0.845s] Level 5:colcon.colcon_core.verb:set package 'lab01_pkg' build argument 'cmake_force_configure' from command line to 'False'
+[0.845s] Level 5:colcon.colcon_core.verb:set package 'lab01_pkg' build argument 'ament_cmake_args' from command line to 'None'
+[0.845s] Level 5:colcon.colcon_core.verb:set package 'lab01_pkg' build argument 'catkin_cmake_args' from command line to 'None'
+[0.845s] Level 5:colcon.colcon_core.verb:set package 'lab01_pkg' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.845s] DEBUG:colcon.colcon_core.verb:Building package 'lab01_pkg' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/l0dz/SESASR-LAB/build/lab01_pkg', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/l0dz/SESASR-LAB/install/lab01_pkg', 'merge_install': False, 'path': '/home/l0dz/SESASR-LAB/src/lab01_pkg', 'symlink_install': True, 'test_result_base': None}
+[0.845s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[0.846s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[0.847s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/l0dz/SESASR-LAB/src/lab01_pkg' with build type 'ament_python'
+[0.847s] Level 1:colcon.colcon_core.shell:create_environment_hook('lab01_pkg', 'ament_prefix_path')
+[0.850s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[0.850s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/l0dz/SESASR-LAB/install/lab01_pkg/share/lab01_pkg/hook/ament_prefix_path.ps1'
+[0.851s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/l0dz/SESASR-LAB/install/lab01_pkg/share/lab01_pkg/hook/ament_prefix_path.dsv'
+[0.853s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/l0dz/SESASR-LAB/install/lab01_pkg/share/lab01_pkg/hook/ament_prefix_path.sh'
+[0.855s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.855s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[1.163s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/l0dz/SESASR-LAB/src/lab01_pkg'
+[1.163s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.163s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[1.571s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/l0dz/SESASR-LAB/build/lab01_pkg': PYTHONPATH=/home/l0dz/SESASR-LAB/build/lab01_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/l0dz/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/l0dz/SESASR-LAB/build/lab01_pkg/build --no-deps symlink_data
+[2.070s] Level 1:colcon.colcon_core.shell:create_environment_hook('lab01_pkg', 'pythonpath_develop')
+[2.070s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/l0dz/SESASR-LAB/build/lab01_pkg/share/lab01_pkg/hook/pythonpath_develop.ps1'
+[2.071s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/l0dz/SESASR-LAB/build/lab01_pkg' returned '0': PYTHONPATH=/home/l0dz/SESASR-LAB/build/lab01_pkg/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/l0dz/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/l0dz/SESASR-LAB/build/lab01_pkg/build --no-deps symlink_data
+[2.072s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/l0dz/SESASR-LAB/build/lab01_pkg/share/lab01_pkg/hook/pythonpath_develop.dsv'
+[2.072s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/l0dz/SESASR-LAB/build/lab01_pkg/share/lab01_pkg/hook/pythonpath_develop.sh'
+[2.075s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/lab01_pkg' for CMake module files
+[2.076s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/lab01_pkg' for CMake config files
+[2.076s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/lab01_pkg/lib'
+[2.076s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/lab01_pkg/bin'
+[2.077s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/lab01_pkg/lib/pkgconfig/lab01_pkg.pc'
+[2.077s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/lab01_pkg/lib/python3.10/site-packages'
+[2.077s] Level 1:colcon.colcon_core.shell:create_environment_hook('lab01_pkg', 'pythonpath')
+[2.077s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/l0dz/SESASR-LAB/install/lab01_pkg/share/lab01_pkg/hook/pythonpath.ps1'
+[2.078s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/l0dz/SESASR-LAB/install/lab01_pkg/share/lab01_pkg/hook/pythonpath.dsv'
+[2.078s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/l0dz/SESASR-LAB/install/lab01_pkg/share/lab01_pkg/hook/pythonpath.sh'
+[2.079s] Level 1:colcon.colcon_core.environment:checking '/home/l0dz/SESASR-LAB/install/lab01_pkg/bin'
+[2.079s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(lab01_pkg)
+[2.080s] INFO:colcon.colcon_core.shell:Creating package script '/home/l0dz/SESASR-LAB/install/lab01_pkg/share/lab01_pkg/package.ps1'
+[2.081s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/l0dz/SESASR-LAB/install/lab01_pkg/share/lab01_pkg/package.dsv'
+[2.082s] INFO:colcon.colcon_core.shell:Creating package script '/home/l0dz/SESASR-LAB/install/lab01_pkg/share/lab01_pkg/package.sh'
+[2.083s] INFO:colcon.colcon_core.shell:Creating package script '/home/l0dz/SESASR-LAB/install/lab01_pkg/share/lab01_pkg/package.bash'
+[2.084s] INFO:colcon.colcon_core.shell:Creating package script '/home/l0dz/SESASR-LAB/install/lab01_pkg/share/lab01_pkg/package.zsh'
+[2.085s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/l0dz/SESASR-LAB/install/lab01_pkg/share/colcon-core/packages/lab01_pkg)
+[2.086s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[2.086s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[2.087s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '0'
+[2.087s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[2.181s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.notify_send': Could not find 'notify-send'
+[2.181s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[2.181s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[2.181s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[2.181s] DEBUG:colcon.colcon_notification.desktop_notification.notify2:Failed to initialize notify2: org.freedesktop.DBus.Error.FileNotFound: Failed to connect to socket /run/user/1000/bus: No such file or directory
+[2.182s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[2.182s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/l0dz/SESASR-LAB/install/local_setup.ps1'
+[2.184s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/l0dz/SESASR-LAB/install/_local_setup_util_ps1.py'
+[2.185s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/l0dz/SESASR-LAB/install/setup.ps1'
+[2.187s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/l0dz/SESASR-LAB/install/local_setup.sh'
+[2.187s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/l0dz/SESASR-LAB/install/_local_setup_util_sh.py'
+[2.188s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/l0dz/SESASR-LAB/install/setup.sh'
+[2.189s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/l0dz/SESASR-LAB/install/local_setup.bash'
+[2.190s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/l0dz/SESASR-LAB/install/setup.bash'
+[2.191s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/l0dz/SESASR-LAB/install/local_setup.zsh'
+[2.192s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/l0dz/SESASR-LAB/install/setup.zsh'

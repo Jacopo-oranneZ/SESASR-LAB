@@ -1,0 +1,13 @@
+package.xml
+setup.cfg
+setup.py
+lab02_pkg/__init__.py
+lab02_pkg/controller.py
+lab02_pkg.egg-info/PKG-INFO
+lab02_pkg.egg-info/SOURCES.txt
+lab02_pkg.egg-info/dependency_links.txt
+lab02_pkg.egg-info/entry_points.txt
+lab02_pkg.egg-info/requires.txt
+lab02_pkg.egg-info/top_level.txt
+lab02_pkg.egg-info/zip-safe
+resource/lab02_pkg
