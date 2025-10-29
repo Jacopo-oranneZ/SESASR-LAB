@@ -1,1 +1,0 @@
-/home/l0dz/SESASR-LAB/src/lab02_pkg/setup.py

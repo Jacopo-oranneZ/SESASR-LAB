@@ -1,1 +1,0 @@
-/home/l0dz/SESASR-LAB/src/turtlebot3_simulations/turtlebot3_gazebo/launch/lab04.launch.py
