@@ -64,7 +64,7 @@ class Controller(Node):
         return yaw % (2*math.pi)
 
 
-    def stop_turning(self, yaw, threshold=0.5):
+    def stop_turning(self, yaw, threshold=0.25):
         self.get_logger().info(f'Current yaw: {yaw}, Target phase: {self.phase}')
         if (yaw >= self.phase - threshold and yaw<=self.phase + threshold):
             self.get_logger().info('Stopped turning')
@@ -78,14 +78,16 @@ class Controller(Node):
             self.moving_params.linear.x=self.MAX_LINEAR_VELOCITY
             self.moving_params.angular.z=0.0
 
+            if(self.wall_detector()):
+                self.get_logger().info('Wall detected')
+                self.turn()
+
         if(self.turning and self.stop_turning(self.get_yaw())):
             self.moving_params.angular.z=0.0
             self.moving_params.linear.x=self.MAX_LINEAR_VELOCITY
             self.turning=False
 
-        if(self.wall_detector() and not self.turning):
-            self.get_logger().info('Wall detected')
-            self.turn()
+        
         # self.get_logger().info(f'\# Lasers is {len(self.laser.ranges)}')
 
         self.publisher_.publish(self.moving_params)
