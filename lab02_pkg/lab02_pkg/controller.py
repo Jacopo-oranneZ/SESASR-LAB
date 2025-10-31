@@ -46,16 +46,21 @@ class Controller(Node):
 
         self.declare_parameter('linear_velocity', 0.5)
         self.MAX_LINEAR_VELOCITY = self.get_parameter('linear_velocity').get_parameter_value().double_value
-        self.declare_parameter('angular_velocity', 0.4)
+        self.declare_parameter('angular_velocity', 0.22)
         self.MAX_ANGULAR_VELOCITY = self.get_parameter('angular_velocity').get_parameter_value().double_value
 
-        timer_period = 1  # seconds
+        self.get_logger().info(f'Max Linear Velocity: {self.MAX_LINEAR_VELOCITY}')
+        self.get_logger().info(f'Max Angular Velocity: {self.MAX_ANGULAR_VELOCITY}')
+
+        timer_period = 0.1  # seconds
         self.timer = self.create_timer(timer_period, self.move)
 
 
-        self.THRESHOLD=1
-        self.theta_threshold = round(90 - math.atan(2*self.THRESHOLD/0.168)*180/math.pi)
-        self.turning=False
+        self.WALL_THRESHOLD=0.7
+        SECUIRTY_MARGIN=0.01
+        self.ANGLE_THRESHOLD=(math.atan((0.168+SECUIRTY_MARGIN)/(2*self.WALL_THRESHOLD))*180/math.pi)
+        self.angle_increment=0.0
+        self.turning=False 
 
         self.get_logger().info('Nodo controller avviato')
 
@@ -66,7 +71,7 @@ class Controller(Node):
     #     return yaw % (2*math.pi)
 
 
-    def stop_turning(self, yaw, threshold=0.25):
+    def stop_turning(self, yaw, threshold=0.1):
         self.get_logger().info(f'Current yaw: {yaw}, Target phase: {self.phase}')
         if (yaw >= self.phase - threshold and yaw<=self.phase + threshold):
             self.get_logger().info('Stopped turning')
@@ -109,12 +114,33 @@ class Controller(Node):
         self.moving_params.linear.x=0.0        
 
     def get_cone(self, center):
+        if(self.laser.angle_increment==0):
+            self.get_logger().info('Laser not ready yet')
+            return []
 
+
+        theta_threshold_low=int(self.ANGLE_THRESHOLD // self.angle_increment)
+        theta_threshold_high=int(self.ANGLE_THRESHOLD // self.angle_increment +1)
         # self.get_logger().info(f'{self.laser.ranges[1]}')
         n=len(self.laser.ranges)
-        
-        indices = [(center - self.theta_threshold + i) % n for i in range(2 * self.theta_threshold)]
+
+        if center==0:
+            self.get_logger().info(f'Getting front cone. ANGLE_THRESHOLD={self.ANGLE_THRESHOLD}°, rad: angle_min={self.laser.angle_min}, angle_max={self.laser.angle_max}, angle_increment={self.laser.angle_increment}')
+            min_=int((self.ANGLE_THRESHOLD-self.laser.angle_min *(180/math.pi))//self.angle_increment)%360
+            max_=int((self.ANGLE_THRESHOLD-self.laser.angle_max*(180/math.pi))//self.angle_increment)%360
+
+            self.get_logger().info(f'Getting indices from {center - min_} to {center + max_}')
+            indices = [(center - min_ + i) % n for i in range(min_ + max_)]
+            result = [self.laser.ranges[i] for i in indices]
+
+            return result
+
+
+        self.get_logger().info(f'Getting indices from {center-theta_threshold_low} to {center + theta_threshold_high}')
+
+        indices = [(center - theta_threshold_low + i) % n for i in range(theta_threshold_low + theta_threshold_high)]
         result = [self.laser.ranges[i] for i in indices]
+
 
         # self.get_logger().info(f'\n\nLASER RANGES\n{self.laser.ranges[center-self.theta_threshold:center]} and {self.laser.ranges[center:center+self.theta_threshold]}\n\n\n')
         
@@ -128,7 +154,7 @@ class Controller(Node):
         
         if self.turning==True: return False
         # self.get_logger().info(f'\n\n\n"{self.get_cone(0)}"\n\n\n')
-        if np.mean(self.get_cone(0))< self.THRESHOLD:
+        if np.mean(self.get_cone(0))< self.WALL_THRESHOLD:
             return True
         
         return False
@@ -137,6 +163,8 @@ class Controller(Node):
 
     def listener_scan(self, msg):
         self.laser=msg
+        # self.get_logger().info(f'\nMinimum angle:{msg.angle_min}\nAngle increment:{msg.angle_increment*(180/math.pi)}\nMaximum angle:{msg.angle_max}\n')
+        self.angle_increment=msg.angle_increment*(180/math.pi)
         # self.get_logger().info(f'Laser: {self.laser}')
         # Get useful laser data
 
@@ -145,7 +173,9 @@ class Controller(Node):
         quaternion = msg.pose.pose.orientation
         quat = [quaternion.x, quaternion.y, quaternion.z, quaternion.w]
         (_, _, yaw) = tf_transformations.euler_from_quaternion(quat)
-        self.odom = (position.x, position.y, yaw)
+        self.odom = (position.x, position.y, yaw % (2*math.pi))
+       
+
 
        
     def listener_real(self, msg):
@@ -153,8 +183,9 @@ class Controller(Node):
         quaternion = msg.pose.pose.orientation
         quat = [quaternion.x, quaternion.y, quaternion.z, quaternion.w]
         (_, _, yaw) = tf_transformations.euler_from_quaternion(quat)
-        self.real = (position.x, position.y, yaw)
-        
+        self.real = (position.x, position.y, yaw % (2*math.pi))
+
+
     def acc_error(self):
         # We compute the value of dx, dy and dtheta
         dx = self.real[0] - self.odom[0]
