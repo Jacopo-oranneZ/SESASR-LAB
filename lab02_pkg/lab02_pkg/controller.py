@@ -1,0 +1,184 @@
+# Copyright 2016 Open Source Robotics Foundation, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import rclpy
+import math
+import numpy as np
+from rclpy.node import Node
+import tf_transformations
+
+from geometry_msgs.msg import Twist
+from nav_msgs.msg import Odometry
+from sensor_msgs.msg import LaserScan
+from rclpy.qos import qos_profile_sensor_data
+
+class Controller(Node):
+
+    def __init__(self):
+        super().__init__('controller')
+        
+        #Publisher part
+        self.publisher_ = self.create_publisher(Twist, '/cmd_vel', 10)
+        # self.message = Twist()
+
+        #Subscriber part
+        self.create_subscription(LaserScan, "scan", self.listener_scan, qos_profile_sensor_data)
+        self.create_subscription(Odometry, '/odom', self.listener_odom, 10)
+        self.create_subscription(Odometry, '/ground_truth', self.listener_real, 10)
+        self.laser = LaserScan()
+        self.odom = Odometry()        
+        self.real = Odometry()
+        self.moving_params=Twist()
+
+        #Current phase
+        self.phase=0
+
+        self.declare_parameter('linear_velocity', 0.5)
+        self.MAX_LINEAR_VELOCITY = self.get_parameter('linear_velocity').get_parameter_value().double_value
+        self.declare_parameter('angular_velocity', 0.22)
+        self.MAX_ANGULAR_VELOCITY = self.get_parameter('angular_velocity').get_parameter_value().double_value
+
+        self.get_logger().info(f'Max Linear Velocity: {self.MAX_LINEAR_VELOCITY}')
+        self.get_logger().info(f'Max Angular Velocity: {self.MAX_ANGULAR_VELOCITY}')
+
+        timer_period = 0.1  # seconds
+        self.timer = self.create_timer(timer_period, self.move)
+
+
+        self.THRESHOLD=1
+        self.theta_threshold = math.floor((90 - math.atan(2*self.THRESHOLD/0.168)*180/math.pi)+1)
+        self.turning=False
+
+        self.get_logger().info('Nodo controller avviato')
+
+    # def get_yaw(self):
+    #     quaternion = self.odom.pose.pose.orientation
+    #     quat = [quaternion.x, quaternion.y, quaternion.z, quaternion.w]
+    #     _, _, yaw = tf_transformations.euler_from_quaternion(quat)
+    #     return yaw % (2*math.pi)
+
+
+    def stop_turning(self, yaw, threshold=0.1):
+        self.get_logger().info(f'Current yaw: {yaw}, Target phase: {self.phase}')
+        if (yaw >= self.phase - threshold and yaw<=self.phase + threshold):
+            self.get_logger().info('Stopped turning')
+            return True
+        return False
+
+    
+    def move(self):
+
+        if (not self.turning):
+            self.moving_params.linear.x=self.MAX_LINEAR_VELOCITY
+            self.moving_params.angular.z=0.0
+
+            if(self.wall_detector()):
+                self.get_logger().info('Wall detected')
+                self.turn()
+
+        if(self.turning and self.stop_turning(self.odom[2])):
+            self.moving_params.angular.z=0.0
+            self.moving_params.linear.x=self.MAX_LINEAR_VELOCITY
+            self.turning=False
+
+        
+        # self.get_logger().info(f'\# Lasers is {len(self.laser.ranges)}')
+        self.acc_error()
+        self.publisher_.publish(self.moving_params)
+
+
+    def turn(self):
+        self.turning=True
+        if np.mean(self.get_cone(90))> np.mean(self.get_cone(270)):
+            self.get_logger().info('Turning left')
+            self.moving_params.angular.z=self.MAX_ANGULAR_VELOCITY
+            self.phase = (self.phase + (math.pi/2)) % (2*math.pi)
+        else:
+            self.get_logger().info('Turning right')
+            self.moving_params.angular.z=-self.MAX_ANGULAR_VELOCITY
+            self.phase = (self.phase + (3*math.pi/2)) % (2*math.pi)
+            
+        self.moving_params.linear.x=0.0        
+
+    def get_cone(self, center):
+
+        # self.get_logger().info(f'{self.laser.ranges[1]}')
+        n=len(self.laser.ranges)
+        try:
+            indices = [(center - self.theta_threshold + i) % n for i in range(2 * self.theta_threshold)]
+            result = [self.laser.ranges[i] for i in indices]
+        except ZeroDivisionError:
+            self.get_logger().info('Laser scan data not available yet')
+
+        # self.get_logger().info(f'\n\nLASER RANGES\n{self.laser.ranges[center-self.theta_threshold:center]} and {self.laser.ranges[center:center+self.theta_threshold]}\n\n\n')
+        
+        # self.get_logger().info(
+        #     f'LASER CONE center={center} thr={self.theta_threshold} values_sample={result[:8]}')
+
+        return result
+
+
+    def wall_detector(self):
+        
+        if self.turning==True: return False
+        # self.get_logger().info(f'\n\n\n"{self.get_cone(0)}"\n\n\n')
+        if np.mean(self.get_cone(0))< self.THRESHOLD:
+            return True
+        
+        return False
+
+
+
+    def listener_scan(self, msg):
+        self.laser=msg
+        # self.get_logger().info(f'Laser: {self.laser}')
+        # Get useful laser data
+
+    def listener_odom(self, msg):
+        position = msg.pose.pose.position
+        quaternion = msg.pose.pose.orientation
+        quat = [quaternion.x, quaternion.y, quaternion.z, quaternion.w]
+        (_, _, yaw) = tf_transformations.euler_from_quaternion(quat)
+        self.odom = (position.x, position.y, yaw % (2*math.pi))
+
+       
+    def listener_real(self, msg):
+        position = msg.pose.pose.position
+        quaternion = msg.pose.pose.orientation
+        quat = [quaternion.x, quaternion.y, quaternion.z, quaternion.w]
+        (_, _, yaw) = tf_transformations.euler_from_quaternion(quat)
+        self.real = (position.x, position.y, yaw % (2*math.pi))
+        
+    def acc_error(self):
+        # We compute the value of dx, dy and dtheta
+        dx = self.real[0] - self.odom[0]
+        dy = self.real[1] - self.odom[1]
+        dtheta = self.real[2] - self.odom[2]
+        # We compute the distance determined by components dx and dy
+        pos_error = (dx**2 + dy**2)**0.5 
+        self.get_logger().info(f'Odometry Error: {pos_error:.3f} m, Yaw Error: {dtheta:.3f} rad')    
+        
+
+
+
+def main (args=None):
+
+    rclpy.init(args=args)
+    controller = Controller()
+    rclpy.spin(controller)
+    controller.destroy_node
+    rclpy.shutdown()
+
+if __name__=='__main__':
+    main()
