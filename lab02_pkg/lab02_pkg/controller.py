@@ -34,9 +34,11 @@ class Controller(Node):
 
         #Subscriber part
         self.create_subscription(LaserScan, "scan", self.listener_scan, qos_profile_sensor_data)
-        self.subscription = self.create_subscription(Odometry, '/odom', self.listener_odom, 10)
+        self.create_subscription(Odometry, '/odom', self.listener_odom, 10)
+        self.create_subscription(Odometry, '/ground_truth', self.listener_real, 10)
         self.laser = LaserScan()
         self.odom = Odometry()        
+        self.real = Odometry()
         self.moving_params=Twist()
 
         #Current phase
@@ -57,11 +59,11 @@ class Controller(Node):
 
         self.get_logger().info('Nodo controller avviato')
 
-    def get_yaw(self):
-        quaternion = self.odom.pose.pose.orientation
-        quat = [quaternion.x, quaternion.y, quaternion.z, quaternion.w]
-        _, _, yaw = tf_transformations.euler_from_quaternion(quat)
-        return yaw % (2*math.pi)
+    # def get_yaw(self):
+    #     quaternion = self.odom.pose.pose.orientation
+    #     quat = [quaternion.x, quaternion.y, quaternion.z, quaternion.w]
+    #     _, _, yaw = tf_transformations.euler_from_quaternion(quat)
+    #     return yaw % (2*math.pi)
 
 
     def stop_turning(self, yaw, threshold=0.25):
@@ -82,14 +84,14 @@ class Controller(Node):
                 self.get_logger().info('Wall detected')
                 self.turn()
 
-        if(self.turning and self.stop_turning(self.get_yaw())):
+        if(self.turning and self.stop_turning(self.odom[2])):
             self.moving_params.angular.z=0.0
             self.moving_params.linear.x=self.MAX_LINEAR_VELOCITY
             self.turning=False
 
         
         # self.get_logger().info(f'\# Lasers is {len(self.laser.ranges)}')
-
+        self.acc_error()
         self.publisher_.publish(self.moving_params)
 
 
@@ -138,13 +140,29 @@ class Controller(Node):
         # self.get_logger().info(f'Laser: {self.laser}')
         # Get useful laser data
 
-
-
     def listener_odom(self, msg):
-        self.odom=msg
-        # self.get_logger().info(f'Odometry: {self.odom}')
+        position = msg.pose.pose.position
+        quaternion = msg.pose.pose.orientation
+        quat = [quaternion.x, quaternion.y, quaternion.z, quaternion.w]
+        (_, _, yaw) = tf_transformations.euler_from_quaternion(quat)
+        self.odom = (position.x, position.y, yaw)
+
+       
+    def listener_real(self, msg):
+        position = msg.pose.pose.position
+        quaternion = msg.pose.pose.orientation
+        quat = [quaternion.x, quaternion.y, quaternion.z, quaternion.w]
+        (_, _, yaw) = tf_transformations.euler_from_quaternion(quat)
+        self.real = (position.x, position.y, yaw)
         
-        
+    def acc_error(self):
+        # We compute the value of dx, dy and dtheta
+        dx = self.real[0] - self.odom[0]
+        dy = self.real[1] - self.odom[1]
+        dtheta = self.real[2] - self.odom[2]
+        # We compute the distance determined by components dx and dy
+        pos_error = (dx**2 + dy**2)**0.5 
+        self.get_logger().info(f'Odometry Error: {pos_error:.3f} m, Yaw Error: {dtheta:.3f} rad')    
         
 
 
