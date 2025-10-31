@@ -34,9 +34,11 @@ class Controller(Node):
 
         #Subscriber part
         self.create_subscription(LaserScan, "scan", self.listener_scan, qos_profile_sensor_data)
-        self.subscription = self.create_subscription(Odometry, '/odom', self.listener_odom, 10)
+        self.create_subscription(Odometry, '/odom', self.listener_odom, 10)
+        self.create_subscription(Odometry, '/ground_truth', self.listener_real, 10)
         self.laser = LaserScan()
         self.odom = Odometry()        
+        self.real = Odometry()
         self.moving_params=Twist()
 
         #Current phase
@@ -44,27 +46,30 @@ class Controller(Node):
 
         self.declare_parameter('linear_velocity', 0.5)
         self.MAX_LINEAR_VELOCITY = self.get_parameter('linear_velocity').get_parameter_value().double_value
-        self.declare_parameter('angular_velocity', 0.4)
+        self.declare_parameter('angular_velocity', 0.22)
         self.MAX_ANGULAR_VELOCITY = self.get_parameter('angular_velocity').get_parameter_value().double_value
 
-        timer_period = 1  # seconds
+        self.get_logger().info(f'Max Linear Velocity: {self.MAX_LINEAR_VELOCITY}')
+        self.get_logger().info(f'Max Angular Velocity: {self.MAX_ANGULAR_VELOCITY}')
+
+        timer_period = 0.1  # seconds
         self.timer = self.create_timer(timer_period, self.move)
 
 
         self.THRESHOLD=1
-        self.theta_threshold = round(90 - math.atan(2*self.THRESHOLD/0.168)*180/math.pi)
+        self.theta_threshold = math.floor((90 - math.atan(2*self.THRESHOLD/0.168)*180/math.pi)+1)
         self.turning=False
 
         self.get_logger().info('Nodo controller avviato')
 
-    def get_yaw(self):
-        quaternion = self.odom.pose.pose.orientation
-        quat = [quaternion.x, quaternion.y, quaternion.z, quaternion.w]
-        _, _, yaw = tf_transformations.euler_from_quaternion(quat)
-        return yaw % (2*math.pi)
+    # def get_yaw(self):
+    #     quaternion = self.odom.pose.pose.orientation
+    #     quat = [quaternion.x, quaternion.y, quaternion.z, quaternion.w]
+    #     _, _, yaw = tf_transformations.euler_from_quaternion(quat)
+    #     return yaw % (2*math.pi)
 
 
-    def stop_turning(self, yaw, threshold=0.25):
+    def stop_turning(self, yaw, threshold=0.1):
         self.get_logger().info(f'Current yaw: {yaw}, Target phase: {self.phase}')
         if (yaw >= self.phase - threshold and yaw<=self.phase + threshold):
             self.get_logger().info('Stopped turning')
@@ -82,14 +87,14 @@ class Controller(Node):
                 self.get_logger().info('Wall detected')
                 self.turn()
 
-        if(self.turning and self.stop_turning(self.get_yaw())):
+        if(self.turning and self.stop_turning(self.odom[2])):
             self.moving_params.angular.z=0.0
             self.moving_params.linear.x=self.MAX_LINEAR_VELOCITY
             self.turning=False
 
         
         # self.get_logger().info(f'\# Lasers is {len(self.laser.ranges)}')
-
+        self.acc_error()
         self.publisher_.publish(self.moving_params)
 
 
@@ -110,9 +115,11 @@ class Controller(Node):
 
         # self.get_logger().info(f'{self.laser.ranges[1]}')
         n=len(self.laser.ranges)
-
-        indices = [(center - self.theta_threshold + i) % n for i in range(2 * self.theta_threshold)]
-        result = [self.laser.ranges[i] for i in indices]
+        try:
+            indices = [(center - self.theta_threshold + i) % n for i in range(2 * self.theta_threshold)]
+            result = [self.laser.ranges[i] for i in indices]
+        except ZeroDivisionError:
+            self.get_logger().info('Laser scan data not available yet')
 
         # self.get_logger().info(f'\n\nLASER RANGES\n{self.laser.ranges[center-self.theta_threshold:center]} and {self.laser.ranges[center:center+self.theta_threshold]}\n\n\n')
         
@@ -138,13 +145,29 @@ class Controller(Node):
         # self.get_logger().info(f'Laser: {self.laser}')
         # Get useful laser data
 
-
-
     def listener_odom(self, msg):
-        self.odom=msg
-        # self.get_logger().info(f'Odometry: {self.odom}')
+        position = msg.pose.pose.position
+        quaternion = msg.pose.pose.orientation
+        quat = [quaternion.x, quaternion.y, quaternion.z, quaternion.w]
+        (_, _, yaw) = tf_transformations.euler_from_quaternion(quat)
+        self.odom = (position.x, position.y, yaw % (2*math.pi))
+
+       
+    def listener_real(self, msg):
+        position = msg.pose.pose.position
+        quaternion = msg.pose.pose.orientation
+        quat = [quaternion.x, quaternion.y, quaternion.z, quaternion.w]
+        (_, _, yaw) = tf_transformations.euler_from_quaternion(quat)
+        self.real = (position.x, position.y, yaw % (2*math.pi))
         
-        
+    def acc_error(self):
+        # We compute the value of dx, dy and dtheta
+        dx = self.real[0] - self.odom[0]
+        dy = self.real[1] - self.odom[1]
+        dtheta = self.real[2] - self.odom[2]
+        # We compute the distance determined by components dx and dy
+        pos_error = (dx**2 + dy**2)**0.5 
+        self.get_logger().info(f'Odometry Error: {pos_error:.3f} m, Yaw Error: {dtheta:.3f} rad')    
         
 
 
