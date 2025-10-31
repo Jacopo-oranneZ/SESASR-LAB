@@ -57,7 +57,7 @@ class Controller(Node):
 
 
         self.THRESHOLD=1
-        self.theta_threshold = round(90 - math.atan(2*self.THRESHOLD/0.168)*180/math.pi)
+        self.theta_threshold = math.floor((90 - math.atan(2*self.THRESHOLD/0.168)*180/math.pi)+1)
         self.turning=False
 
         self.get_logger().info('Nodo controller avviato')
