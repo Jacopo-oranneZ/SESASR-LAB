@@ -57,8 +57,8 @@ class Controller(Node):
 
 
         self.WALL_THRESHOLD=0.7
-        security_margin=0.01
-        self.angle_threshold=(math.atan((0.168+security_margin)/(2*self.WALL_THRESHOLD))*180/math.pi)
+        SECUIRTY_MARGIN=0.01
+        self.ANGLE_THRESHOLD=(math.atan((0.168+SECUIRTY_MARGIN)/(2*self.WALL_THRESHOLD))*180/math.pi)
         self.angle_increment=0.0
         self.turning=False 
 
@@ -119,15 +119,15 @@ class Controller(Node):
             return []
 
 
-        theta_threshold_low=int(self.angle_threshold // self.angle_increment)
-        theta_threshold_high=int(self.angle_threshold // self.angle_increment +1)
+        theta_threshold_low=int(self.ANGLE_THRESHOLD // self.angle_increment)
+        theta_threshold_high=int(self.ANGLE_THRESHOLD // self.angle_increment +1)
         # self.get_logger().info(f'{self.laser.ranges[1]}')
         n=len(self.laser.ranges)
 
         if center==0:
-            self.get_logger().info(f'Getting front cone. angle_threshold={self.angle_threshold}°, rad: angle_min={self.laser.angle_min}, angle_max={self.laser.angle_max}, angle_increment={self.laser.angle_increment}')
-            min_=int((self.angle_threshold-self.laser.angle_min *(180/math.pi))//self.angle_increment)%360
-            max_=int((self.angle_threshold-self.laser.angle_max*(180/math.pi))//self.angle_increment)%360
+            self.get_logger().info(f'Getting front cone. ANGLE_THRESHOLD={self.ANGLE_THRESHOLD}°, rad: angle_min={self.laser.angle_min}, angle_max={self.laser.angle_max}, angle_increment={self.laser.angle_increment}')
+            min_=int((self.ANGLE_THRESHOLD-self.laser.angle_min *(180/math.pi))//self.angle_increment)%360
+            max_=int((self.ANGLE_THRESHOLD-self.laser.angle_max*(180/math.pi))//self.angle_increment)%360
 
             self.get_logger().info(f'Getting indices from {center - min_} to {center + max_}')
             indices = [(center - min_ + i) % n for i in range(min_ + max_)]
