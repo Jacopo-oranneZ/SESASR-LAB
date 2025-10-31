@@ -112,7 +112,7 @@ class Controller(Node):
 
         # self.get_logger().info(f'{self.laser.ranges[1]}')
         n=len(self.laser.ranges)
-
+        
         indices = [(center - self.theta_threshold + i) % n for i in range(2 * self.theta_threshold)]
         result = [self.laser.ranges[i] for i in indices]
 
