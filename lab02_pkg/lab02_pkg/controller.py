@@ -34,7 +34,7 @@ class Controller(Node):
         self.publisher_ = self.create_publisher(Twist, '/cmd_vel', 10)
 
         # Subscriber part
-        self.create_subscription(LaserScan, "scan", self.listener_scan, qos_profile_sensor_data)
+        self.create_subscription(LaserScan, "/scan", self.listener_scan, qos_profile_sensor_data)
         self.create_subscription(Odometry, '/odom', self.listener_odom, 10)
         self.create_subscription(Odometry, '/ground_truth', self.listener_real, 10)
 
@@ -56,13 +56,14 @@ class Controller(Node):
         self.get_logger().info(f'Max Angular Velocity: {self.MAX_ANGULAR_VELOCITY}')
 
         # Timer part
-        timer_period = 0.1  # seconds
+        timer_period = 1  # seconds
         self.timer = self.create_timer(timer_period, self.move)
 
         # Wall detection settings
-        self.WALL_THRESHOLD=0.7
+        self.WALL_THRESHOLD=1
+        self.robot_dimension=0.168
         SECURITY_MARGIN=0.01 
-        self.ANGLE_THRESHOLD=(math.atan((0.168+SECURITY_MARGIN)/(2*self.WALL_THRESHOLD))*180/math.pi)
+        self.ANGLE_THRESHOLD=(math.atan((self.robot_dimension+SECURITY_MARGIN)/(2*self.WALL_THRESHOLD))*180/math.pi)
         self.angle_increment=0.0 # To be set when the laser data arrives. If 0, laser not ready yet.
         self.turning=False # Flag to indicate if the robot is currently turning
 
@@ -71,7 +72,7 @@ class Controller(Node):
 
 
     # Function to determine if the robot should stop turning based on its current yaw and target phase
-    def stop_turning(self, yaw, threshold=0.1):
+    def stop_turning(self, yaw, threshold=0.05):
         self.get_logger().info(f'Current yaw: {yaw}, Target phase: {self.phase}')
         if (yaw >= self.phase - threshold and yaw<=self.phase + threshold): 
             self.get_logger().info('Stopped turning')
