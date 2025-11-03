@@ -60,8 +60,10 @@ class Controller(Node):
         self.timer = self.create_timer(timer_period, self.move)
 
         # Wall detection settings
-        self.WALL_THRESHOLD=1
-        self.robot_dimension=0.168
+        self.TURNING_THRESHOLD=max((self.MAX_ANGULAR_VELOCITY*timer_period), math.radians(3.0))# Threshold to determine when to stop turning
+        self.get_logger().info(f'Turning threshold: {self.TURNING_THRESHOLD*180/math.pi} degrees')
+        self.WALL_THRESHOLD=0.7
+
         SECURITY_MARGIN=0.01 
         self.ANGLE_THRESHOLD=(math.atan((self.robot_dimension+SECURITY_MARGIN)/(2*self.WALL_THRESHOLD))*180/math.pi)
         self.angle_increment=0.0 # To be set when the laser data arrives. If 0, laser not ready yet.
@@ -72,12 +74,22 @@ class Controller(Node):
 
 
     # Function to determine if the robot should stop turning based on its current yaw and target phase
-    def stop_turning(self, yaw, threshold=0.05):
-        self.get_logger().info(f'Current yaw: {yaw}, Target phase: {self.phase}')
-        if (yaw >= self.phase - threshold and yaw<=self.phase + threshold): 
+    def stop_turning(self, yaw):
+        # normalize angles to [0, 2π)
+        yaw = yaw % (2 * math.pi)
+        target = self.phase % (2 * math.pi)
+
+        # signed shortest difference in [-π, π]
+        diff = (target - yaw + math.pi) % (2 * math.pi) - math.pi
+
+        self.get_logger().info(f'Current yaw: {yaw*180/math.pi:.1f}°, Target phase: {target*180/math.pi:.1f}°, err={diff*180/math.pi:.1f}°')
+
+        if abs(diff) <= self.TURNING_THRESHOLD:
             self.get_logger().info('Stopped turning')
             return True
         return False
+
+
 
     # Main movement function called by the timer
     def move(self):
@@ -101,8 +113,10 @@ class Controller(Node):
 
         
         # self.get_logger().info(f'\# Lasers is {len(self.laser.ranges)}')
-        self.acc_error() # Compute accumulated error between odometry and ground truth
         self.publisher_.publish(self.moving_params) # Publish movement commands
+        self.acc_error() # Compute accumulated error between odometry and ground truth
+
+       
 
     # Function to initiate a turn based on which side has a larger average laser distance: it determines whether to turn left or right
     def turn(self):
@@ -133,18 +147,18 @@ class Controller(Node):
 
         # Special case for front cone (center=0). In this case, we have to consider that the indices wrap around.
         if center==0:
-            self.get_logger().info(f'Getting front cone. ANGLE_THRESHOLD={self.ANGLE_THRESHOLD}°, rad: angle_min={self.laser.angle_min}, angle_max={self.laser.angle_max}, angle_increment={self.laser.angle_increment}')
+            # self.get_logger().info(f'Getting front cone. ANGLE_THRESHOLD={self.ANGLE_THRESHOLD}°, rad: angle_min={self.laser.angle_min}, angle_max={self.laser.angle_max}, angle_increment={self.laser.angle_increment}')
             min_=int((self.ANGLE_THRESHOLD-self.laser.angle_min *(180/math.pi))//self.angle_increment)%360  # number of indices on the left side of the front
             max_=int((self.ANGLE_THRESHOLD-self.laser.angle_max*(180/math.pi))//self.angle_increment)%360   # number of indices on the right side of the front
 
-            self.get_logger().info(f'Getting indices from {center - min_} to {center + max_}')
+            # self.get_logger().info(f'Getting indices from {center - min_} to {center + max_}')
             indices = [(center - min_ + i) % n for i in range(min_ + max_)]     # indices from center - min_ to center + max_, form left to right
             result = [self.laser.ranges[i] for i in indices]
 
             return result
 
         # General case for other cones.
-        self.get_logger().info(f'Getting indices from {center-theta_threshold_low} to {center + theta_threshold_high}')
+        # self.get_logger().info(f'Getting indices from {center-theta_threshold_low} to {center + theta_threshold_high}')
         indices = [(center - theta_threshold_low + i) % n for i in range(theta_threshold_low + theta_threshold_high)]
         result = [self.laser.ranges[i] for i in indices]
 
