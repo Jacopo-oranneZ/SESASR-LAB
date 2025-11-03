@@ -14,6 +14,7 @@
 
 import rclpy
 import math
+from datetime import datetime
 import numpy as np
 from rclpy.node import Node
 import tf_transformations
@@ -60,7 +61,7 @@ class Controller(Node):
         self.timer = self.create_timer(timer_period, self.move)
 
         # Wall detection settings
-        self.TURNING_THRESHOLD=max((self.MAX_ANGULAR_VELOCITY*timer_period), math.radians(3.0))# Threshold to determine when to stop turning
+        self.TURNING_THRESHOLD=math.radians(5)#max((self.MAX_ANGULAR_VELOCITY*timer_period), math.radians(3.5))# Threshold to determine when to stop turning
         self.get_logger().info(f'Turning threshold: {self.TURNING_THRESHOLD*180/math.pi} degrees')
         self.WALL_THRESHOLD=0.7
 
@@ -82,10 +83,11 @@ class Controller(Node):
         # signed shortest difference in [-π, π]
         diff = (target - yaw + math.pi) % (2 * math.pi) - math.pi
 
-        self.get_logger().info(f'Current yaw: {yaw*180/math.pi:.1f}°, Target phase: {target*180/math.pi:.1f}°, err={diff*180/math.pi:.1f}°')
+        # self.get_logger().info(f'Current yaw: {yaw*180/math.pi:.1f}°, Target phase: {target*180/math.pi:.1f}°, err={diff*180/math.pi:.1f}°')
 
         if abs(diff) <= self.TURNING_THRESHOLD:
             self.get_logger().info('Stopped turning')
+            self.get_logger().info(f'Current time after noticing: {datetime.now()}')
             return True
         return False
 
@@ -114,6 +116,8 @@ class Controller(Node):
         
         # self.get_logger().info(f'\# Lasers is {len(self.laser.ranges)}')
         self.publisher_.publish(self.moving_params) # Publish movement commands
+        self.get_logger().info(f'Current time after publish: {datetime.now()}')
+
         self.acc_error() # Compute accumulated error between odometry and ground truth
 
        
@@ -121,6 +125,8 @@ class Controller(Node):
     # Function to initiate a turn based on which side has a larger average laser distance: it determines whether to turn left or right
     def turn(self):
         self.turning=True 
+        self.moving_params.linear.x=0.0 # Stop linear movement while turning
+        
         if np.mean(self.get_cone(90))> np.mean(self.get_cone(270)): # Turn left
             self.get_logger().info('Turning left')
             self.moving_params.angular.z=self.MAX_ANGULAR_VELOCITY
@@ -130,7 +136,7 @@ class Controller(Node):
             self.moving_params.angular.z=-self.MAX_ANGULAR_VELOCITY
             self.phase = (self.phase + (3*math.pi/2)) % (2*math.pi) # Update target phase after turning right
          # Note that every phase is divided by pi/2 to keep it between 0 and 2pi    
-        self.moving_params.linear.x=0.0 # Stop linear movement while turning
+        
 
     # Function to get laser readings within a cone centered at a given angle
     def get_cone(self, center):
