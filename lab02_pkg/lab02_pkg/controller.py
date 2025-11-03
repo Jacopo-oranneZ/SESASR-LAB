@@ -32,7 +32,6 @@ class Controller(Node):
 
         # Publisher part
         self.publisher_ = self.create_publisher(Twist, '/cmd_vel', 10)
-        #$ self.message = Twist()
 
         # Subscriber part
         self.create_subscription(LaserScan, "scan", self.listener_scan, qos_profile_sensor_data)
@@ -66,14 +65,10 @@ class Controller(Node):
         self.ANGLE_THRESHOLD=(math.atan((0.168+SECURITY_MARGIN)/(2*self.WALL_THRESHOLD))*180/math.pi)
         self.angle_increment=0.0 # To be set when the laser data arrives. If 0, laser not ready yet.
         self.turning=False # Flag to indicate if the robot is currently turning
+
         # Log node start
         self.get_logger().info('Nodo controller avviato')
 
-    #$ def get_yaw(self):
-    #$    quaternion = self.odom.pose.pose.orientation
-    #$     quat = [quaternion.x, quaternion.y, quaternion.z, quaternion.w]
-    #$     _, _, yaw = tf_transformations.euler_from_quaternion(quat)
-    #$     return yaw % (2*math.pi)
 
     # Function to determine if the robot should stop turning based on its current yaw and target phase
     def stop_turning(self, yaw, threshold=0.1):
@@ -133,7 +128,6 @@ class Controller(Node):
         # the index does not correspond directly to the angle in degrees.
         theta_threshold_low=int(self.ANGLE_THRESHOLD // self.angle_increment) 
         theta_threshold_high=int(self.ANGLE_THRESHOLD // self.angle_increment +1) # +1 to include every angle < angle_threshold because index 0 corresponds to an angle greater than 0°
-        #$ self.get_logger().info(f'{self.laser.ranges[1]}')
         n=len(self.laser.ranges) # Total number of laser readings, different from 360
 
         # Special case for front cone (center=0). In this case, we have to consider that the indices wrap around.
@@ -153,18 +147,12 @@ class Controller(Node):
         indices = [(center - theta_threshold_low + i) % n for i in range(theta_threshold_low + theta_threshold_high)]
         result = [self.laser.ranges[i] for i in indices]
 
-
-        #$ self.get_logger().info(f'\n\nLASER RANGES\n{self.laser.ranges[center-self.theta_threshold:center]} and {self.laser.ranges[center:center+self.theta_threshold]}\n\n\n')
-        
-        #$ self.get_logger().info(
-        #$     f'LASER CONE center={center} thr={self.theta_threshold} values_sample={result[:8]}')
-
         return result
 
     # Function to detect if there is a wall in front of the robot
     def wall_detector(self):      
         if self.turning==True: return False     # If the robot is already turning, do not detect walls
-        # self.get_logger().info(f'\n\n\n"{self.get_cone(0)}"\n\n\n')
+
         if np.mean(self.get_cone(0))< self.WALL_THRESHOLD:
             return True
         
@@ -173,9 +161,7 @@ class Controller(Node):
     # Callback function for laser scan data
     def listener_scan(self, msg):
         self.laser=msg
-        #$ self.get_logger().info(f'\nMinimum angle:{msg.angle_min}\nAngle increment:{msg.angle_increment*(180/math.pi)}\nMaximum angle:{msg.angle_max}\n')
         self.angle_increment=msg.angle_increment*(180/math.pi)
-        #$ self.get_logger().info(f'Laser: {self.laser}')
 
     # Callback function for odometry data
     def listener_odom(self, msg):
@@ -195,10 +181,12 @@ class Controller(Node):
 
     # Function that computes the accumulated error between odometry and ground truth, providing an indication of odometry accuracy
     def acc_error(self):
+
         # We compute the value of dx, dy and dtheta
         dx = self.real[0] - self.odom[0]
         dy = self.real[1] - self.odom[1]
         dtheta = self.real[2] - self.odom[2]
+
         # We compute the distance determined by the components dx and dy
         pos_error = (dx**2 + dy**2)**0.5 
         self.get_logger().info(f'Odometry Error: {pos_error:.3f} m, Yaw Error: {dtheta:.3f} rad')    
