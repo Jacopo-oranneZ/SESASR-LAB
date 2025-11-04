@@ -1,10 +1,2 @@
-*
-!.gitignore
-
-!src/
-
-!src/lab01_pkg/
-!src/lab02_pkg/
-
-!src/lab01_pkg/**
-!src/lab02_pkg/**
+turtlebot3_simulations/
+lab01_pkg/lab01_pkg/__pycache__/
