@@ -63,7 +63,7 @@ class Controller(Node):
         self.TURNING_THRESHOLD=max((self.MAX_ANGULAR_VELOCITY*timer_period), math.radians(3.0))# Threshold to determine when to stop turning
         self.get_logger().info(f'Turning threshold: {self.TURNING_THRESHOLD*180/math.pi} degrees')
         self.WALL_THRESHOLD=0.7
-
+        self.robot_dimension=0.168
         SECURITY_MARGIN=0.01 
         self.ANGLE_THRESHOLD=(math.atan((self.robot_dimension+SECURITY_MARGIN)/(2*self.WALL_THRESHOLD))*180/math.pi)
         self.angle_increment=0.0 # To be set when the laser data arrives. If 0, laser not ready yet.
@@ -152,7 +152,7 @@ class Controller(Node):
             max_=int((self.ANGLE_THRESHOLD-self.laser.angle_max*(180/math.pi))//self.angle_increment)%360   # number of indices on the right side of the front
 
             # self.get_logger().info(f'Getting indices from {center - min_} to {center + max_}')
-            indices = [(center - min_ + i) % n for i in range(min_ + max_)]     # indices from center - min_ to center + max_, form left to right
+            indices = [(center - max_ + i) % n for i in range(min_ + max_)]     # indices from center - min_ to center + max_, form left to right
             result = [self.laser.ranges[i] for i in indices]
 
             return result
