@@ -35,20 +35,20 @@ class Controller(Node):
         self.publisher_ = self.create_publisher(Twist, '/cmd_vel', 10)
 
         # Subscriber part
-        self.create_subscription(LaserScan, "scan", self.listener_scan, qos_profile_sensor_data)
+        self.create_subscription(LaserScan, "/scan", self.listener_scan, qos_profile_sensor_data)
         self.create_subscription(Odometry, '/odom', self.listener_odom, 10)
-        self.create_subscription(Odometry, '/ground_truth', self.listener_real, 10)
+        # self.create_subscription(Odometry, '/ground_truth', self.listener_real, 10)
 
         # Internal variables
         self.laser = LaserScan()
         self.odom = Odometry()        
-        self.real = Odometry()
+        # self.real = Odometry()
         self.moving_params=Twist()
         # Current phase. It upgrades and indicates the robot orientation after a turn.
         self.phase=0
 
         # Parameters part
-        self.declare_parameter('linear_velocity', 0.5)
+        self.declare_parameter('linear_velocity', 0.3)
         self.MAX_LINEAR_VELOCITY = self.get_parameter('linear_velocity').get_parameter_value().double_value
         self.declare_parameter('angular_velocity', 0.22)
         self.MAX_ANGULAR_VELOCITY = self.get_parameter('angular_velocity').get_parameter_value().double_value
@@ -95,6 +95,7 @@ class Controller(Node):
 
     # Main movement function called by the timer
     def move(self):
+        
         # If the robot is not currently turning, move forward
         if (not self.turning): 
             self.moving_params.linear.x=self.MAX_LINEAR_VELOCITY
@@ -114,11 +115,14 @@ class Controller(Node):
             self.turning=False
 
         
+        
+        
         # self.get_logger().info(f'\# Lasers is {len(self.laser.ranges)}')
         self.publisher_.publish(self.moving_params) # Publish movement commands
-        self.get_logger().info(f'Current time after publish: {datetime.now()}')
+        # self.get_logger().info(f'Current time after publish: {str(self.moving_params)}')
 
-        self.acc_error() # Compute accumulated error between odometry and ground truth
+
+        # self.acc_error() # Compute accumulated error between odometry and ground truth
 
        
 
@@ -154,17 +158,17 @@ class Controller(Node):
         # Special case for front cone (center=0). In this case, we have to consider that the indices wrap around.
         if center==0:
             # self.get_logger().info(f'Getting front cone. ANGLE_THRESHOLD={self.ANGLE_THRESHOLD}°, rad: angle_min={self.laser.angle_min}, angle_max={self.laser.angle_max}, angle_increment={self.laser.angle_increment}')
-            min_=int((self.ANGLE_THRESHOLD-self.laser.angle_min *(180/math.pi))//self.angle_increment)%360  # number of indices on the left side of the front
-            max_=int((self.ANGLE_THRESHOLD-self.laser.angle_max*(180/math.pi))//self.angle_increment)%360   # number of indices on the right side of the front
+            min_=int(((self.ANGLE_THRESHOLD-self.laser.angle_min *(180/math.pi))//self.angle_increment)%((self.laser.angle_max- self.laser.angle_min) *(180/math.pi)))  # number of indices on the left side of the front
+            max_=int(((abs(self.laser.angle_max - self.ANGLE_THRESHOLD) *(180/math.pi))//self.angle_increment)%((self.laser.angle_max- self.laser.angle_min) *(180/math.pi)))
 
-            # self.get_logger().info(f'Getting indices from {center - min_} to {center + max_}')
-            indices = [(center - min_ + i) % n for i in range(min_ + max_)]     # indices from center - min_ to center + max_, form left to right
+            self.get_logger().info(f'Getting indices from {center - min_} to {center + max_}')
+            indices = [(center - max_ + i) % n for i in range(min_ + max_)]     # indices from center - min_ to center + max_, form left to right
             result = [self.laser.ranges[i] for i in indices]
-
+            self.get_logger().info(f'Front cone indices: {indices}')
             return result
 
         # General case for other cones.
-        # self.get_logger().info(f'Getting indices from {center-theta_threshold_low} to {center + theta_threshold_high}')
+        self.get_logger().info(f'Getting indices from {center-theta_threshold_low} to {center + theta_threshold_high}')
         indices = [(center - theta_threshold_low + i) % n for i in range(theta_threshold_low + theta_threshold_high)]
         result = [self.laser.ranges[i] for i in indices]
 
@@ -182,10 +186,16 @@ class Controller(Node):
     # Callback function for laser scan data
     def listener_scan(self, msg):
         self.laser=msg
+
+        self.laser.angle_min=0.08 *(math.pi/180)
+        self.laser.angle_max=355.2 *(math.pi/180)
+        self.laser.angle_increment=2.2*(math.pi/180)
+
         self.angle_increment=msg.angle_increment*(180/math.pi)
 
     # Callback function for odometry data
     def listener_odom(self, msg):
+        # self.get_logger().info(f'Odometry read: {str(msg)}')
         position = msg.pose.pose.position
         quaternion = msg.pose.pose.orientation
         quat = [quaternion.x, quaternion.y, quaternion.z, quaternion.w]
@@ -204,9 +214,13 @@ class Controller(Node):
     def acc_error(self):
 
         # We compute the value of dx, dy and dtheta
-        dx = self.real[0] - self.odom[0]
-        dy = self.real[1] - self.odom[1]
-        dtheta = self.real[2] - self.odom[2]
+        try:
+            dx = self.real[0] - self.odom[0]
+            dy = self.real[1] - self.odom[1]
+            dtheta = self.real[2] - self.odom[2]
+        except Exception as e:
+            self.get_logger().info('Odom not ready yet,skipping')
+            return
 
         # We compute the distance determined by the components dx and dy
         pos_error = (dx**2 + dy**2)**0.5 
