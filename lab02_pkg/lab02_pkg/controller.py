@@ -42,7 +42,7 @@ class Controller(Node):
         # Internal variables
         self.laser = LaserScan()
         self.odom = Odometry()        
-        # self.real = Odometry()
+        self.real = Odometry()
         self.moving_params=Twist()
         # Current phase. It upgrades and indicates the robot orientation after a turn.
         self.phase=0
