@@ -66,7 +66,7 @@ class Controller(Node):
         self.WALL_THRESHOLD=0.7
 
         SECURITY_MARGIN=0.01 
-        self.ANGLE_THRESHOLD=(math.atan((0.168+SECURITY_MARGIN)/(2*self.WALL_THRESHOLD))*180/math.pi)
+        self.ANGLE_THRESHOLD=(math.atan((0.168+SECURITY_MARGIN)/(2*self.WALL_THRESHOLD)))
         self.angle_increment=0.0 # To be set when the laser data arrives. If 0, laser not ready yet.
         self.turning=False # Flag to indicate if the robot is currently turning
 
@@ -158,10 +158,10 @@ class Controller(Node):
         # Special case for front cone (center=0). In this case, we have to consider that the indices wrap around.
         if center==0:
             # self.get_logger().info(f'Getting front cone. ANGLE_THRESHOLD={self.ANGLE_THRESHOLD}°, rad: angle_min={self.laser.angle_min}, angle_max={self.laser.angle_max}, angle_increment={self.laser.angle_increment}')
-            min_=int(((self.ANGLE_THRESHOLD-self.laser.angle_min *(180/math.pi))//self.angle_increment)%((self.laser.angle_max- self.laser.angle_min) *(180/math.pi)))  # number of indices on the left side of the front
-            max_=int(((abs(self.laser.angle_max - self.ANGLE_THRESHOLD) *(180/math.pi))//self.angle_increment)%((self.laser.angle_max- self.laser.angle_min) *(180/math.pi)))
+            min_=int(((self.ANGLE_THRESHOLD-self.laser.angle_min)//self.angle_increment)%((self.laser.angle_max- self.laser.angle_min)))  # number of indices on the left side of the front
+            max_=int(((abs(self.laser.angle_max - self.ANGLE_THRESHOLD))//self.angle_increment)%((self.laser.angle_max- self.laser.angle_min)))
 
-            self.get_logger().info(f'Getting indices from {center - min_} to {center + max_}')
+            self.get_logger().info(f'Getting indices from {center - max_} to {center + min_}')
             indices = [(center - max_ + i) % n for i in range(min_ + max_)]     # indices from center - min_ to center + max_, form left to right
             result = [self.laser.ranges[i] for i in indices]
             self.get_logger().info(f'Front cone indices: {indices}')
@@ -187,11 +187,11 @@ class Controller(Node):
     def listener_scan(self, msg):
         self.laser=msg
 
-        self.laser.angle_min=0.08 *(math.pi/180)
-        self.laser.angle_max=355.2 *(math.pi/180)
-        self.laser.angle_increment=2.2*(math.pi/180)
+        self.laser.angle_min=3 *(math.pi/180)
+        self.laser.angle_max=349*(math.pi/180)
+        self.laser.angle_increment=5*(math.pi/180)
 
-        self.angle_increment=msg.angle_increment*(180/math.pi)
+        self.angle_increment=msg.angle_increment
 
     # Callback function for odometry data
     def listener_odom(self, msg):
