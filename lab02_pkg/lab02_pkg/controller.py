@@ -37,7 +37,7 @@ class Controller(Node):
         # Subscriber part
         self.create_subscription(LaserScan, "/scan", self.listener_scan, qos_profile_sensor_data)
         self.create_subscription(Odometry, '/odom', self.listener_odom, 10)
-        # self.create_subscription(Odometry, '/ground_truth', self.listener_real, 10)
+        self.create_subscription(Odometry, '/ground_truth', self.listener_real, 10)
 
         # Internal variables
         self.laser = LaserScan()
@@ -66,7 +66,7 @@ class Controller(Node):
         self.WALL_THRESHOLD=0.7
 
         SECURITY_MARGIN=0.01 
-        self.ANGLE_THRESHOLD=(math.atan((0.168+SECURITY_MARGIN)/(2*self.WALL_THRESHOLD)))
+        self.ANGLE_THRESHOLD=(math.atan((0.168+SECURITY_MARGIN*2)/(2*self.WALL_THRESHOLD)))
         self.angle_increment=0.0 # To be set when the laser data arrives. If 0, laser not ready yet.
         self.turning=False # Flag to indicate if the robot is currently turning
 
@@ -115,14 +115,11 @@ class Controller(Node):
             self.turning=False
 
         
-        
-        
         # self.get_logger().info(f'\# Lasers is {len(self.laser.ranges)}')
         self.publisher_.publish(self.moving_params) # Publish movement commands
         # self.get_logger().info(f'Current time after publish: {str(self.moving_params)}')
 
-
-        # self.acc_error() # Compute accumulated error between odometry and ground truth
+        self.acc_error() # Compute accumulated error between odometry and ground truth
 
        
 
@@ -140,6 +137,9 @@ class Controller(Node):
             self.moving_params.angular.z=-self.MAX_ANGULAR_VELOCITY
             self.phase = (self.phase + (3*math.pi/2)) % (2*math.pi) # Update target phase after turning right
          # Note that every phase is divided by pi/2 to keep it between 0 and 2pi    
+        
+
+
         
 
     # Function to get laser readings within a cone centered at a given angle
@@ -187,9 +187,9 @@ class Controller(Node):
     def listener_scan(self, msg):
         self.laser=msg
 
-        self.laser.angle_min=3 *(math.pi/180)
-        self.laser.angle_max=349*(math.pi/180)
-        self.laser.angle_increment=5*(math.pi/180)
+        # self.laser.angle_min=3 *(math.pi/180)
+        # self.laser.angle_max=349*(math.pi/180)
+        # self.laser.angle_increment=5*(math.pi/180)
 
         self.angle_increment=msg.angle_increment
 
