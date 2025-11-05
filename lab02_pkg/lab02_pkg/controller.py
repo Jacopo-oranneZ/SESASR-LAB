@@ -176,8 +176,8 @@ class Controller(Node):
             return result
 
         # General case for other cones.
-        self.get_logger().info(f'Min and max: {theta_threshold} ; Center: {int((center-self.laser.angle_min) // self.angle_increment)} From {int((center-self.laser.angle_min) // self.angle_increment)-theta_threshold} to {int((center-self.laser.angle_min) // self.angle_increment)+ theta_threshold}')
-        indices = [(int((center-self.laser.angle_min) // self.angle_increment + 1) - theta_threshold + i) % n for i in range(theta_threshold * 2)]
+        self.get_logger().info(f'Min and max: {theta_threshold} ; Center: {int((center-self.laser.angle_min) // self.angle_increment + 1)} From {int((center-self.laser.angle_min) // self.angle_increment)-theta_threshold + 1} to {int((center-self.laser.angle_min) // self.angle_increment)+ theta_threshold + 1}')
+        indices = [(int((center-self.laser.angle_min) // self.angle_increment) - theta_threshold + 1 + i) % n for i in range(theta_threshold * 2)]
         result = [self.laser.ranges[i] for i in indices]
 
         
