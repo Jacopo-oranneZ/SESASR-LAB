@@ -48,7 +48,7 @@ class Controller(Node):
         self.phase=0
 
         # Parameters part
-        self.declare_parameter('linear_velocity', 0.6)
+        self.declare_parameter('linear_velocity', 0.2)
         self.MAX_LINEAR_VELOCITY = self.get_parameter('linear_velocity').get_parameter_value().double_value
         self.declare_parameter('angular_velocity', 0.22)
         self.MAX_ANGULAR_VELOCITY = self.get_parameter('angular_velocity').get_parameter_value().double_value
@@ -57,7 +57,7 @@ class Controller(Node):
         self.get_logger().info(f'Max Angular Velocity: {self.MAX_ANGULAR_VELOCITY}')
 
         # Timer part
-        timer_period = 1  # seconds
+        timer_period = 0.1  # seconds
         self.timer = self.create_timer(timer_period, self.move)
 
         # Wall detection settings
@@ -177,7 +177,7 @@ class Controller(Node):
 
         # General case for other cones.
         self.get_logger().info(f'Min and max: {theta_threshold} ; Center: {int((center-self.laser.angle_min) // self.angle_increment)} From {int((center-self.laser.angle_min) // self.angle_increment)-theta_threshold} to {int((center-self.laser.angle_min) // self.angle_increment)+ theta_threshold}')
-        indices = [(int((center-self.laser.angle_min) // self.angle_increment) - theta_threshold + i) % n for i in range(theta_threshold * 2)]
+        indices = [(int((center-self.laser.angle_min) // self.angle_increment + 1) - theta_threshold + i) % n for i in range(theta_threshold * 2)]
         result = [self.laser.ranges[i] for i in indices]
 
         
