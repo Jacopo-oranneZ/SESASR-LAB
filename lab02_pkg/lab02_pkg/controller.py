@@ -50,7 +50,7 @@ class Controller(Node):
         # Parameters part
         self.declare_parameter('linear_velocity', 0.2)
         self.MAX_LINEAR_VELOCITY = self.get_parameter('linear_velocity').get_parameter_value().double_value
-        self.declare_parameter('angular_velocity', 0.22)
+        self.declare_parameter('angular_velocity', 0.1)
         self.MAX_ANGULAR_VELOCITY = self.get_parameter('angular_velocity').get_parameter_value().double_value
         # Log the parameters
         self.get_logger().info(f'Max Linear Velocity: {self.MAX_LINEAR_VELOCITY}')
@@ -61,7 +61,7 @@ class Controller(Node):
         self.timer = self.create_timer(timer_period, self.move)
 
         # Wall detection settings
-        self.TURNING_THRESHOLD=math.radians(5)#max((self.MAX_ANGULAR_VELOCITY*timer_period), math.radians(3.5))# Threshold to determine when to stop turning
+        self.TURNING_THRESHOLD=math.radians(3)#max((self.MAX_ANGULAR_VELOCITY*timer_period), math.radians(3.5))# Threshold to determine when to stop turning
         self.get_logger().info(f'Turning threshold: {self.TURNING_THRESHOLD*180/math.pi} degrees')
         self.WALL_THRESHOLD=0.7
         self.robot_dimension=0.168
