@@ -48,7 +48,7 @@ class Controller(Node):
         self.phase=0
 
         # Parameters part
-        self.declare_parameter('linear_velocity', 0.6)
+        self.declare_parameter('linear_velocity', 0.2)
         self.MAX_LINEAR_VELOCITY = self.get_parameter('linear_velocity').get_parameter_value().double_value
         self.declare_parameter('angular_velocity', 0.22)
         self.MAX_ANGULAR_VELOCITY = self.get_parameter('angular_velocity').get_parameter_value().double_value
