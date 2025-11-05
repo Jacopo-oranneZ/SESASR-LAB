@@ -183,7 +183,7 @@ class Controller(Node):
         
         count=0
         for num in result:
-            result[count]=10 if np.isinf(num) else result[count]
+            result[count]=3.5 if np.isinf(num) else result[count]
             count+=1
 
         self.get_logger().info(f'Getting cone: {result}')
