@@ -48,7 +48,7 @@ class Controller(Node):
         self.phase=0
 
         # Parameters part
-        self.declare_parameter('linear_velocity', 0.3)
+        self.declare_parameter('linear_velocity', 0.6)
         self.MAX_LINEAR_VELOCITY = self.get_parameter('linear_velocity').get_parameter_value().double_value
         self.declare_parameter('angular_velocity', 0.22)
         self.MAX_ANGULAR_VELOCITY = self.get_parameter('angular_velocity').get_parameter_value().double_value
@@ -127,8 +127,13 @@ class Controller(Node):
     def turn(self):
         self.turning=True 
         self.moving_params.linear.x=0.0 # Stop linear movement while turning
-        
-        if np.mean(self.get_cone(90))> np.mean(self.get_cone(270)): # Turn left
+
+        left_distance = np.mean(self.get_cone(90))
+        right_distance = np.mean(self.get_cone(270))
+
+        self.get_logger().info(f'Left distance: {left_distance}, Right distance: {right_distance}')
+
+        if left_distance > right_distance: # Turn left
             self.get_logger().info('Turning left')
             self.moving_params.angular.z=self.MAX_ANGULAR_VELOCITY
             self.phase = (self.phase + (math.pi/2)) % (2*math.pi) # Update target phase after turning left
@@ -144,6 +149,9 @@ class Controller(Node):
 
     # Function to get laser readings within a cone centered at a given angle
     def get_cone(self, center):
+
+        center = math.radians(center)  # Convert center angle from degrees to radians
+
         if(self.laser.angle_increment==0): # Laser not ready yet
             self.get_logger().info('Laser not ready yet')
             return []
@@ -151,26 +159,34 @@ class Controller(Node):
         # Calculate the number of indices corresponding to the angle threshold. It's necessary because, due to
         # hardware specifications, it is not guaranteed that you will have 360 values in the ranges field. Thus,
         # the index does not correspond directly to the angle in degrees.
-        theta_threshold_low=int(self.ANGLE_THRESHOLD // self.angle_increment) 
-        theta_threshold_high=int(self.ANGLE_THRESHOLD // self.angle_increment +1) # +1 to include every angle < angle_threshold because index 0 corresponds to an angle greater than 0°
+        theta_threshold=int(self.ANGLE_THRESHOLD // self.angle_increment) 
         n=len(self.laser.ranges) # Total number of laser readings, different from 360
 
         # Special case for front cone (center=0). In this case, we have to consider that the indices wrap around.
         if center==0:
             # self.get_logger().info(f'Getting front cone. ANGLE_THRESHOLD={self.ANGLE_THRESHOLD}°, rad: angle_min={self.laser.angle_min}, angle_max={self.laser.angle_max}, angle_increment={self.laser.angle_increment}')
-            min_=int(((self.ANGLE_THRESHOLD-self.laser.angle_min)//self.angle_increment)%((self.laser.angle_max- self.laser.angle_min)))  # number of indices on the left side of the front
-            max_=int(((abs(self.laser.angle_max - self.ANGLE_THRESHOLD))//self.angle_increment)%((self.laser.angle_max- self.laser.angle_min)))
+            min_=int(((self.ANGLE_THRESHOLD-self.laser.angle_min)//self.angle_increment))  # number of indices on the left side of the front
+            max_=int(((abs(math.pi * 2 - self.laser.angle_max - self.ANGLE_THRESHOLD))//self.angle_increment))
 
-            self.get_logger().info(f'Getting indices from {center - max_} to {center + min_}')
-            indices = [(center - max_ + i) % n for i in range(min_ + max_)]     # indices from center - min_ to center + max_, form left to right
+            self.get_logger().info(f'Getting front cone. angle={self.ANGLE_THRESHOLD}rad')
+            self.get_logger().info(f'Min: {min_} ; Max: {max_} ; Getting indices from {center - max_} to {center + min_}')
+            indices = [(int(center) - max_ + i) % n for i in range(min_ + max_)]     # indices from center - min_ to center + max_, form left to right
             result = [self.laser.ranges[i] for i in indices]
             self.get_logger().info(f'Front cone indices: {indices}')
             return result
 
         # General case for other cones.
-        self.get_logger().info(f'Getting indices from {center-theta_threshold_low} to {center + theta_threshold_high}')
-        indices = [(center - theta_threshold_low + i) % n for i in range(theta_threshold_low + theta_threshold_high)]
+        self.get_logger().info(f'Min and max: {theta_threshold} ; Center: {int((center-self.laser.angle_min) // self.angle_increment)} From {int((center-self.laser.angle_min) // self.angle_increment)-theta_threshold} to {int((center-self.laser.angle_min) // self.angle_increment)+ theta_threshold}')
+        indices = [(int((center-self.laser.angle_min) // self.angle_increment) - theta_threshold + i) % n for i in range(theta_threshold * 2)]
         result = [self.laser.ranges[i] for i in indices]
+
+        
+        count=0
+        for num in result:
+            result[count]=10 if np.isinf(num) else result[count]
+            count+=1
+
+        self.get_logger().info(f'Getting cone: {result}')
 
         return result
 
@@ -188,8 +204,8 @@ class Controller(Node):
         self.laser=msg
 
         # self.laser.angle_min=3 *(math.pi/180)
-        # self.laser.angle_max=349*(math.pi/180)
-        # self.laser.angle_increment=5*(math.pi/180)
+        # self.laser.angle_max=357*(math.pi/180)
+        # self.laser.angle_increment=0.8*(math.pi/180)
 
         self.angle_increment=msg.angle_increment
 
