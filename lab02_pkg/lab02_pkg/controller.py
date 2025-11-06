@@ -48,9 +48,9 @@ class Controller(Node):
         self.phase=0
 
         # Parameters part
-        self.declare_parameter('linear_velocity', 0.2)
+        self.declare_parameter('linear_velocity', 0.1)
         self.MAX_LINEAR_VELOCITY = self.get_parameter('linear_velocity').get_parameter_value().double_value
-        self.declare_parameter('angular_velocity', 0.22)
+        self.declare_parameter('angular_velocity', 0.1)
         self.MAX_ANGULAR_VELOCITY = self.get_parameter('angular_velocity').get_parameter_value().double_value
         # Log the parameters
         self.get_logger().info(f'Max Linear Velocity: {self.MAX_LINEAR_VELOCITY}')
@@ -63,7 +63,7 @@ class Controller(Node):
         # Wall detection settings
         self.TURNING_THRESHOLD=math.radians(5)#max((self.MAX_ANGULAR_VELOCITY*timer_period), math.radians(3.5))# Threshold to determine when to stop turning
         self.get_logger().info(f'Turning threshold: {self.TURNING_THRESHOLD*180/math.pi} degrees')
-        self.WALL_THRESHOLD=0.7
+        self.WALL_THRESHOLD=0.1
         self.robot_dimension=0.168
         SECURITY_MARGIN=0.01 
         self.ANGLE_THRESHOLD=(math.atan((0.168+SECURITY_MARGIN*2)/(2*self.WALL_THRESHOLD)))
@@ -87,7 +87,8 @@ class Controller(Node):
 
         if abs(diff) <= self.TURNING_THRESHOLD:
             self.get_logger().info('Stopped turning')
-            self.get_logger().info(f'Current time after noticing: {datetime.now()}')
+            # self.get_logger().info(f'Current time after noticing: {datetime.now()}')
+            self.get_logger().info(f'It\'s off of {diff*180/math.pi:.1f}° from target')
             return True
         return False
 
@@ -145,8 +146,6 @@ class Controller(Node):
         
 
 
-        
-
     # Function to get laser readings within a cone centered at a given angle
     def get_cone(self, center):
 
@@ -186,6 +185,11 @@ class Controller(Node):
             result[count]=3.5 if np.isinf(num) else result[count]
             count+=1
 
+        count=0
+        for num in result:
+            result[count]=0.2 if num!=num else result[count]
+            count+=1
+
         self.get_logger().info(f'Getting cone: {result}')
 
         return result
@@ -194,7 +198,9 @@ class Controller(Node):
     def wall_detector(self):      
         if self.turning==True: return False     # If the robot is already turning, do not detect walls
 
-        if np.mean(self.get_cone(0))< self.WALL_THRESHOLD:
+
+        self.get_logger().info(f'Front cone distances: {np.min(self.get_cone(0))}')
+        if np.min(self.get_cone(0))< self.WALL_THRESHOLD:
             return True
         
         return False
@@ -240,7 +246,8 @@ class Controller(Node):
 
         # We compute the distance determined by the components dx and dy
         pos_error = (dx**2 + dy**2)**0.5 
-        self.get_logger().info(f'Odometry Error: {pos_error:.3f} m, Yaw Error: {dtheta:.3f} rad')    
+        self.get_logger().info(f'Odometry Error: {pos_error:.3f} m, Yaw Error: {dtheta:.3f} rad') 
+        self.get_logger().info(f'Current yaw from odom: {self.odom[2]*180/math.pi:.1f}°, from real: {self.real[2]*180/math.pi:.1f}°')   
        
 
 def main (args=None):
