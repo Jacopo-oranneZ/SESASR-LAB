@@ -42,7 +42,7 @@ class Controller(Node):
         # Internal variables
         self.laser = LaserScan()
         self.odom = Odometry()        
-        self.real = Odometry()
+        # self.real = Odometry()
         self.moving_params=Twist()
         # Current phase. It upgrades and indicates the robot orientation after a turn.
         self.phase=0
@@ -50,7 +50,7 @@ class Controller(Node):
         # Parameters part
         self.declare_parameter('linear_velocity', 0.2)
         self.MAX_LINEAR_VELOCITY = self.get_parameter('linear_velocity').get_parameter_value().double_value
-        self.declare_parameter('angular_velocity', 0.1)
+        self.declare_parameter('angular_velocity', 0.2)
         self.MAX_ANGULAR_VELOCITY = self.get_parameter('angular_velocity').get_parameter_value().double_value
         # Log the parameters
         self.get_logger().info(f'Max Linear Velocity: {self.MAX_LINEAR_VELOCITY}')
@@ -63,7 +63,7 @@ class Controller(Node):
         # Wall detection settings
         self.TURNING_THRESHOLD=math.radians(3)#max((self.MAX_ANGULAR_VELOCITY*timer_period), math.radians(3.5))# Threshold to determine when to stop turning
         self.get_logger().info(f'Turning threshold: {self.TURNING_THRESHOLD*180/math.pi} degrees')
-        self.WALL_THRESHOLD=0.7
+        self.WALL_THRESHOLD=0.35
         self.robot_dimension=0.168
         SECURITY_MARGIN=0.01 
         self.ANGLE_THRESHOLD=(math.atan((0.168+SECURITY_MARGIN*2)/(2*self.WALL_THRESHOLD)))
@@ -119,7 +119,7 @@ class Controller(Node):
         self.publisher_.publish(self.moving_params) # Publish movement commands
         # self.get_logger().info(f'Current time after publish: {str(self.moving_params)}')
 
-        self.acc_error() # Compute accumulated error between odometry and ground truth
+        # self.acc_error() # Compute accumulated error between odometry and ground truth
 
        
 
@@ -227,20 +227,20 @@ class Controller(Node):
         self.real = (position.x, position.y, yaw % (2*math.pi))    # Store ground truth as (x, y, yaw)
 
     # Function that computes the accumulated error between odometry and ground truth, providing an indication of odometry accuracy
-    def acc_error(self):
+    # def acc_error(self):
 
-        # We compute the value of dx, dy and dtheta
-        try:
-            dx = self.real[0] - self.odom[0]
-            dy = self.real[1] - self.odom[1]
-            dtheta = self.real[2] - self.odom[2]
-        except Exception as e:
-            self.get_logger().info('Odom not ready yet,skipping')
-            return
+    #     # We compute the value of dx, dy and dtheta
+    #     try:
+    #         dx = self.real[0] - self.odom[0]
+    #         dy = self.real[1] - self.odom[1]
+    #         dtheta = self.real[2] - self.odom[2]
+    #     except Exception as e:
+    #         self.get_logger().info('Odom not ready yet,skipping')
+    #         return
 
-        # We compute the distance determined by the components dx and dy
-        pos_error = (dx**2 + dy**2)**0.5 
-        self.get_logger().info(f'Odometry Error: {pos_error:.3f} m, Yaw Error: {dtheta:.3f} rad')    
+    #     # We compute the distance determined by the components dx and dy
+    #     pos_error = (dx**2 + dy**2)**0.5 
+    #     self.get_logger().info(f'Odometry Error: {pos_error:.3f} m, Yaw Error: {dtheta:.3f} rad')    
        
 
 def main (args=None):
