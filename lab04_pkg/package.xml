@@ -4,8 +4,8 @@
   <name>lab04_pkg</name>
   <version>0.0.0</version>
   <description>TODO: Package description</description>
-  <maintainer email="jacopo.zennaro.1@gmail.com">jacopo</maintainer>
-  <license>TODO: License declaration</license>
+  <maintainer email="pietro.filomeno@studenti.polito.it">filo</maintainer>
+  <license>Apache-2.0</license>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>

@@ -13,10 +13,10 @@ setup(
     ],
     install_requires=['setuptools'],
     zip_safe=True,
-    maintainer='jacopo',
-    maintainer_email='jacopo.zennaro.1@gmail.com',
+    maintainer='filo',
+    maintainer_email='pietro.filomeno@studenti.polito.it',
     description='TODO: Package description',
-    license='TODO: License declaration',
+    license='Apache-2.0',
     extras_require={
         'test': [
             'pytest',
