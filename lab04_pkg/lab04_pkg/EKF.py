@@ -37,6 +37,7 @@ class RobotEKF(Node):
         """
         Initializes the extended Kalman filter creating the necessary matrices
         """
+
         self.mu = np.zeros((dim_x))  # mean state estimate
         self.Sigma = np.eye(dim_x)  # covariance state estimate
         self.Mt = np.eye(dim_u)  # process noise
@@ -124,3 +125,5 @@ class RobotEKF(Node):
         # Note that I is the identity matrix.
         I_KH = self._I - self.K @ Ht
         self.Sigma = I_KH @ self.Sigma @ I_KH.T + self.K @ Qt @ self.K.T
+
+        
