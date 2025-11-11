@@ -37,7 +37,7 @@ class Controller(Node):
         # Subscriber part
         self.create_subscription(LaserScan, "/scan", self.listener_scan, qos_profile_sensor_data)
         self.create_subscription(Odometry, '/odom', self.listener_odom, 10)
-        self.create_subscription(Odometry, '/ground_truth', self.listener_real, 10)
+        # self.create_subscription(Odometry, '/ground_truth', self.listener_real, 10)
 
         # Internal variables
         self.laser = LaserScan()
@@ -64,9 +64,9 @@ class Controller(Node):
         self.TURNING_THRESHOLD=math.radians(5)#max((self.MAX_ANGULAR_VELOCITY*timer_period), math.radians(3.5))# Threshold to determine when to stop turning
         self.get_logger().info(f'Turning threshold: {self.TURNING_THRESHOLD*180/math.pi} degrees')
         self.WALL_THRESHOLD=0.3
-        self.robot_dimension=0.168
+        ROBOT_DIMENSION=0.178
         SECURITY_MARGIN=0.01 
-        self.ANGLE_THRESHOLD=(math.atan((0.168+SECURITY_MARGIN*2)/(2*self.WALL_THRESHOLD)))
+        self.ANGLE_THRESHOLD=(math.atan((ROBOT_DIMENSION+SECURITY_MARGIN*2)/(2*self.WALL_THRESHOLD)))
         self.angle_increment=0.0 # To be set when the laser data arrives. If 0, laser not ready yet.
         self.turning=False # Flag to indicate if the robot is currently turningss
 
@@ -142,10 +142,7 @@ class Controller(Node):
             self.moving_params.angular.z=-self.MAX_ANGULAR_VELOCITY
             self.phase = (self.phase + (3*math.pi/2)) % (2*math.pi) # Update target phase after turning right
          # Note that every phase is divided by pi/2 to keep it between 0 and 2pi    
-        
-
-
-        
+                
 
     # Function to get laser readings within a cone centered at a given angle
     def get_cone(self, center):
@@ -159,7 +156,7 @@ class Controller(Node):
         # Calculate the number of indices corresponding to the angle threshold. It's necessary because, due to
         # hardware specifications, it is not guaranteed that you will have 360 values in the ranges field. Thus,
         # the index does not correspond directly to the angle in degrees.
-        theta_threshold=int(self.ANGLE_THRESHOLD // self.angle_increment) 
+        index_threshold=int(self.ANGLE_THRESHOLD // self.angle_increment) 
         n=len(self.laser.ranges) # Total number of laser readings, different from 360
 
         # Special case for front cone (center=0). In this case, we have to consider that the indices wrap around.
@@ -176,8 +173,8 @@ class Controller(Node):
             return result
 
         # General case for other cones.
-        self.get_logger().info(f'Min and max: {theta_threshold} ; Center: {int((center-self.laser.angle_min) // self.angle_increment + 1)} From {int((center-self.laser.angle_min) // self.angle_increment)-theta_threshold + 1} to {int((center-self.laser.angle_min) // self.angle_increment)+ theta_threshold + 1}')
-        indices = [(int((center-self.laser.angle_min) // self.angle_increment) - theta_threshold + 1 + i) % n for i in range(theta_threshold * 2)]
+        self.get_logger().info(f'Min and max: {index_threshold} ; Center: {int((center-self.laser.angle_min) // self.angle_increment + 1)} From {int((center-self.laser.angle_min) // self.angle_increment)-index_threshold + 1} to {int((center-self.laser.angle_min) // self.angle_increment)+ index_threshold + 1}')
+        indices = [(int((center-self.laser.angle_min) // self.angle_increment) - index_threshold + 1 + i) % n for i in range(index_threshold * 2)]
         result = [self.laser.ranges[i] for i in indices]
 
         
@@ -242,11 +239,6 @@ class Controller(Node):
     # Callback function for laser scan data
     def listener_scan(self, msg):
         self.laser=msg
-
-        # self.laser.angle_min=3 *(math.pi/180)
-        # self.laser.angle_max=357*(math.pi/180)
-        # self.laser.angle_increment=0.8*(math.pi/180)
-
         self.angle_increment=msg.angle_increment
 
     # Callback function for odometry data
