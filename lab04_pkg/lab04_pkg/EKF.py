@@ -14,24 +14,36 @@ from rclpy.qos import qos_profile_sensor_data
 
 
 
-class RobotEKF(Node):
+class RobotLocalizationEKF(Node):
     
-    def __init__(
-        self,  
-        dim_x=1,
-        dim_u=1,
-        eval_gux=None,
-        eval_Gt=None,
-        eval_Vt=None,
-    ):
+    def __init__(self):  
+        super().__init__('robot_localization_ekf')
 
-        super().__init__('robot_ekf')
+        dim_x = 3  # Status dimension [x, y, theta]
+        dim_u = 2  # Command dimension [v, w]
 
-        publisher_=None,
-        create_subscription=None,
-        self.create_subscription(Odometry,'/odom', self.listener_odom,10),
-        self.timer=self.create_timer(0.05, self.predict), # 20 Hz
-        self.step = 0,
+        # Initialize the EKF
+        #self.ekf = ExtendedKalmanFilter(
+        #    dim_x=dim_x,
+        #    dim_u=dim_u,
+        #    eval_gux=motion_model_g,        # Motion model function
+        #    eval_Gt=jacobian_G,             # Jacobian of the motion model
+        #    eval_Vt=jacobian_V              # Jacobian of the motion noise
+        #)
+
+
+        # Estimate of the state publisher
+        self.ekf_publisher = self.create_publisher(Odometry, '/pose', 10)
+
+        # Subscribers
+        self.odom_subscriber = self.create_subscription(Odometry, '/odom', self.listener_odom, 10)
+
+        # Timer
+        self.timer = self.create_timer(0.05, self.predict)  # 20 Hz
+
+        self.get_logger().info("Robot Localization EKF Node Initialized")
+
+        self.step = 0  # Step counter for the EKF prediction
        
         
         """
@@ -126,4 +138,3 @@ class RobotEKF(Node):
         I_KH = self._I - self.K @ Ht
         self.Sigma = I_KH @ self.Sigma @ I_KH.T + self.K @ Qt @ self.K.T
 
-        

@@ -1,0 +1,134 @@
+# Import necessari
+import rclpy
+from rclpy.node import Node
+import numpy as np
+from numpy.linalg import inv
+from nav_msgs.msg import Odometry
+from landmark_msgs.msg import LandmarkArray  # Assicurati che questo messaggio esista nel package
+from tf_transformations import quaternion_from_euler # Per convertire (x,y,theta) in Odometria
+
+# Importa la classe che hai fornito
+# Supponiamo sia in un file chiamato robot_ekf.py
+from .robot_ekf import RobotEKF 
+
+# Definizione delle funzioni di modello (le vedremo al Passo 2)
+def motion_model_g(mu, u, dt):
+    # ... implementazione ...
+    return mu_pred
+
+def jacobian_G(mu, u, dt):
+    # ... implementazione ...
+    return G
+
+def jacobian_V(mu, u, dt):
+    # ... implementazione ...
+    return V
+
+def measurement_model_h(mu, landmark_pos):
+    # ... implementazione ...
+    return z_pred
+
+def jacobian_H(mu, landmark_pos):
+    # ... implementazione ...
+    return H
+
+def normalize_angle(angle):
+    # Funzione di utilità per mantenere gli angoli in [-pi, pi]
+    return (angle + np.pi) % (2 * np.pi) - np.pi
+
+def residual_h(a, b):
+    # Calcola il residuo, normalizzando l'angolo (bearing)
+    y = a - b
+    y[1] = normalize_angle(y[1]) # Indice 1 è il bearing
+    return y
+
+class EkfLocalizationNode(Node):
+    def __init__(self):
+        super().__init__('ekf_localization_node')
+
+        # --- Parametri dell'EKF ---
+        self.dt = 1.0 / 20.0  # Periodo del timer (1/20Hz) 
+        
+        # Stato [x, y, theta] 
+        dim_x = 3
+        # Comando [v, w] 
+        dim_u = 2
+
+        # Inizializza il "motore" EKF
+        self.ekf = RobotEKF(
+            dim_x=dim_x,
+            dim_u=dim_u,
+            eval_gux=motion_model_g,
+            eval_Gt=jacobian_G,
+            eval_Vt=jacobian_V
+        )
+
+        # Imposta la covarianza del rumore di processo (Mt)
+        # Questi sono valori da "sintonizzare". Rappresentano l'incertezza
+        # sui comandi di velocità (v, w).
+        self.ekf.Mt = np.diag([
+            0.01,  # Varianza su v
+            0.005  # Varianza su w
+        ])
+
+        # Imposta la covarianza del rumore di misura (Qt)
+        # Anche questi sono da sintonizzare. Rappresentano l'incertezza
+        # del sensore (range, bearing).
+        self.Qt = np.diag([
+            0.1,  # Varianza sul range
+            0.05  # Varianza sul bearing
+        ])
+
+        # Dizionario per le posizioni note dei landmark [cite: 49, 50, 54]
+        # Carica questi dati dalla Tabella 1 o dal file YAML
+        self.landmarks = {
+            11: np.array([-1.1, -1.1]),
+            12: np.array([-1.1, 0.0]),
+            13: np.array([-1.1, 1.1]),
+            21: np.array([0.0, -1.1]),
+            22: np.array([0.0, 0.0]),
+            23: np.array([0.0, 1.1]),
+            31: np.array([1.1, -1.1]),
+            32: np.array([1.1, 0.0]),
+            33: np.array([1.1, 1.1]),
+        }
+        
+        # Variabile per memorizzare l'ultimo comando di velocità
+        self.last_u = np.zeros(dim_u)
+
+        # --- Elementi ROS 2 ---
+        
+        # Publisher per lo stato stimato 
+        self.ekf_pub = self.create_publisher(Odometry, '/ekf', 10)
+
+        # Subscriber per l'odometria (per i comandi v, w) 
+        self.odom_sub = self.create_subscription(
+            Odometry,
+            '/odom',
+            self.odom_callback,
+            10
+        )
+
+        # Subscriber per i landmark (per l'aggiornamento) 
+        self.landmark_sub = self.create_subscription(
+            LandmarkArray,
+            '/landmarks',
+            self.update_callback,
+            10
+        )
+
+        # Timer per la previsione 
+        self.timer = self.create_timer(self.dt, self.prediction_step)
+        
+        self.get_logger().info('EKF Localization Node (Task 1) avviato.')
+
+    # --- Callback ROS 2 (Passo 3) ---
+
+    def odom_callback(self, msg):
+        # ... (vedi Passo 3)
+
+    def prediction_step(self):
+        # ... (vedi Passo 3)
+
+    def update_callback(self, msg):
+        # ... (vedi Passo 3)
