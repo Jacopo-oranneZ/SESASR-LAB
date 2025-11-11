@@ -63,7 +63,7 @@ class Controller(Node):
         # Wall detection settings
         self.TURNING_THRESHOLD=math.radians(5)#max((self.MAX_ANGULAR_VELOCITY*timer_period), math.radians(3.5))# Threshold to determine when to stop turning
         self.get_logger().info(f'Turning threshold: {self.TURNING_THRESHOLD*180/math.pi} degrees')
-        self.WALL_THRESHOLD=0.1
+        self.WALL_THRESHOLD=0.7
         self.robot_dimension=0.168
         SECURITY_MARGIN=0.01 
         self.ANGLE_THRESHOLD=(math.atan((0.168+SECURITY_MARGIN*2)/(2*self.WALL_THRESHOLD)))
