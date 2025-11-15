@@ -4,6 +4,10 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 from  matplotlib.patches import Arc
 from utils import compute_p_hit_dist
+import sympy
+sympy.init_printing(use_latex='mathjax')
+from sympy import  Matrix, symbols
+
 arrow = u'$\u2191$'
 
 def landmark_range_bearing_sensor(robot_pose, landmark, sigma, max_range=6.0, fov=math.pi/2):
@@ -90,7 +94,6 @@ def plot_sampled_poses(robot_pose, z, landmark, sigma,n_samples):
     # plt.savefig("landmark_model_sampling.pdf")
     plt.show()
 
-
 def plot_landmarks(landmarks, robot_pose, z, p_z, max_range=6.0, fov=math.pi/4):
     """""
     Plot landmarks, robot pose with sensor FOV, and detected landmarks with associated probability
@@ -144,6 +147,20 @@ def plot_landmarks(landmarks, robot_pose, z, p_z, max_range=6.0, fov=math.pi/4):
     plt.show()
     plt.close('all')
 
+def compute_jacobian():
+    mx, my, x, y, theta = symbols("m_x m_y x y theta")
+    hx = Matrix(
+        [
+            [sympy.sqrt((mx - x) ** 2 + (my - y) ** 2)], # range
+            [sympy.atan2(my - y, mx - x) - theta],       # bearing
+        ]
+    )
+    # eval_hx = sympy.lambdify((x, y, theta, mx, my), hx, "numpy")
+
+    Ht = hx.jacobian(Matrix([x, y, theta]))
+    eval_Ht = sympy.lambdify((x, y, theta, mx, my), Ht, "numpy")
+
+    return eval_Ht
 
 def main():
     ##############################
@@ -198,6 +215,10 @@ def main():
     plt.plot(landmark[0], landmark[1], "sk", ms=10)
     plot_sampled_poses(robot_pose, z, landmark, sigma,n_samples)
     
+    Ht_sym = compute_jacobian()
+    Ht = Ht_sym(robot_pose[0], robot_pose[1], robot_pose[2], landmark[0], landmark[1])
+    print("Jacobian Ht:\n", Ht)
+
     plt.close('all')
 
 if __name__ == "__main__":
