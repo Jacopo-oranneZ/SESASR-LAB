@@ -82,7 +82,7 @@ def plot_graph(a,u,dt,n_samples,x):
     plt.savefig("velocity_samples.pdf")
     plt.show()
 
-###################################
+    ###################################
     #### Multiple steps of sampling ###
     ###################################
 
