@@ -1,65 +1,37 @@
 import rclpy
 import math
-import numpy as np
 import tf_transformations
+import numpy as np
 
-from datetime import datetime
-from rclpy.node import Node
 from numpy.linalg import inv
 from std_msgs.msg import String
 from geometry_msgs.msg import Twist
-from nav_msgs.msg import Odometry
-from sensor_msgs.msg import LaserScan
-from rclpy.qos import qos_profile_sensor_data
 
-
-
-class RobotLocalizationEKF(Node):
-    
-    def __init__(self):  
-        super().__init__('robot_localization_ekf')
-
-        dim_x = 3  # Status dimension [x, y, theta]
-        dim_u = 2  # Command dimension [v, w]
-
-        # Initialize the EKF
-        #self.ekf = ExtendedKalmanFilter(
-        #    dim_x=dim_x,
-        #    dim_u=dim_u,
-        #    eval_gux=motion_model_g,        # Motion model function
-        #    eval_Gt=jacobian_G,             # Jacobian of the motion model
-        #    eval_Vt=jacobian_V              # Jacobian of the motion noise
-        #)
-
-
-        # Estimate of the state publisher
-        self.ekf_publisher = self.create_publisher(Odometry, '/pose', 10)
-
-        # Subscribers
-        self.odom_subscriber = self.create_subscription(Odometry, '/odom', self.listener_odom, 10)
-
-        # Timer
-        self.timer = self.create_timer(0.05, self.predict)  # 20 Hz
-
-        self.get_logger().info("Robot Localization EKF Node Initialized")
-
-        self.step = 0  # Step counter for the EKF prediction
-       
-        
+class RobotEKF:
+    def __init__(
+        self,
+        dim_x=1,
+        dim_u=1,
+        eval_gux=None,
+        eval_hx=None,
+        eval_Gt=None,
+        eval_Vt=None,
+        eval_Ht=None,
+    ):
         """
         Initializes the extended Kalman filter creating the necessary matrices
         """
-
         self.mu = np.zeros((dim_x))  # mean state estimate
         self.Sigma = np.eye(dim_x)  # covariance state estimate
         self.Mt = np.eye(dim_u)  # process noise
 
         self.eval_gux = eval_gux
+        self.eval_hx = eval_hx
         self.eval_Gt = eval_Gt
         self.eval_Vt = eval_Vt
+        self.eval_Ht = eval_Ht
 
         self._I = np.eye(dim_x)  # identity matrix used for computations
-
 
     def predict(self, u, sigma_u, g_extra_args=()):
         """
@@ -74,7 +46,7 @@ class RobotLocalizationEKF(Node):
             std dev for each component of the command signal
 
         extra_args : tuple
-            any additional required parameter: step
+            any additional required parameter: dt
 
         Modified variables:
             self.mu: the state prediction
@@ -137,4 +109,3 @@ class RobotLocalizationEKF(Node):
         # Note that I is the identity matrix.
         I_KH = self._I - self.K @ Ht
         self.Sigma = I_KH @ self.Sigma @ I_KH.T + self.K @ Qt @ self.K.T
-
