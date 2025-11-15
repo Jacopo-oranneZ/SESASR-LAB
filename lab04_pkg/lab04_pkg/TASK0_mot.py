@@ -5,7 +5,7 @@ from math import cos, sin, degrees
 import matplotlib as mpl
 import sympy 
 sympy.init_printing(use_latex='mathjax')
-from sympy import Gt, Matrix, symbols
+from sympy import Matrix, symbols
 
 arrow = u'$\u2191$'
 
@@ -136,7 +136,7 @@ def compute_jacobian():
         [beta],
     ]
    )
-    eval_gux = sympy.lambdify((x, y, theta, v, w, dt), gux, 'numpy')
+    #eval_gux = sympy.lambdify((x, y, theta, v, w, dt), gux, 'numpy')
     Gt = gux.jacobian(Matrix([x, y, theta]))
     eval_Gt = sympy.lambdify((x, y, theta, v, w, dt), Gt, "numpy")
     Vt = gux.jacobian(Matrix([v, w]))
@@ -145,7 +145,6 @@ def compute_jacobian():
     return eval_Gt, eval_Vt
 
 def main():
-    plt.close('all')
     n_samples = 500
     n_bins = 100
     dt = 0.5
@@ -155,14 +154,16 @@ def main():
     a_w = [0.001, 0.01, 0.1, 0.2, 0.05, 0.05] # noise variance
     a_v = [0.05, 0.09, 0.002, 0.01, 0.05, 0.05] # noise variance
 
-    #plot_graph(a_w, u, dt, n_samples,x)
-    #plot_graph(a_v, u, dt, n_samples,x)
+    plot_graph(a_w, u, dt, n_samples,x)
+    plot_graph(a_v, u, dt, n_samples,x)
      
     [Gt_sym, Vt_sym] = compute_jacobian()
     Gt = Gt_sym(x[0], x[1], x[2], u[0], u[1], dt)
     Vt = Vt_sym(x[0], x[1], x[2], u[0], u[1], dt)
     print("Jacobian Gt:\n", Gt)
     print("Jacobian Vt:\n", Vt)
+
+    plt.close('all')
 
 if __name__ == "__main__":
     main()
