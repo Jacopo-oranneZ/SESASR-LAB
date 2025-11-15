@@ -3,10 +3,9 @@ import matplotlib.pyplot as plt
 from scipy.stats import norm
 from math import cos, sin, degrees
 import matplotlib as mpl
-# Import the module and the most relevant functions
-import sympy
+import sympy 
 sympy.init_printing(use_latex='mathjax')
-from sympy import symbols, Matrix, latex
+from sympy import Gt, Matrix, symbols
 
 arrow = u'$\u2191$'
 
@@ -50,17 +49,8 @@ def sample_velocity_motion_model(x, u, a, dt):
 
     return np.array([x_prime, y_prime, theta_prime])
 
-
-def main():
-    plt.close('all')
-    n_samples = 5000
-    n_bins = 100
-    dt = 0.5
-
-    x = [2, 4, 0]
-    u = [0.8, 0.6]
-    a = [0.001, 0.01, 0.1, 0.2, 0.05, 0.05] # noise variance
-
+def plot_graph(a,u,dt,n_samples,x):
+     
     x_prime = np.zeros([n_samples, 3])
     for i in range(n_samples):
         x_prime[i,:] = sample_velocity_motion_model(x, u, a, dt)
@@ -92,12 +82,10 @@ def main():
     plt.savefig("velocity_samples.pdf")
     plt.show()
 
-    ###################################
+###################################
     #### Multiple steps of sampling ###
     ###################################
 
-    x = [2, 4, 0]
-    a = [0.05, 0.1, 0.05, 0.1, 0.025, 0.025] # noise variance
     cmds = [
         [0.8, 0],
         [0.8, 0.0],
@@ -136,6 +124,45 @@ def main():
     plt.show()
 
     plt.close('all')
+
+def compute_jacobian():
+    x, y, theta, v, w, dt = symbols('x y theta v w dt')
+    R = v / w
+    beta = theta + w * dt
+    gux = Matrix(
+    [
+        [x - R * sympy.sin(theta) + R * sympy.sin(beta)],
+        [y + R * sympy.cos(theta) - R * sympy.cos(beta)],
+        [beta],
+    ]
+   )
+    eval_gux = sympy.lambdify((x, y, theta, v, w, dt), gux, 'numpy')
+    Gt = gux.jacobian(Matrix([x, y, theta]))
+    eval_Gt = sympy.lambdify((x, y, theta, v, w, dt), Gt, "numpy")
+    Vt = gux.jacobian(Matrix([v, w]))
+    eval_Vt = sympy.lambdify((x, y, theta, v, w, dt), Vt, "numpy")
+
+    return eval_Gt, eval_Vt
+
+def main():
+    plt.close('all')
+    n_samples = 500
+    n_bins = 100
+    dt = 0.5
+
+    x = [2, 4, 0]
+    u = [0.8, 0.6]
+    a_w = [0.001, 0.01, 0.1, 0.2, 0.05, 0.05] # noise variance
+    a_v = [0.05, 0.09, 0.002, 0.01, 0.05, 0.05] # noise variance
+
+    #plot_graph(a_w, u, dt, n_samples,x)
+    #plot_graph(a_v, u, dt, n_samples,x)
+     
+    [Gt_sym, Vt_sym] = compute_jacobian()
+    Gt = Gt_sym(x[0], x[1], x[2], u[0], u[1], dt)
+    Vt = Vt_sym(x[0], x[1], x[2], u[0], u[1], dt)
+    print("Jacobian Gt:\n", Gt)
+    print("Jacobian Vt:\n", Vt)
 
 if __name__ == "__main__":
     main()
