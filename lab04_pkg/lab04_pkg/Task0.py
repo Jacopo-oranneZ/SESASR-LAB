@@ -130,8 +130,8 @@ def plot_graph(a,u,dt,n_samples_mot,x):
 
     plt.close('all')
 
-def compute_jacobian_prediction():
-    x, y, theta, v, w, dt = symbols('x y theta v w dt')
+def compute_jacobian():
+    mx, my, x, y, theta, v, w, dt = symbols('mx my x y theta v w dt')
     R = v / w
     beta = theta + w * dt
     gux = Matrix(
@@ -141,13 +141,25 @@ def compute_jacobian_prediction():
         [beta],
     ]
    )
+
+    hx = Matrix(
+        [
+            [sympy.sqrt((mx - x) ** 2 + (my - y) ** 2)], # range
+            [sympy.atan2(my - y, mx - x) - theta],       # bearing
+        ]
+    )
+
     #eval_gux = sympy.lambdify((x, y, theta, v, w, dt), gux, 'numpy')
     Gt = gux.jacobian(Matrix([x, y, theta]))
     eval_Gt = sympy.lambdify((x, y, theta, v, w, dt), Gt, "numpy")
     Vt = gux.jacobian(Matrix([v, w]))
     eval_Vt = sympy.lambdify((x, y, theta, v, w, dt), Vt, "numpy")
 
-    return eval_Gt, eval_Vt
+
+    Ht = hx.jacobian(Matrix([x, y, theta]))
+    eval_Ht = sympy.lambdify((x, y, theta, mx, my), Ht, "numpy")
+
+    return eval_Gt, eval_Vt, eval_Ht
 
 ################################
 ### Landmark model functions ###
@@ -289,21 +301,8 @@ def plot_landmarks(landmarks, robot_pose, z, p_z, max_range=6.0, fov=math.pi/4):
     plt.show()
     plt.close('all')
 
-def compute_jacobian_correction():
+
     mx, my, x, y, theta = symbols("m_x m_y x y theta")
-    hx = Matrix(
-        [
-            [sympy.sqrt((mx - x) ** 2 + (my - y) ** 2)], # range
-            [sympy.atan2(my - y, mx - x) - theta],       # bearing
-        ]
-    )
-    # eval_hx = sympy.lambdify((x, y, theta, mx, my), hx, "numpy")
-
-    Ht = hx.jacobian(Matrix([x, y, theta]))
-    eval_Ht = sympy.lambdify((x, y, theta, mx, my), Ht, "numpy")
-
-    return eval_Ht
-
 def main():
     ##############################
     ### Motion model example ###
@@ -320,11 +319,6 @@ def main():
     plot_graph(a_w, u, dt, n_samples_mot,x)
     plot_graph(a_v, u, dt, n_samples_mot,x)
      
-    [Gt_sym, Vt_sym] = compute_jacobian_prediction()
-    Gt = Gt_sym(x[0], x[1], x[2], u[0], u[1], dt)
-    Vt = Vt_sym(x[0], x[1], x[2], u[0], u[1], dt)
-    print("Jacobian Gt:\n", Gt)
-    print("Jacobian Vt:\n", Vt)
 
     ##############################
     ### Landmark model example ###
@@ -378,8 +372,12 @@ def main():
     plt.plot(landmark[0], landmark[1], "sk", ms=10)
     plot_sampled_poses(robot_pose, z, landmark, sigma,n_samples_sens)
     
-    Ht_sym = compute_jacobian_correction()
+    [Gt_sym, Vt_sym, Ht_sym] = compute_jacobian()
+    Gt = Gt_sym(x[0], x[1], x[2], u[0], u[1], dt)
+    Vt = Vt_sym(x[0], x[1], x[2], u[0], u[1], dt)
     Ht = Ht_sym(robot_pose[0], robot_pose[1], robot_pose[2], landmark[0], landmark[1])
+    print("Jacobian Gt:\n", Gt)
+    print("Jacobian Vt:\n", Vt)
     print("Jacobian Ht:\n", Ht)
 
     plt.close('all')
