@@ -136,7 +136,7 @@ def compute_jacobian():
         [beta],
     ]
    )
-    #eval_gux = sympy.lambdify((x, y, theta, v, w, dt), gux, 'numpy')
+    eval_gux = sympy.lambdify((x, y, theta, v, w, dt), gux, 'numpy')
     Gt = gux.jacobian(Matrix([x, y, theta]))
     eval_Gt = sympy.lambdify((x, y, theta, v, w, dt), Gt, "numpy")
     Vt = gux.jacobian(Matrix([v, w]))
