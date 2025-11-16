@@ -15,7 +15,7 @@ from sensor_msgs.msg import LaserScan
 from rclpy.qos import qos_profile_sensor_data
 from lab04_pkg.ekf import RobotEKF
 from lab04_pkg.TASK0_mot import eval_gux, eval_Gt, eval_Vt
-from lab04_pkg.TASK0_sens import eval_Ht, eval_hx
+from lab04_pkg.TASK0_sens import eval_Ht, landmarks
 
 class EKFnode(Node):
     def __init__(self):  
@@ -24,7 +24,6 @@ class EKFnode(Node):
             dim_x=3,  # Status dimension [x, y, theta]
             dim_u=2,   # Command dimension [v, w]
             eval_gux=eval_gux,
-            eval_hx=eval_hx,
             eval_Gt=eval_Gt,
             eval_Vt=eval_Vt,
             eval_Ht=eval_Ht,

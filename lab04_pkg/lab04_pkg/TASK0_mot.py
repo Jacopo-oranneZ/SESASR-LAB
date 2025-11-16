@@ -7,6 +7,9 @@ import sympy
 sympy.init_printing(use_latex='mathjax')
 from sympy import Matrix, symbols
 
+eval_gux = None
+eval_Gt = None
+eval_Vt = None
 arrow = u'$\u2191$'
 
 def sample_normal_distribution(sigma_sqrd):
@@ -127,6 +130,7 @@ def plot_graph(a,u,dt,n_samples,x):
 
 def compute_jacobian():
     x, y, theta, v, w, dt = symbols('x y theta v w dt')
+    global eval_gux, eval_Gt, eval_Vt
     R = v / w
     beta = theta + w * dt
     gux = Matrix(

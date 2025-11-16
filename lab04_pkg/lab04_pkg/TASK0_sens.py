@@ -3,11 +3,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 from  matplotlib.patches import Arc
-from utils import compute_p_hit_dist
+from lab04_pkg.utils import compute_p_hit_dist
 import sympy
 sympy.init_printing(use_latex='mathjax')
 from sympy import  Matrix, symbols
 
+eval_Ht = None
+landmarks = None
 arrow = u'$\u2191$'
 
 def landmark_range_bearing_sensor(robot_pose, landmark, sigma, max_range=6.0, fov=math.pi/2):
@@ -157,6 +159,7 @@ def compute_jacobian():
     )
     # eval_hx = sympy.lambdify((x, y, theta, mx, my), hx, "numpy")
 
+    global eval_Ht
     Ht = hx.jacobian(Matrix([x, y, theta]))
     eval_Ht = sympy.lambdify((x, y, theta, mx, my), Ht, "numpy")
 
@@ -171,6 +174,7 @@ def main():
     # robot pose
     robot_pose = np.array([0., 0., math.pi/4])
     # landmarks position in the map
+    global landmarks
     landmarks = [
                  np.array([5., 2.]),
                  np.array([-2.5, 3.]),
