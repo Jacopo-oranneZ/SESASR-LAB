@@ -13,11 +13,13 @@ from nav_msgs.msg import Odometry
 from landmark_msgs.msg import LandmarkArray
 from sensor_msgs.msg import LaserScan
 from rclpy.qos import qos_profile_sensor_data
-from lab04_pkg.ekf import RobotEKF, Mt
-from lab04_pkg.Task0 import eval_gux, eval_Gt, eval_Vt, eval_Ht, a
+from lab04_pkg.ekf import RobotEKF
+from lab04_pkg.Task0 import eval_gux, eval_Gt, eval_Vt, eval_Ht, a as sigma_u, eval_hx
 
 
 # TODO: check sigma_u definition
+# TODO: gestire caso w=0 in task0
+# TODO: controllare eval_hx e eval_Ht
 
 
 class EKFnode(Node):
@@ -31,6 +33,7 @@ class EKFnode(Node):
             eval_Vt=eval_Vt,
             eval_Ht=eval_Ht,
         )
+
         # Publishers
         self.odom_publisher = self.create_publisher(Odometry, '/pose', 10)
         self.nav_publisher = self.create_publisher(Odometry, '/ekf', 10)
@@ -52,32 +55,23 @@ class EKFnode(Node):
 
         # self.step = 0  # Step counter for the EKF prediction
 
-    def listener_odom(self, msg):
+    def odom_callback(self, msg):
         # Extract linear and angular velocities from the odometry message
         self.v = msg.twist.twist.linear.x
         self.w = msg.twist.twist.angular.z
         self.u = np.array([self.v, self.w])
 
-        # Define standard deviations for the control inputs
-        self.sigma_u = np.array([a[0] * self.v**2 + a[1] * self.w**2, a[2] * self.v**2 + a[3] * self.w**2])
 
-    def predict(self, u, sigma_u, g_extra_args=()):
+    def prediction_callback(self):
+        # self.ekf.predict(u=self.u, sigma_u=noise, g_extra_args=(self.dt,))
+        self.ekf.predict(self.u, self.sigma_u, ())
 
+    def listener_landmark(self, msg):
+        eval_hx = self.landmark_model
 
-        self.mu = self.eval_gux(self.mu, u, sigma_u, *g_extra_args)
-
-        args = (*self.mu, *u)
-        # Update the covariance matrix of the state prediction,
-        # you need to evaluate the Jacobians Gt and Vt
-
-        Gt = self.eval_Gt(*args, *g_extra_args)
-        Vt = self.eval_Vt(*args, *g_extra_args)
-        self.Sigma = Gt @ self.Sigma @ Gt.T + Vt @ self.Mt @ Vt.T
-
-        
-        
-   
-
+        # Define Qt
+        self.Qt = np.diag([sigma_r**2, sigma_phi**2])  # Measurement noise covariance matrix
+        self.ekf.update(self.z, eval_hx, eval_Ht, self.Qt, (), (), residual=np.subtract)
     
 
 def main():

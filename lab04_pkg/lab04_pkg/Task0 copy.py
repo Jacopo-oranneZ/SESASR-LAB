@@ -319,8 +319,7 @@ def plot_landmarks(landmarks, robot_pose, z, p_z, max_range=6.0, fov=math.pi/4):
             [sympy.atan2(my - y, mx - x) - theta],       # bearing
         ]
     )
-    global eval_hx
-    eval_hx = sympy.lambdify((x, y, theta, mx, my), hx, "numpy")
+    # eval_hx = sympy.lambdify((x, y, theta, mx, my), hx, "numpy")
 
     global eval_Ht
     Ht = hx.jacobian(Matrix([x, y, theta]))
@@ -358,15 +357,11 @@ def main():
     # landmarks position in the map
     global landmarks
     landmarks = [
-                 np.array([-1.1, -1.1, 0.5]),
-                 np.array([-1.1, 0.0, 1.5]),
-                 np.array([-1.1, 1.1, 0.5]),
-                 np.array([0.0, -1.1, 1.0]),
-                 np.array([0.0,0.0,0.75]),
-                 np.array([0.0, 1.1, 0.3]),
-                 np.array([1.1, -1.1, 1.5]),
-                 np.array([1.1, 0.0, 1.0]),
-                 np.array([1.1, 1.1, 0.0])
+                 np.array([5., 2.]),
+                 np.array([-2.5, 3.]),
+                 np.array([3., 1.5]),
+                 np.array([4., -1.]),
+                 np.array([-2., -2.])
                  ]
     # sensor parameters
     fov = math.pi/3 # field of view
