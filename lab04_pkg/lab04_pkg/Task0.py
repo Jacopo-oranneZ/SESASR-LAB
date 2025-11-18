@@ -16,6 +16,12 @@ eval_Ht = None
 landmarks = None
 arrow = u'$\u2191$'
 
+# This is the global noise parameters used in the motion model
+# a[0:2] = noise related to linear velocity v
+# a[2:4] = noise related to angular velocity w
+# a[4:6] = noise related to angular velocity drift gamma
+a = [0.05, 0.09, 0.002, 0.01, 0.05, 0.05] # noise variance
+
 ################################
 ### Motion model functions #####
 ################################
@@ -153,7 +159,7 @@ def compute_jacobian():
         ]
     )
 
-    #eval_gux = sympy.lambdify((x, y, theta, v, w, dt), gux, 'numpy')
+    eval_gux = sympy.lambdify((x, y, theta, v, w, dt), gux, 'numpy')
     Gt = gux.jacobian(Matrix([x, y, theta]))
     eval_Gt = sympy.lambdify((x, y, theta, v, w, dt), Gt, "numpy")
     Vt = gux.jacobian(Matrix([v, w]))
@@ -163,7 +169,7 @@ def compute_jacobian():
     Ht = hx.jacobian(Matrix([x, y, theta]))
     eval_Ht = sympy.lambdify((x, y, theta, mx, my), Ht, "numpy")
 
-    return eval_Gt, eval_Vt, eval_Ht
+    return eval_Gt, eval_Vt, eval_Ht, eval_gux
 
 ################################
 ### Landmark model functions ###
@@ -331,6 +337,9 @@ def main():
 
     x = [2, 4, 0]
     u = [0.8, 0.6]
+
+    # noise parameters, should be one, we have 2 different sets to test in order
+    # to emphasize the angular noise(a_w) and linear noise(a_v)
     a_w = [0.001, 0.01, 0.1, 0.2, 0.05, 0.05] # noise variance
     a_v = [0.05, 0.09, 0.002, 0.01, 0.05, 0.05] # noise variance
 

@@ -13,9 +13,12 @@ from nav_msgs.msg import Odometry
 from landmark_msgs.msg import LandmarkArray
 from sensor_msgs.msg import LaserScan
 from rclpy.qos import qos_profile_sensor_data
-from lab04_pkg.ekf import RobotEKF
-from lab04_pkg.TASK0_mot import eval_gux, eval_Gt, eval_Vt
-from lab04_pkg.TASK0_sens import eval_Ht, landmarks
+from lab04_pkg.ekf import RobotEKF, Mt
+from lab04_pkg.Task0 import eval_gux, eval_Gt, eval_Vt, eval_Ht, a
+
+
+# TODO: check sigma_u definition
+
 
 class EKFnode(Node):
     def __init__(self):  
@@ -23,7 +26,7 @@ class EKFnode(Node):
         self.ekf = RobotEKF(
             dim_x=3,  # Status dimension [x, y, theta]
             dim_u=2,   # Command dimension [v, w]
-            eval_gux=eval_gux,
+            eval_gux=eval_gux,  
             eval_Gt=eval_Gt,
             eval_Vt=eval_Vt,
             eval_Ht=eval_Ht,
@@ -43,10 +46,39 @@ class EKFnode(Node):
         self.landmark_subscriber = self.create_subscription(LandmarkArray, '/landmark', self.listener_landmarks, 10)
 
         # Timer
-        self.timer = self.create_timer(0.05, self.predict)  # 20 Hz
+        self.dt = 0.05  # Time step for the EKF prediction
+        self.timer = self.create_timer(self.dt, self.predict)  # 20 Hz
         self.get_logger().info("Robot Localization EKF Node Initialized")
 
-        self.step = 0  # Step counter for the EKF prediction
+        # self.step = 0  # Step counter for the EKF prediction
+
+    def listener_odom(self, msg):
+        # Extract linear and angular velocities from the odometry message
+        self.v = msg.twist.twist.linear.x
+        self.w = msg.twist.twist.angular.z
+        self.u = np.array([self.v, self.w])
+
+        # Define standard deviations for the control inputs
+        self.sigma_u = np.array([a[0] * self.v**2 + a[1] * self.w**2, a[2] * self.v**2 + a[3] * self.w**2])
+
+    def predict(self, u, sigma_u, g_extra_args=()):
+
+
+        self.mu = self.eval_gux(self.mu, u, sigma_u, *g_extra_args)
+
+        args = (*self.mu, *u)
+        # Update the covariance matrix of the state prediction,
+        # you need to evaluate the Jacobians Gt and Vt
+
+        Gt = self.eval_Gt(*args, *g_extra_args)
+        Vt = self.eval_Vt(*args, *g_extra_args)
+        self.Sigma = Gt @ self.Sigma @ Gt.T + Vt @ self.Mt @ Vt.T
+
+        
+        
+   
+
+    
 
 def main():
     rclpy.init()
