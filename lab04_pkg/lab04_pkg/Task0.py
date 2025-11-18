@@ -6,10 +6,14 @@ import sympy
 
 from scipy.stats import norm
 from  matplotlib.patches import Arc
-from utils import compute_p_hit_dist
+from lab04_pkg.utils import compute_p_hit_dist
+import sympy
+sympy.init_printing(use_latex='mathjax')
 from sympy import  Matrix, symbols
 from math import cos, sin, degrees
 
+eval_Ht = None
+landmarks = None
 arrow = u'$\u2191$'
 
 ################################
@@ -303,6 +307,20 @@ def plot_landmarks(landmarks, robot_pose, z, p_z, max_range=6.0, fov=math.pi/4):
 
 
     mx, my, x, y, theta = symbols("m_x m_y x y theta")
+    hx = Matrix(
+        [
+            [sympy.sqrt((mx - x) ** 2 + (my - y) ** 2)], # range
+            [sympy.atan2(my - y, mx - x) - theta],       # bearing
+        ]
+    )
+    # eval_hx = sympy.lambdify((x, y, theta, mx, my), hx, "numpy")
+
+    global eval_Ht
+    Ht = hx.jacobian(Matrix([x, y, theta]))
+    eval_Ht = sympy.lambdify((x, y, theta, mx, my), Ht, "numpy")
+
+    return eval_Ht
+
 def main():
     ##############################
     ### Motion model example ###
@@ -328,6 +346,7 @@ def main():
     # robot pose
     robot_pose = np.array([0., 0., math.pi/4])
     # landmarks position in the map
+    global landmarks
     landmarks = [
                  np.array([5., 2.]),
                  np.array([-2.5, 3.]),
