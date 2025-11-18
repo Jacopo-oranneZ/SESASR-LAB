@@ -22,16 +22,6 @@ class RobotLocalizationEKF(Node):
         dim_x = 3  # Status dimension [x, y, theta]
         dim_u = 2  # Command dimension [v, w]
 
-        # Initialize the EKF
-        #self.ekf = ExtendedKalmanFilter(
-        #    dim_x=dim_x,
-        #    dim_u=dim_u,
-        #    eval_gux=motion_model_g,        # Motion model function
-        #    eval_Gt=jacobian_G,             # Jacobian of the motion model
-        #    eval_Vt=jacobian_V              # Jacobian of the motion noise
-        #)
-
-
         # Estimate of the state publisher
         self.ekf_publisher = self.create_publisher(Odometry, '/pose', 10)
 
