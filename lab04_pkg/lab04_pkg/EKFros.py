@@ -14,7 +14,7 @@ from landmark_msgs.msg import LandmarkArray
 from sensor_msgs.msg import LaserScan
 from rclpy.qos import qos_profile_sensor_data
 from lab04_pkg.ekf import RobotEKF
-from lab04_pkg.Task0 import eval_gux, eval_Gt, eval_Vt, eval_Ht, a as sigma_u, eval_hx
+from lab04_pkg.Task0 import eval_gux, eval_Gt, eval_Vt, eval_Ht, sigma, eval_hx, a
 
 
 # TODO: check sigma_u definition
@@ -32,6 +32,8 @@ class EKFnode(Node):
             eval_Gt=eval_Gt,
             eval_Vt=eval_Vt,
             eval_Ht=eval_Ht,
+            sigma = sigma,
+            sigma_u = a
         )
 
         # Publishers
@@ -50,12 +52,12 @@ class EKFnode(Node):
 
         # Timer
         self.dt = 0.05  # Time step for the EKF prediction
-        self.timer = self.create_timer(self.dt, self.predict)  # 20 Hz
+        self.timer = self.create_timer(self.dt, self.prediction_callback)  # 20 Hz
         self.get_logger().info("Robot Localization EKF Node Initialized")
 
         # self.step = 0  # Step counter for the EKF prediction
 
-    def odom_callback(self, msg):
+    def listener_odom(self, msg):
         # Extract linear and angular velocities from the odometry message
         self.v = msg.twist.twist.linear.x
         self.w = msg.twist.twist.angular.z
@@ -64,13 +66,13 @@ class EKFnode(Node):
 
     def prediction_callback(self):
         # self.ekf.predict(u=self.u, sigma_u=noise, g_extra_args=(self.dt,))
-        self.ekf.predict(self.u, self.sigma_u, ())
+        self.ekf.predict(self.u, self.sigma_u, self.dt)
 
     def listener_landmark(self, msg):
         eval_hx = self.landmark_model
 
         # Define Qt
-        self.Qt = np.diag([sigma_r**2, sigma_phi**2])  # Measurement noise covariance matrix
+        self.Qt = np.diag([sigma[0]**2, sigma[1]**2])  # Measurement noise covariance matrix
         self.ekf.update(self.z, eval_hx, eval_Ht, self.Qt, (), (), residual=np.subtract)
     
 
