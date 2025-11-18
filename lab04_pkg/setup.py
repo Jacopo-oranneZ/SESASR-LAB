@@ -24,7 +24,11 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'EKF = lab02_pkg.EKF:main'
+            'EKFros = lab04_pkg.EKFros:main',
+            'utils = lab04_pkg.utils:main',
+            'ekf = lab04_pkg.ekf:main',
+            'TASK0_mot = lab04_pkg.TASK0_mot:main',
+            'TASK0_sens = lab04_pkg.TASK0_sens:main'
         ],
     },
 )
