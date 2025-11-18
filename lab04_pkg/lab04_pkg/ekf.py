@@ -57,6 +57,8 @@ class RobotEKF:
         Vt = self.eval_Vt(*args, *g_extra_args)
         self.Sigma = Gt @ self.Sigma @ Gt.T + Vt @ self.Mt @ Vt.T
 
+        
+
     def update(self, z, eval_hx, eval_Ht, Qt, Ht_args=(), hx_args=(),  residual=np.subtract, **kwargs):
         """Performs the update innovation of the extended Kalman filter.
 
