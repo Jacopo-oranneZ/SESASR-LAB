@@ -155,8 +155,8 @@ def main():
     a_w = [0.001, 0.01, 0.1, 0.2, 0.05, 0.05] # noise variance
     a_v = [0.05, 0.09, 0.002, 0.01, 0.05, 0.05] # noise variance
 
-    #plot_graph(a_w, u, dt, n_samples,x)
-    #plot_graph(a_v, u, dt, n_samples,x)
+    plot_graph(a_w, u, dt, n_samples,x)
+    plot_graph(a_v, u, dt, n_samples,x)
      
     [Gt_sym, Vt_sym] = compute_jacobian()
     Gt = Gt_sym(x[0], x[1], x[2], u[0], u[1], dt)
