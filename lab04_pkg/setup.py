@@ -24,11 +24,11 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'EKFros = lab04_pkg.EKFros:main',
+            'EKFros_task1 = lab04_pkg.EKFros_task1:main',
+            'EKFros_task2 = lab04_pkg.EKFros_task2:main',
             'utils = lab04_pkg.utils:main',
             'ekf = lab04_pkg.ekf:main',
-            'TASK0_mot = lab04_pkg.TASK0_mot:main',
-            'TASK0_sens = lab04_pkg.TASK0_sens:main'
+            'Task2 = lab04_pkg.Task2:main',
         ],
     },
 )

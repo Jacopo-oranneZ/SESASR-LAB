@@ -17,7 +17,7 @@ def get_symbolic_functions():
     """
     # --- MODELLO DI MOTO GENERALE (Moto Curvilineo) ---
     R = v / w
-    beta = theta + w * dt
+    beta = theta + w * dt # Beta variabile ausiliaria
     
     # g(u, x) simbolica
     gux_sym = Matrix([
@@ -27,8 +27,8 @@ def get_symbolic_functions():
     ])
 
     # Jacobiani Simbolici
-    Gt_sym = gux_sym.jacobian(Matrix([x, y, theta]))
-    Vt_sym = gux_sym.jacobian(Matrix([v, w]))
+    Gt_sym = gux_sym.jacobian(Matrix([x, y, theta])) # Jacobiano rispetto allo Stato
+    Vt_sym = gux_sym.jacobian(Matrix([v, w])) # Jacobiano rispetto al Comando
 
     # --- MODELLO DI MISURA (Landmark) ---
     # Range e Bearing
@@ -37,7 +37,7 @@ def get_symbolic_functions():
         sympy.atan2(my - y, mx - x) - theta
     ])
     
-    Ht_sym = hx_sym.jacobian(Matrix([x, y, theta]))
+    Ht_sym = hx_sym.jacobian(Matrix([x, y, theta])) # Jacobiano rispetto allo Stato
 
     # --- LAMBDIFY ---
     # Generiamo le funzioni "grezze" che calcolano le formule esatte
@@ -54,21 +54,28 @@ def get_symbolic_functions():
 
 # Generiamo le funzioni "grezze" all'avvio
 _raw_Gt, _raw_Vt, eval_Ht = get_symbolic_functions()
+# Gt e Vt sono raw perché contengono singolarità (1/w)
+
 
 # ------------------------------------------------------------------------------
 # WRAPPER CON GESTIONE SINGOLARITÀ (w ~= 0)
 # ------------------------------------------------------------------------------
 
-def eval_gux(mu, u, sigma_u, dt):
+def eval_gux(mu, u,sigma_u, dt):
     """
+    Velocity Motion Model.
     Calcola la predizione dello stato (Media).
     Gestisce il caso w=0.
     """
+
+
+
+    # Estrai variabili dallo stato e dal comando
     x_val, y_val, theta_val = mu
     v_val, w_val = u
     
     if abs(w_val) < 1e-6:
-        # Modello Rettilineo (Limite w->0)
+        # Modello Rettilineo (Si ottiene eseguendo il limite per w->0)
         # x' = x + v*dt*cos(theta)
         # y' = y + v*dt*sin(theta)
         # theta' = theta
@@ -91,7 +98,7 @@ def eval_Gt(x_val, y_val, theta_val, v_val, w_val, dt_val):
     Gestisce il caso w=0.
     """
     if abs(w_val) < 1e-6:
-        # Jacobiano del moto rettilineo:
+        # Jacobiano del moto rettilineo, ottenuto eseguendo il limite per w->0:
         # x' = x + v*dt*cos(theta) -> dx'/dtheta = -v*dt*sin(theta)
         # y' = y + v*dt*sin(theta) -> dy'/dtheta =  v*dt*cos(theta)
         ss = np.sin(theta_val)
@@ -112,7 +119,7 @@ def eval_Vt(x_val, y_val, theta_val, v_val, w_val, dt_val):
     Gestisce il caso w=0.
     """
     if abs(w_val) < 1e-6:
-        # Jacobiano del moto rettilineo rispetto a (v, w):
+        # Jacobiano del moto rettilineo rispetto a (v, w), ottenuto eseguendo il limite per w->0:
         # dx'/dv = dt*cos(theta)
         # dy'/dv = dt*sin(theta)
         # dtheta'/dw = dt
@@ -136,6 +143,6 @@ def eval_Vt(x_val, y_val, theta_val, v_val, w_val, dt_val):
 # UTILS
 # ------------------------------------------------------------------------------
 
-def landmark_range_bearing_sensor(robot_pose, landmark, sigma, max_range=6.0, fov=math.pi/2):
-    # Funzione dummy o usata per il sampling
-    pass
+# def landmark_range_bearing_sensor(robot_pose, landmark, sigma, max_range=6.0, fov=math.pi/2):
+#     # Funzione dummy o usata per il sampling
+#     pass

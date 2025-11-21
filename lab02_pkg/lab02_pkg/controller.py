@@ -198,9 +198,10 @@ class Controller(Node):
     def wall_detector(self):      
         if self.turning==True: return False     # If the robot is already turning, do not detect walls
 
-
-        self.get_logger().info(f'Front cone distances: {np.mean(self.get_cone(0))}')
-        if np.mean(self.get_cone(0))< self.WALL_THRESHOLD:
+        front_cone = self.get_cone(0)
+        if front_cone==[]: return False    # Laser not ready yet
+        self.get_logger().info(f'Front cone distances: {np.min(front_cone)})')
+        if np.min(front_cone)< self.WALL_THRESHOLD:
             return True
         
         return False
