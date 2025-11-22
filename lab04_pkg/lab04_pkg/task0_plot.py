@@ -47,9 +47,10 @@ def plot_motion_samples():
     plt.subplot(1, 2, 1)
     samples_a = [sample_motion_model_velocity(x0, u, alpha_angular, dt) for _ in range(n_samples)]
     samples_a = np.array(samples_a)
+    plt.plot(samples_a[:, 0], samples_a[:, 1], 'r.')
     plt.plot(x0[0], x0[1], 'ko', label="Start", markersize=8)
-    plt.plot(samples_a[:, 0], samples_a[:, 1], 'r.', alpha=0.3)
-    plt.title(f"Alta Incertezza Angolare\n(Banana Curva)")
+
+    plt.title(f"High angular uncertainty")
     plt.xlabel("x [m]")
     plt.ylabel("y [m]")
     plt.axis('equal')
@@ -59,15 +60,17 @@ def plot_motion_samples():
     plt.subplot(1, 2, 2)
     samples_b = [sample_motion_model_velocity(x0, u, alpha_linear, dt) for _ in range(n_samples)]
     samples_b = np.array(samples_b)
+    plt.plot(samples_b[:, 0], samples_b[:, 1], 'b.')
     plt.plot(x0[0], x0[1], 'ko', label="Start", markersize=8)
-    plt.plot(samples_b[:, 0], samples_b[:, 1], 'b.', alpha=0.3)
-    plt.title(f"Alta Incertezza Lineare\n(Banana Allungata)")
+
+    plt.title(f"High linear uncertainty")
     plt.xlabel("x [m]")
     plt.ylabel("y [m]")
     plt.axis('equal')
     plt.grid(True)
 
     plt.savefig("task0_motion_samples.png")
+    plt.show()
     print("Salvato task0_motion_samples.png")
 
 # --- 2. MODELLO DI MISURA (Inverse Sampling) ---
@@ -111,10 +114,10 @@ def plot_measurement_samples():
 
     plt.figure(figsize=(6, 6))
     plt.plot(landmark[0], landmark[1], 'k*', markersize=12, label="Landmark")
-    plt.plot(true_pose[0], true_pose[1], 'go', markersize=10, label="Vera Posizione")
-    plt.plot(samples[:, 0], samples[:, 1], 'c.', alpha=0.2, label="Stime Possibili")
+    plt.plot(samples[:, 0], samples[:, 1], 'c.', label="Possible estimates")
+    plt.plot(true_pose[0], true_pose[1], 'go', markersize=10, label="True position")
     
-    plt.title(f"Incertezza Localizzazione da 1 Landmark\nSigma={sigma}")
+    plt.title(f"Localization uncertainty , Landmark\nSigma={sigma}")
     plt.xlabel("x [m]")
     plt.ylabel("y [m]")
     plt.axis('equal')
@@ -122,6 +125,7 @@ def plot_measurement_samples():
     plt.grid(True)
     
     plt.savefig("task0_measurement_samples.png")
+    plt.show()
     print("Salvato task0_measurement_samples.png")
 
 if __name__ == "__main__":
