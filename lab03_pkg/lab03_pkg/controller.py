@@ -188,44 +188,44 @@ class Controller(Node):
         return result
 
     # Alternative function for get_cone
-    def get_cone_alt(self, center):
+    # def get_cone_alt(self, center):
 
-        center = math.radians(center)  # Convert center angle from degrees to radians
+    #     center = math.radians(center)  # Convert center angle from degrees to radians
 
-        if(self.laser.angle_increment==0): # Laser not ready yet
-            self.get_logger().info('Laser not ready yet')
-            return []
+    #     if(self.laser.angle_increment==0): # Laser not ready yet
+    #         self.get_logger().info('Laser not ready yet')
+    #         return []
 
-        # theta_threshold=int(self.ANGLE_THRESHOLD // self.angle_increment) 
-        n=len(self.laser.ranges) # Total number of laser readings, different from 360
-        index_increment=5
+    #     # theta_threshold=int(self.ANGLE_THRESHOLD // self.angle_increment) 
+    #     n=len(self.laser.ranges) # Total number of laser readings, different from 360
+    #     index_increment=5
 
-        # Special case for front cone (center=0). In this case, we have to consider that the indices wrap around.
-        if center==0:
-            # self.get_logger().info(f'Getting front cone. ANGLE_THRESHOLD={self.ANGLE_THRESHOLD}°, rad: angle_min={self.laser.angle_min}, angle_max={self.laser.angle_max}, angle_increment={self.laser.angle_increment}')
+    #     # Special case for front cone (center=0). In this case, we have to consider that the indices wrap around.
+    #     if center==0:
+    #         # self.get_logger().info(f'Getting front cone. ANGLE_THRESHOLD={self.ANGLE_THRESHOLD}°, rad: angle_min={self.laser.angle_min}, angle_max={self.laser.angle_max}, angle_increment={self.laser.angle_increment}')
         
 
-            # self.get_logger().info(f'Getting front cone. angle={self.ANGLE_THRESHOLD}rad')
-            self.get_logger().info(f'Min: {index_increment} ; Max: {index_increment} ; Getting indices from {center - index_increment} to {center + index_increment}')
-            indices = [(int(center) - index_increment + i) % n for i in range(2*index_increment)]     # indices from center - 3 to center + 3, form left to right
-            result = [self.laser.ranges[i] for i in indices]
-            self.get_logger().info(f'Front cone indices: {indices}')
-            return result
+    #         # self.get_logger().info(f'Getting front cone. angle={self.ANGLE_THRESHOLD}rad')
+    #         self.get_logger().info(f'Min: {index_increment} ; Max: {index_increment} ; Getting indices from {center - index_increment} to {center + index_increment}')
+    #         indices = [(int(center) - index_increment + i) % n for i in range(2*index_increment)]     # indices from center - 3 to center + 3, form left to right
+    #         result = [self.laser.ranges[i] for i in indices]
+    #         self.get_logger().info(f'Front cone indices: {indices}')
+    #         return result
 
-        # General case for other cones.
-        self.get_logger().info(f'Min and max: {index_increment} ; Center: {int((center-self.laser.angle_min) // self.angle_increment)} From {int((center-self.laser.angle_min) // self.angle_increment)-index_increment} to {int((center-self.laser.angle_min) // self.angle_increment)+ index_increment}')
-        indices = [(int((center-self.laser.angle_min) // self.angle_increment) - index_increment + i) % n for i in range(2*index_increment)]
-        result = [self.laser.ranges[i] for i in indices]
+    #     # General case for other cones.
+    #     self.get_logger().info(f'Min and max: {index_increment} ; Center: {int((center-self.laser.angle_min) // self.angle_increment)} From {int((center-self.laser.angle_min) // self.angle_increment)-index_increment} to {int((center-self.laser.angle_min) // self.angle_increment)+ index_increment}')
+    #     indices = [(int((center-self.laser.angle_min) // self.angle_increment) - index_increment + i) % n for i in range(2*index_increment)]
+    #     result = [self.laser.ranges[i] for i in indices]
 
         
-        count=0
-        for num in result:
-            result[count]=10 if np.isinf(num) else result[count]
-            count+=1
+    #     count=0
+    #     for num in result:
+    #         result[count]=10 if np.isinf(num) else result[count]
+    #         count+=1
 
-        self.get_logger().info(f'Getting cone: {result}')
+    #     self.get_logger().info(f'Getting cone: {result}')
 
-        return result
+    #     return result
 
     # Function to detect if there is a wall in front of the robot
     def wall_detector(self):      
@@ -239,6 +239,7 @@ class Controller(Node):
     # Callback function for laser scan data
     def listener_scan(self, msg):
         self.laser=msg
+        # self.get_logger().info(f'Laser scan received with angle increment{msg.angle_increment}')
         self.angle_increment=msg.angle_increment
 
     # Callback function for odometry data
