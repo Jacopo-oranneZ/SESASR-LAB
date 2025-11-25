@@ -198,9 +198,10 @@ class Controller(Node):
     def wall_detector(self):      
         if self.turning==True: return False     # If the robot is already turning, do not detect walls
 
-
-        self.get_logger().info(f'Front cone distances: {np.min(self.get_cone(0))}')
-        if np.min(self.get_cone(0))< self.WALL_THRESHOLD:
+        front_cone = self.get_cone(0)
+        if front_cone==[]: return False    # Laser not ready yet
+        self.get_logger().info(f'Front cone distances: {np.min(front_cone)})')
+        if np.min(front_cone)< self.WALL_THRESHOLD:
             return True
         
         return False
@@ -245,9 +246,9 @@ class Controller(Node):
     #         return
 
         # We compute the distance determined by the components dx and dy
-        pos_error = (dx**2 + dy**2)**0.5 
-        self.get_logger().info(f'Odometry Error: {pos_error:.3f} m, Yaw Error: {dtheta:.3f} rad') 
-        self.get_logger().info(f'Current yaw from odom: {self.odom[2]*180/math.pi:.1f}°, from real: {self.real[2]*180/math.pi:.1f}°')   
+        # pos_error = (dx**2 + dy**2)**0.5 
+        # self.get_logger().info(f'Odometry Error: {pos_error:.3f} m, Yaw Error: {dtheta:.3f} rad') 
+        # self.get_logger().info(f'Current yaw from odom: {self.odom[2]*180/math.pi:.1f}°, from real: {self.real[2]*180/math.pi:.1f}°')   
        
 
 def main (args=None):
