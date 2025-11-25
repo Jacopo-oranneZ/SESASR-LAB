@@ -1,6 +1,9 @@
 import numpy as np
 from numpy.linalg import inv
 
+# ------------------------------
+# Extended Kalman Filter Class
+# ------------------------------
 class RobotEKF:
     def __init__(
         self,
@@ -12,13 +15,13 @@ class RobotEKF:
         eval_Vt=None,
         eval_Ht=None,
     ):
-        """
-        Initializes the extended Kalman filter creating the necessary matrices
-        """
+        
+        """Initializes the extended Kalman filter creating the necessary matrices"""
         self.mu = np.zeros((dim_x))  # mean state estimate
-        self.Sigma = np.eye(dim_x)  # covariance state estimate
-        self.Mt = np.eye(dim_u)  # process noise
+        self.Sigma = np.eye(dim_x)   # covariance state estimate
+        self.Mt = np.eye(dim_u)      # process noise covariance matrix
 
+        # Functions for motion and measurement models and their Jacobians
         self.eval_gux = eval_gux
         self.eval_hx = eval_hx
         self.eval_Gt = eval_Gt
@@ -27,81 +30,75 @@ class RobotEKF:
 
         self._I = np.eye(dim_x)  # identity matrix used for computations
 
+    # ---------------------------------------------------------
+    # PREDICTION STEP
+    # ---------------------------------------------------------
     def predict(self, u, sigma_u, g_extra_args=()):
-        """
-        Update the state prediction using the control input u and compute the relative uncertainty ellipse
-        Parameters
-        ----------
 
-        u : np.array
-            command for this step.
+        """Update the state prediction using the control input u and compute the relative uncertainty ellipse """
 
-        sigma_u : np.array
-            std dev for each component of the command signal
+        if sigma_u is not None and len(sigma_u) > 0:
+             self.Mt = np.diag(sigma_u) # Covariance matrix
 
-        extra_args : tuple
-            any additional required parameter: dt
+        self.mu = self.eval_gux(self.mu, u, sigma_u, *g_extra_args) # Predicted state based on motion model
 
-        Modified variables:
-            self.mu: the state prediction
-            self.Sigma: the covariance matrix of the state prediction
-        """
-        # Update the state prediction evaluating the motion model
-        self.mu = self.eval_gux(self.mu, u, sigma_u, *g_extra_args)
-
-        args = (*self.mu, *u)
-        # Update the covariance matrix of the state prediction,
-        # you need to evaluate the Jacobians Gt and Vt
-
+        # Preparing arguments for Jacobian calculations: if Task 1 - no control input; if Task 2 - control input included in the state
+        args = (*self.mu,) if u is None else (*self.mu, *u)
+        
+        # Compute Jacobians Gt and Vt
         Gt = self.eval_Gt(*args, *g_extra_args)
         Vt = self.eval_Vt(*args, *g_extra_args)
+        
+        # Covariance prediction
         self.Sigma = Gt @ self.Sigma @ Gt.T + Vt @ self.Mt @ Vt.T
 
-        
+    # ---------------------------------------------------------
+    # UPDATE STEP
+    # ---------------------------------------------------------
+    def update(self, z, eval_hx, eval_Ht, Qt, Ht_args=(), hx_args=(), residual=np.subtract, **kwargs):
 
-    def update(self, z, eval_hx, eval_Ht, Qt, Ht_args=(), hx_args=(),  residual=np.subtract, **kwargs):
-        """Performs the update innovation of the extended Kalman filter.
+        """Performs the update innovation of the extended Kalman filter."""
 
-        Parameters
-        ----------
-
-        z : np.array
-            measurement for this step.
-
-        lmark : [x, y] list-like
-            Landmark location in cartesian coordinates.
-
-        residual : function (z, z2), optional
-            Optional function that computes the residual (difference) between
-            the two measurement vectors. If you do not provide this, then the
-            built in minus operator will be used. You will normally want to use
-            the built in unless your residual computation is nonlinear (for
-            example, if they are angles)
-        """
-
-        # Convert the measurement to a vector if necessary. Needed for the residual computation
+        # Convert the measurement to a vector if necessary
         if np.isscalar(z):
             z = np.asarray([z], float)
             Qt = np.atleast_2d(Qt).astype(float)
-            Ht = np.atleast_2d(Ht).astype(float)
-
-        # Compute the Kalman gain, you need to evaluate the Jacobian Ht
+            if not isinstance(Ht_args, tuple): # Safety check
+                 Ht = np.atleast_2d(eval_Ht).astype(float)
+        
+        # Compute the Jacobian Ht
         Ht = eval_Ht(*Ht_args)
+        
+        # Ensure Ht is 2D
+        if Ht.ndim == 1:
+            Ht = Ht[np.newaxis, :]
+
+        # Compute Kalman Gain
+        # S = H*P*H' + Q
         SigmaHT = self.Sigma @ Ht.T
         self.S = Ht @ SigmaHT + Qt
+        
+        # K = P*H'*inv(S)
         self.K = SigmaHT @ inv(self.S)
 
-        # Evaluate the expected measurement and compute the residual, then update the state prediction
+        # Residual y = z - h(x)
         z_hat = eval_hx(*hx_args)
         if np.isscalar(z_hat):
             z_hat = np.asarray([z_hat], float)
 
-        # if the z measurement include an angle update, we need to specify the positional index to normalize the residual
         y = residual(z, z_hat, **kwargs)
+        
+        # State Update: x = x + K*y
         self.mu = self.mu + self.K @ y
 
-        # P = (I-KH)P(I-KH)' + KRK' is more numerically stable and works for non-optimal K vs the equation
-        # P = (I-KH)P usually seen in the literature.
-        # Note that I is the identity matrix.
+        # Covariance Update: P = (I - K*H)*P
+        # Use the numerically more stable Joseph form if possible, 
+        # but the standard form is sufficient for this lab: P = (I-KH)P
         I_KH = self._I - self.K @ Ht
+        
+        # Simple form (often sufficient)
+        # self.Sigma = I_KH @ self.Sigma
+        
+        # Stable form (Joseph form) symmetric: P = (I-KH)P(I-KH)' + KQK'
+        # Ensures the matrix remains positive definite
         self.Sigma = I_KH @ self.Sigma @ I_KH.T + self.K @ Qt @ self.K.T
