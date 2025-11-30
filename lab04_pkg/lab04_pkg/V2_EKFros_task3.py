@@ -16,24 +16,30 @@ from lab04_pkg.Task2 import (
     eval_H_land_5d, eval_H_odom_5d, eval_H_imu_5d
 )
 
-# --- CONFIGURAZIONE LABORATORIO (DA VERIFICARE SUL POSTO) ---
+# --- CONFIGURAZIONE LABORATORIO ---
 
-# Posizione iniziale stimata del robot (x, y, theta)
-# IMPORTANTE: Metti il robot in questa posizione quando avvii il nodo!
-INITIAL_POSE = [0.0, 0.0, 0.0] 
+# Posizione iniziale (MANTENUTA LA TUA)
+INITIAL_POSE = [0.0, 0.77, 0.0] 
 
-# Topic Names (Verifica con 'ros2 topic list' in lab)
-TOPIC_LANDMARKS = '/camera/landmarks' # Spesso è questo su Turtlebot reale
+# Topic Names
+TOPIC_LANDMARKS = '/camera/landmarks'
 TOPIC_ODOM = '/odom'
 TOPIC_IMU = '/imu'
 
 # Parametri Fisici
-ROBOT_CAMERA_HEIGHT = 0.25 # Altezza camera da terra (metri)
-MAX_LANDMARK_DIST = 4.0    # Ignora landmark più lontani di X metri (riduce rumore)
+ROBOT_CAMERA_HEIGHT = 0.25 # MANTENUTO IL TUO (0.25m)
 
-# Tuning Filtro
+# --- TUNING DI SICUREZZA (MODIFICATO) ---
+# Abbassato a 2.5m per evitare misure rumorose da lontano
+MAX_LANDMARK_DIST = 2.5    
+
+# Process Noise (Incertezza Moto)
 PROCESS_NOISE_DIAG = [0.001, 0.001, 0.001, 0.1, 0.1] 
-SIGMA_LANDMARK = [0.5, 0.1]
+
+# Measurement Noise (Incertezza Sensori)
+# AUMENTATO: [1.0m, 0.2rad]. 
+# Rende il filtro meno "nervoso" e la traiettoria più liscia.
+SIGMA_LANDMARK = [1.0, 0.2]
 SIGMA_ODOM = [0.05, 0.05]
 SIGMA_IMU = [0.02]
 
@@ -41,8 +47,7 @@ class EKFnodeTask3(Node):
     def __init__(self):
         super().__init__('robot_localization_ekf_task3')
 
-        # Mappa Landmark 3D (x, y, z)
-        # Se gli ID in lab sono diversi, vedrai un warning nel terminale!
+        # Mappa Landmark 3D
         self.landmarks_map = {
             0: (1.2, 1.68, 0.16), 
             1: (1.68, -0.05, 0.18), 
@@ -50,7 +55,8 @@ class EKFnodeTask3(Node):
             3: (3.75, 1.37, 0.21),  
             4: (2.48, 1.25, 0.22),  
             5: (4.8, 1.87, 0.24),
-            
+            6: (2.18, 1.00, 0.24),
+            7: (2.94, 2.70, 0.73)
         }
 
         self.ekf = RobotEKF(
@@ -65,9 +71,9 @@ class EKFnodeTask3(Node):
         self.ekf.mu = np.array([INITIAL_POSE[0], INITIAL_POSE[1], INITIAL_POSE[2], 0.0, 0.0])
         self.ekf.Mt = np.diag(PROCESS_NOISE_DIAG)
 
-        # Gestione Tempo Robusta
+        # Gestione Tempo
         self.last_prediction_time = self.get_clock().now()
-        self.timer_period = 0.05 # Target 20Hz
+        self.timer_period = 0.05 
 
         self.ekf_pub = self.create_publisher(Odometry, '/ekf', 10)
         self.create_subscription(Odometry, TOPIC_ODOM, self.odom_measure_callback, 10)
@@ -76,18 +82,16 @@ class EKFnodeTask3(Node):
         
         self.timer = self.create_timer(self.timer_period, self.prediction_callback)
         
-        self.get_logger().info(f"EKF Task 3 Started! Listening for landmarks on {TOPIC_LANDMARKS}")
+        self.get_logger().info(f"EKF Task 3 Ready! Initial Pose: {INITIAL_POSE}")
 
     def prediction_callback(self):
-        # Calcolo dt reale per compensare lag della CPU
         current_time = self.get_clock().now()
         dt = (current_time - self.last_prediction_time).nanoseconds / 1e9
         self.last_prediction_time = current_time
         
-        # Safety check: se dt è troppo grande (lag enorme), lo cappiamo
+        # Clamp per evitare esplosioni se il PC lagga
         if dt > 0.5:
-            self.get_logger().warn(f"Large dt detected: {dt:.4f}s. Lagging?")
-            dt = 0.05 # Fallback
+            dt = 0.05 
 
         dummy_u = None
         self.ekf.predict(u=dummy_u, sigma_u=None, g_extra_args=(dt,))
@@ -122,19 +126,32 @@ class EKFnodeTask3(Node):
         Q_land = np.diag([SIGMA_LANDMARK[0]**2, SIGMA_LANDMARK[1]**2])
         
         for lm in msg.landmarks:
-            # 1. Controllo ID Sconosciuti
             if lm.id not in self.landmarks_map:
-                # Throttle per non spammare il log se vede sempre lo stesso tag ignoto
-                self.get_logger().warn(f"Unknown Landmark ID detected: {lm.id} - Check Map!", throttle_duration_sec=2.0)
+                # Logghiamo solo ogni tanto per non intasare il terminale
+                self.get_logger().warn(f"Unknown ID: {lm.id}", throttle_duration_sec=5.0)
                 continue
 
-            # 2. Filtro Distanza (Gating grezzo)
+            # 1. Filtro Distanza (Sicurezza base)
             if lm.range > MAX_LANDMARK_DIST:
-                continue # Ignora misure troppo lontane/inaffidabili
+                continue 
 
             m_x, m_y, m_z = self.landmarks_map[lm.id]
             z = np.array([lm.range, lm.bearing])
             
+            # 2. Controllo Anti-Spuntoni (Gating)
+            # Calcoliamo dove dovremmo vedere il landmark secondo la nostra stima attuale
+            pred_z = self.landmark_model_hx_3d(*self.ekf.mu, m_x, m_y, m_z)
+            
+            # Differenza tra misura reale e attesa (solo sul range per semplicità)
+            diff_range = abs(z[0] - pred_z[0])
+            
+            # Se la misura differisce di più di 1.5m dalla stima, è probabilmente un errore
+            # o un "fantasma". La scartiamo per proteggere la traiettoria.
+            if diff_range > 1.5:
+                 self.get_logger().warn(f"Outlier rejected (ID {lm.id}): err={diff_range:.2f}m", throttle_duration_sec=1.0)
+                 continue
+
+            # Se passa i controlli, aggiorniamo!
             self.ekf.update(
                 z=z, 
                 eval_hx=self.landmark_model_hx_3d, 
@@ -146,7 +163,6 @@ class EKFnodeTask3(Node):
             )
 
     def landmark_model_hx_3d(self, x, y, theta, v, w, mx, my, mz):
-        # Calcolo distanza 3D (Slant Range)
         dx = mx - x
         dy = my - y
         dz = mz - ROBOT_CAMERA_HEIGHT
