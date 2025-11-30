@@ -127,6 +127,7 @@ def main():
     xy_reso = 3
     map, grid_map = get_map(map_path, xy_reso)
     # print(grid_map)
+    # sensor parameters definition
     fov = 2*math.pi 
     num_rays = 12
 

@@ -20,7 +20,7 @@ from lab04_pkg.Task2 import (
 
 # Posizione iniziale stimata del robot (x, y, theta)
 # IMPORTANTE: Metti il robot in questa posizione quando avvii il nodo!
-INITIAL_POSE = [0.0, 0.0, 0.0] 
+INITIAL_POSE = [0.0, 0.77, 0.0]  
 
 # Topic Names (Verifica con 'ros2 topic list' in lab)
 TOPIC_LANDMARKS = '/camera/landmarks' # Spesso è questo su Turtlebot reale
@@ -33,7 +33,7 @@ MAX_LANDMARK_DIST = 4.0    # Ignora landmark più lontani di X metri (riduce rum
 
 # Tuning Filtro
 PROCESS_NOISE_DIAG = [0.001, 0.001, 0.001, 0.1, 0.1] 
-SIGMA_LANDMARK = [0.5, 0.1]
+SIGMA_LANDMARK = [10.0, 5.0] # prev [0.5, 0.1] 
 SIGMA_ODOM = [0.05, 0.05]
 SIGMA_IMU = [0.02]
 
@@ -50,6 +50,8 @@ class EKFnodeTask3(Node):
             3: (3.75, 1.37, 0.21),  
             4: (2.48, 1.25, 0.22),  
             5: (4.8, 1.87, 0.24),
+            6: (2.18, 1.0, 0.24),
+            7: (2.94, 2.7, 0.73),
             
         }
 
