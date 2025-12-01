@@ -34,29 +34,32 @@ class RobotEKF:
     # PREDICTION STEP
     # ---------------------------------------------------------
     def predict(self, u, sigma_u, g_extra_args=()):
-
-        """Update the state prediction using the control input u and compute the relative uncertainty ellipse """
-
+        """
+        Update the state prediction using the control input u and compute the relative uncertainty ellipse
+        """
+        
+        # 1. AGGIORNAMENTO Mt (Process Noise Covariance) [MISSING IN YOUR CODE]
+        # sigma_u contiene le varianze calcolate nel nodo (alpha_1*v^2 + ...)
+        # Dobbiamo aggiornare la matrice Mt diagonale con questi valori attuali.
         if sigma_u is not None and len(sigma_u) > 0:
-             self.Mt = np.diag(sigma_u) # Covariance matrix
+             self.Mt = np.diag(sigma_u)
 
-        self.mu = self.eval_gux(self.mu, u, sigma_u, *g_extra_args) # Predicted state based on motion model
+        # 2. Predizione dello stato (Media)
+        # eval_gux usa u (comando) e mu (stato prec), sigma_u qui è ignorato per la media
+        self.mu = self.eval_gux(self.mu, u, sigma_u, *g_extra_args)
 
-        # Preparing arguments for Jacobian calculations: if Task 1 - no control input; if Task 2 - control input included in the state
+        # 3. Predizione della Covarianza (Sigma)
         args = (*self.mu,) if u is None else (*self.mu, *u)
         
-        # Compute Jacobians Gt and Vt
+        # Calcolo Jacobiani
         Gt = self.eval_Gt(*args, *g_extra_args)
         Vt = self.eval_Vt(*args, *g_extra_args)
         
-        # Covariance prediction
+        # Propagazione incertezza: P_bar = G*P*G' + V*M*V'
+        # Qui self.Mt è fondamentale che sia aggiornato!
         self.Sigma = Gt @ self.Sigma @ Gt.T + Vt @ self.Mt @ Vt.T
 
-    # ---------------------------------------------------------
-    # UPDATE STEP
-    # ---------------------------------------------------------
     def update(self, z, eval_hx, eval_Ht, Qt, Ht_args=(), hx_args=(), residual=np.subtract, **kwargs):
-
         """Performs the update innovation of the extended Kalman filter."""
 
         # Convert the measurement to a vector if necessary
@@ -67,13 +70,14 @@ class RobotEKF:
                  Ht = np.atleast_2d(eval_Ht).astype(float)
         
         # Compute the Jacobian Ht
+
         Ht = eval_Ht(*Ht_args)
         
-        # Ensure Ht is 2D
+        # Assicuriamoci che Ht sia 2D (per misure scalari come IMU)
         if Ht.ndim == 1:
             Ht = Ht[np.newaxis, :]
 
-        # Compute Kalman Gain
+        # 1. Kalman Gain
         # S = H*P*H' + Q
         SigmaHT = self.Sigma @ Ht.T
         self.S = Ht @ SigmaHT + Qt
@@ -81,24 +85,24 @@ class RobotEKF:
         # K = P*H'*inv(S)
         self.K = SigmaHT @ inv(self.S)
 
-        # Residual y = z - h(x)
+        # 2. Innovation (Residual) y = z - h(x)
         z_hat = eval_hx(*hx_args)
         if np.isscalar(z_hat):
             z_hat = np.asarray([z_hat], float)
 
         y = residual(z, z_hat, **kwargs)
         
-        # State Update: x = x + K*y
+        # 3. State Update: x = x + K*y
         self.mu = self.mu + self.K @ y
 
-        # Covariance Update: P = (I - K*H)*P
-        # Use the numerically more stable Joseph form if possible, 
-        # but the standard form is sufficient for this lab: P = (I-KH)P
+        # 4. Covariance Update: P = (I - K*H)*P
+        # Usiamo la forma numericamente più stabile (Joseph form) se possibile, 
+        # ma quella standard va bene per questo lab: P = (I-KH)P
         I_KH = self._I - self.K @ Ht
         
-        # Simple form (often sufficient)
+        # Forma semplice (spesso sufficiente)
         # self.Sigma = I_KH @ self.Sigma
         
-        # Stable form (Joseph form) symmetric: P = (I-KH)P(I-KH)' + KQK'
-        # Ensures the matrix remains positive definite
+        # Forma stabile (Joseph form) simmetrica: P = (I-KH)P(I-KH)' + KQK'
+        # Garantisce che la matrice rimanga definita positiva
         self.Sigma = I_KH @ self.Sigma @ I_KH.T + self.K @ Qt @ self.K.T

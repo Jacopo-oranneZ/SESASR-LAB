@@ -26,6 +26,8 @@ setup(
         'console_scripts': [
             'EKFros_task1 = lab04_pkg.EKFros_task1:main',
             'EKFros_task2 = lab04_pkg.EKFros_task2:main',
+            'EKFros_task3 = lab04_pkg.EKFros_task3:main',
+            'V2_EKFros_task3 = lab04_pkg.V2_EKFros_task3:main',
             'utils = lab04_pkg.utils:main',
             'ekf = lab04_pkg.ekf:main',
             'Task2 = lab04_pkg.Task2:main',
