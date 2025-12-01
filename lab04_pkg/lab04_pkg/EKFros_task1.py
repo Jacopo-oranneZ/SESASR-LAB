@@ -13,7 +13,7 @@ from lab04_pkg.ekf import RobotEKF
 
 # Importiamo le funzioni matematiche 3D (Task 1) dal Task0
 from lab04_pkg.Task0 import (
-    eval_gux, eval_Gt, eval_Vt, eval_Ht
+    eval_gux, eval_Gt, eval_Vt, eval_Ht, landmark_model_hx
 )
 
 # --- PARAMETRI ---
@@ -126,7 +126,7 @@ class EKFnodeTask1(Node):
                 # Chiamiamo update passando i parametri del landmark
                 self.ekf.update(
                     z=z,
-                    eval_hx=self.landmark_model_hx,
+                    eval_hx=landmark_model_hx, # Funzione h(x) standard 3D
                     eval_Ht=eval_Ht, # Jacobiano 3D standard
                     Qt=Q_land,
                     Ht_args=(*self.ekf.mu, m_x, m_y),
@@ -137,14 +137,14 @@ class EKFnodeTask1(Node):
     # ---------------------------------------------------------
     # UTILS
     # ---------------------------------------------------------
-    def landmark_model_hx(self, x, y, theta, mx, my):
-        # Funzione h(x) standard 3D
-        dx = mx - x
-        dy = my - y
-        r = math.sqrt(dx**2 + dy**2)
-        phi = math.atan2(dy, dx) - theta
-        phi = math.atan2(math.sin(phi), math.cos(phi))
-        return np.array([r, phi])
+    # def landmark_model_hx(self, x, y, theta, mx, my):
+    #     # Funzione h(x) standard 3D
+    #     dx = mx - x
+    #     dy = my - y
+    #     r = math.sqrt(dx**2 + dy**2)
+    #     phi = math.atan2(dy, dx) - theta
+    #     phi = math.atan2(math.sin(phi), math.cos(phi))
+    #     return np.array([r, phi])
 
     def angle_diff(self, z_meas, z_pred):
         diff = z_meas - z_pred
