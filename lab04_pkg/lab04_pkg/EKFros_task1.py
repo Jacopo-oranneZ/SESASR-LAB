@@ -103,7 +103,7 @@ class EKFnodeTask1(Node):
         sigma_v2 = A_NOISE[0] * v**2 + A_NOISE[1] * w**2
         sigma_w2 = A_NOISE[2] * v**2 + A_NOISE[3] * w**2
         
-        # Epsilon per stabilità numerica
+        # Epsilon per stabilità numerica quando v o w sono zero
         sigma_v2 += 0.0001
         sigma_w2 += 0.0001
 
