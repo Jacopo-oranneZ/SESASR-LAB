@@ -39,7 +39,7 @@ PROCESS_NOISE_DIAG = [0.001, 0.001, 0.001, 0.1, 0.1]
 # Measurement Noise (Incertezza Sensori)
 # AUMENTATO: [1.0m, 0.2rad]. 
 # Rende il filtro meno "nervoso" e la traiettoria più liscia.
-SIGMA_LANDMARK = [1.0, 0.2]
+SIGMA_LANDMARK = [10.0, 5.0] 
 SIGMA_ODOM = [0.05, 0.05]
 SIGMA_IMU = [0.02]
 
