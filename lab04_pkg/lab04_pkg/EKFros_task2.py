@@ -52,7 +52,7 @@ class EKFnodeTask2(Node):
         self.get_logger().info("EKF Task 2 (Sensor Fusion) Started!")
 
     def prediction_callback(self):
-        # FIX CRUCIALE: Passiamo None come input u.
+        # Passiamo None come input u.
         # Questo dice a RobotEKF di non spacchettare nulla in 'args' oltre allo stato mu.
         # Risultato: eval_Gt riceverà (mu, dt) -> 6 argomenti, che è corretto.
         dummy_u = None
