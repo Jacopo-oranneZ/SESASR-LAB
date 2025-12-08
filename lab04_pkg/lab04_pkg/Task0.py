@@ -111,7 +111,15 @@ def eval_Gt(x_val, y_val, theta_val, v_val, w_val, dt_val):
     else:
         # Usa la formula complessa generata da Sympy
         return _raw_Gt(x_val, y_val, theta_val, v_val, w_val, dt_val)
-
+    
+def landmark_model_hx(x, y, theta, mx, my):
+        # Funzione h(x) standard 3D
+        dx = mx - x
+        dy = my - y
+        r = math.sqrt(dx**2 + dy**2)
+        phi = math.atan2(dy, dx) - theta
+        phi = math.atan2(math.sin(phi), math.cos(phi))
+        return np.array([r, phi])
 
 def eval_Vt(x_val, y_val, theta_val, v_val, w_val, dt_val):
     """

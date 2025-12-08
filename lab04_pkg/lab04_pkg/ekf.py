@@ -38,11 +38,11 @@ class RobotEKF:
         Update the state prediction using the control input u and compute the relative uncertainty ellipse
         """
         
-        # 1. AGGIORNAMENTO Mt (Process Noise Covariance) [MISSING IN YOUR CODE]
+        # 1. AGGIORNAMENTO Mt (Process Noise Covariance)
         # sigma_u contiene le varianze calcolate nel nodo (alpha_1*v^2 + ...)
         # Dobbiamo aggiornare la matrice Mt diagonale con questi valori attuali.
         if sigma_u is not None and len(sigma_u) > 0:
-             self.Mt = np.diag(sigma_u)
+            self.Mt = np.diag(sigma_u)
 
         # 2. Predizione dello stato (Media)
         # eval_gux usa u (comando) e mu (stato prec), sigma_u qui è ignorato per la media
