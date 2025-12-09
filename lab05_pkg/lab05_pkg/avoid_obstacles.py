@@ -45,17 +45,19 @@ class ObstacleAvoidanceNode(Node):
         # Constants
         self.GOAL_TOLERANCE = 0.2  # meters
         self.LASERS_OBS_NUM = 30  # Number of laser readings to consider for obstacle avoidance
-        self.VMAX = 0.22  # Maximum linear velocity (m/s)
+        self.VMAX = 0.5  # Maximum linear velocity (m/s)
         self.WMAX = 1.5  # Maximum angular velocity (rad/s)
+        self.V_STEPS = 10  # Number of linear velocity samples
+        self.W_STEPS = 15  # Number of angular velocity samples
         self.MAX_LASER_RANGE = 3.5  # Maximum laser range to consider (m)
-        self.OBSTACLES_SAFETY_DIST = 0.15  # Minimum distance to obstacles (m)
+        self.OBSTACLES_SAFETY_DIST = 0.18  # Minimum distance to obstacles (m)
         self.EMERGENCY_STOP_DIST = 0.13  # Distance to trigger emergency stop (m)
 
         self.SIMULATION_TIME = 2.0  # seconds
         self.TIME_STEP = 0.1  # seconds
-        self.HEADING_WEIGHT = 1.5
-        self.VELOCITY_WEIGHT = 4.0
-        self.OBSTACLE_WEIGHT = 2.5
+        self.HEADING_WEIGHT = 1.0
+        self.VELOCITY_WEIGHT = 4.5
+        self.OBSTACLE_WEIGHT = 3.1
 
         # useful lambda functions
         self.checkSafety = lambda lasers: True if np.min(lasers)>self.EMERGENCY_STOP_DIST else False
@@ -154,6 +156,7 @@ class ObstacleAvoidanceNode(Node):
         Used as emergency stop when an obstacle is too close.
 
         """
+        self.get_logger().info("Stopping the robot.")
         self.cmd_vel_pub.publish(Twist())  # Publish zero velocities to stop the robot
 
 
@@ -192,8 +195,8 @@ class ObstacleAvoidanceNode(Node):
 
         obstacles = self.get_obstacles()
 
-        v_range = np.linspace(0, self.VMAX, 10)
-        w_range = np.linspace(-self.WMAX, self.WMAX, 15)
+        v_range = np.linspace(0, self.VMAX, self.V_STEPS)
+        w_range = np.linspace(-self.WMAX, self.WMAX, self.W_STEPS)
 
         # Matrix to store simulated poses for each (v,w) pair in time
         simulated_poses = np.zeros((len(v_range)*len(w_range), int(self.SIMULATION_TIME/self.TIME_STEP)+1,3))
