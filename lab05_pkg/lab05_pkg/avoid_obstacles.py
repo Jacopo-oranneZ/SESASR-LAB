@@ -11,6 +11,7 @@ from lab05_pkg.utils import normalize_angle
 
 #TODO Real robot: change topic names (landmarks to /camera/landmarks)
 #TODO Provide intermediate feedback (distance to goal every 50 steps) in a dedicated topic
+#TODO Revise max velocities, weights, and safety distances for real robot
 
 class ObstacleAvoidanceNode(Node):
     def __init__(self):
@@ -39,20 +40,22 @@ class ObstacleAvoidanceNode(Node):
         self.angle_max=0
         self.angle_increment=0
 
+
+        #All of the following constants can be tuned for better performance and for real robot use
         # Constants
         self.GOAL_TOLERANCE = 0.2  # meters
         self.LASERS_OBS_NUM = 30  # Number of laser readings to consider for obstacle avoidance
         self.VMAX = 0.22  # Maximum linear velocity (m/s)
         self.WMAX = 1.5  # Maximum angular velocity (rad/s)
         self.MAX_LASER_RANGE = 3.5  # Maximum laser range to consider (m)
-        self.OBSTACLES_SAFETY_DIST = 0.25  # Minimum distance to obstacles (m)
-        self.EMERGENCY_STOP_DIST = 0.15  # Distance to trigger emergency stop (m)
+        self.OBSTACLES_SAFETY_DIST = 0.15  # Minimum distance to obstacles (m)
+        self.EMERGENCY_STOP_DIST = 0.13  # Distance to trigger emergency stop (m)
 
         self.SIMULATION_TIME = 2.0  # seconds
         self.TIME_STEP = 0.1  # seconds
         self.HEADING_WEIGHT = 1.5
         self.VELOCITY_WEIGHT = 4.0
-        self.OBSTACLE_WEIGHT = 2.0
+        self.OBSTACLE_WEIGHT = 2.5
 
         # useful lambda functions
         self.checkSafety = lambda lasers: True if np.min(lasers)>self.EMERGENCY_STOP_DIST else False
@@ -305,7 +308,7 @@ class ObstacleAvoidanceNode(Node):
         
         # Compute best velocity command using DWA
         best_u = self.velocity_command()
-        self.get_logger().info(f"Selected velocities => v: {best_u[0]:.2f} m/s, w: {best_u[1]:.2f} rad/s")
+        # self.get_logger().info(f"Selected velocities => v: {best_u[0]:.2f} m/s, w: {best_u[1]:.2f} rad/s")
 
         # Pubblichiamo il risultato del DWA
         cmd = Twist()
