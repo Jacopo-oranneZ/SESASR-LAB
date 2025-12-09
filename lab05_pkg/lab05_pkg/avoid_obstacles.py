@@ -57,7 +57,7 @@ class ObstacleAvoidanceNode(Node):
         self.TIME_STEP = 0.1  # seconds
         self.HEADING_WEIGHT = 1.0
         self.VELOCITY_WEIGHT = 4.5
-        self.OBSTACLE_WEIGHT = 3.2
+        self.OBSTACLE_WEIGHT = 3.1
 
         # useful lambda functions
         self.checkSafety = lambda lasers: True if np.min(lasers)>self.EMERGENCY_STOP_DIST else False
