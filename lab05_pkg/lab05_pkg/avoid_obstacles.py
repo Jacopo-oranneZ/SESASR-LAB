@@ -9,7 +9,9 @@ from geometry_msgs.msg import Twist
 from lab05_pkg.utils import normalize_angle
 
 
-
+#TODO Real robot: change topic names (landmarks to /camera/landmarks)
+#TODO Provide intermediate feedback (distance to goal every 50 steps) in a dedicated topic
+#TODO Revise max velocities, weights, and safety distances for real robot
 
 class ObstacleAvoidanceNode(Node):
     def __init__(self):
@@ -34,26 +36,33 @@ class ObstacleAvoidanceNode(Node):
         self.robot_pose = np.array([0.0, 0.0, 0.0])  # x, y, theta
         self.goal_pose = np.array([0.0, 0.0])
         self.lasers = None  # To store laser scan data
-        self.checkSafety = lambda lasers: True if np.min(lasers>0.2) else False
-        self.dist_to_point = lambda robot_pose, point_pose: np.linalg.norm(robot_pose[0:2] - point_pose)
-
         self.angle_min=0
         self.angle_max=0
         self.angle_increment=0
 
+
+        #All of the following constants can be tuned for better performance and for real robot use
         # Constants
         self.GOAL_TOLERANCE = 0.2  # meters
         self.LASERS_OBS_NUM = 30  # Number of laser readings to consider for obstacle avoidance
-        self.VMAX = 0.22  # Maximum linear velocity (m/s)
+        self.VMAX = 0.5  # Maximum linear velocity (m/s)
         self.WMAX = 1.5  # Maximum angular velocity (rad/s)
+        self.V_STEPS = 10  # Number of linear velocity samples
+        self.W_STEPS = 15  # Number of angular velocity samples
         self.MAX_LASER_RANGE = 3.5  # Maximum laser range to consider (m)
-        self.OBSTACLES_SAFETY_DIST = 0.3  # Minimum distance to obstacles (m)
+        self.OBSTACLES_SAFETY_DIST = 0.18  # Minimum distance to obstacles (m)
+        self.EMERGENCY_STOP_DIST = 0.13  # Distance to trigger emergency stop (m)
 
         self.SIMULATION_TIME = 2.0  # seconds
         self.TIME_STEP = 0.1  # seconds
-        self.HEADING_WEIGHT = 0.333
-        self.VELOCITY_WEIGHT = 0.333
-        self.OBSTACLE_WEIGHT = 0.333
+        self.HEADING_WEIGHT = 1.0
+        self.VELOCITY_WEIGHT = 4.5
+        self.OBSTACLE_WEIGHT = 3.1
+
+        # useful lambda functions
+        self.checkSafety = lambda lasers: True if np.min(lasers)>self.EMERGENCY_STOP_DIST else False
+        self.dist_to_point = lambda robot_pose, point_pose: np.linalg.norm(robot_pose[0:2] - point_pose)
+
 
 
     #####################################
@@ -136,9 +145,6 @@ class ObstacleAvoidanceNode(Node):
 
         filtered_ranges = np.array(filtered_ranges)
 
-        if self.checkSafety(filtered_ranges) == False:
-            self.get_logger().warn("Obstacle too close! Stopping robot.")
-            self.stop()
 
         return filtered_ranges
 
@@ -150,6 +156,7 @@ class ObstacleAvoidanceNode(Node):
         Used as emergency stop when an obstacle is too close.
 
         """
+        self.get_logger().info("Stopping the robot.")
         self.cmd_vel_pub.publish(Twist())  # Publish zero velocities to stop the robot
 
 
@@ -188,8 +195,8 @@ class ObstacleAvoidanceNode(Node):
 
         obstacles = self.get_obstacles()
 
-        v_range = np.linspace(0, self.VMAX, 10)
-        w_range = np.linspace(-self.WMAX, self.WMAX, 15)
+        v_range = np.linspace(0, self.VMAX, self.V_STEPS)
+        w_range = np.linspace(-self.WMAX, self.WMAX, self.W_STEPS)
 
         # Matrix to store simulated poses for each (v,w) pair in time
         simulated_poses = np.zeros((len(v_range)*len(w_range), int(self.SIMULATION_TIME/self.TIME_STEP)+1,3))
@@ -246,11 +253,11 @@ class ObstacleAvoidanceNode(Node):
         """
 
         Check if the given pose collides with any obstacles.
-        Return True if collision occurs, False otherwise.
+        Return the minimum distance to obstacles or 0.0 if in collision.
 
         """
 
-        min_dist = float('inf')
+        min_dist = self.MAX_LASER_RANGE
         for obs in obstacles:
             dist_to_obs = self.dist_to_point(pose, obs)
             if dist_to_obs < self.OBSTACLES_SAFETY_DIST:
@@ -284,18 +291,27 @@ class ObstacleAvoidanceNode(Node):
         """
 
         Main DWA loop called periodically to compute and publish velocity commands.
+        Check for obstacles, goal reaching, and compute best velocity command.
 
         """
         if self.lasers is None:
             return
         
+        if self.checkSafety(self.lasers) == False:
+            self.get_logger().warn("Obstacle too close! Stopping robot.")
+            self.stop()
+            return
+
+        
         dist = self.dist_to_point(self.robot_pose, self.goal_pose)
         if dist < self.GOAL_TOLERANCE:
             self.get_logger().info("Goal Reached!")
+            self.stop()
             return
         
         # Compute best velocity command using DWA
         best_u = self.velocity_command()
+        # self.get_logger().info(f"Selected velocities => v: {best_u[0]:.2f} m/s, w: {best_u[1]:.2f} rad/s")
 
         # Pubblichiamo il risultato del DWA
         cmd = Twist()
