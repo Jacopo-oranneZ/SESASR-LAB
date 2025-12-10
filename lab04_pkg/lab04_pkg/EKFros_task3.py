@@ -23,6 +23,16 @@ SIGMA_IMU = [0.02]
 # Altezza approssimativa della fotocamera del Turtlebot da terra (in metri)
 ROBOT_CAMERA_HEIGHT = 0.24 
 
+"""
+    QUESTO NODO IMPLEMENTA L'EKF PER IL TASK 3,
+    che considera la geometria 3D dei landmark.
+    Questo nodo estende il Task 2, ed è utilizzato con il robot reale.
+    Anche qui attingiamo al file Task2.py per le funzioni matematiche 5D.
+
+"""
+
+
+
 class EKFnodeTask3(Node):
     def __init__(self):
         super().__init__('robot_localization_ekf_task3')
@@ -47,30 +57,48 @@ class EKFnodeTask3(Node):
             eval_Vt=lambda *args: np.eye(5) 
         )
         
+        # Stato Iniziale
         self.ekf.mu = np.array([0.0, 0.77, 0.0, 0.0, 0.0])
         self.ekf.Mt = np.diag(PROCESS_NOISE_DIAG)
 
         self.dt = 0.05
 
         self.ekf_pub = self.create_publisher(Odometry, '/ekf', 10)
+        # Subscriptions
         self.create_subscription(Odometry, '/odom', self.odom_measure_callback, 10)
         self.create_subscription(Imu, '/imu', self.imu_measure_callback, 10)
         self.create_subscription(LandmarkArray, '/camera/landmarks', self.landmark_callback, 10) # Robot reale: /camera/landmarks
+
+        # TIMER PER PREDIZIONE
         self.timer = self.create_timer(self.dt, self.prediction_callback)
         
         self.get_logger().info("EKF Task 3 (3D Geometry Correction) Started!")
 
     def prediction_callback(self):
+        """
+
+        Effettua la predizione dello stato EKF.
+        dummy_u = None poiché non usiamo input di controllo esterni.
+
+        """
         dummy_u = None
         self.ekf.predict(u=dummy_u, sigma_u=None, g_extra_args=(self.dt,))
+
+        # Pubblicazione stato EKF
         self.publish_ekf_state()
 
     def odom_measure_callback(self, msg):
+        """
+
+        Riceve l'odometria e aggiorna l'EKF.
+        
+        """
         v_meas = msg.twist.twist.linear.x
         w_meas = msg.twist.twist.angular.z
         z = np.array([v_meas, w_meas])
         Q_odom = np.diag([SIGMA_ODOM[0]**2, SIGMA_ODOM[1]**2])
         
+        # Definiamo h_odom per l'update inline poiché è semplice
         def h_odom(x, y, theta, v, w): return np.array([v, w])
             
         self.ekf.update(
@@ -79,10 +107,16 @@ class EKFnodeTask3(Node):
         )
 
     def imu_measure_callback(self, msg):
+        """
+        
+        Riceve l'IMU e aggiorna l'EKF.
+        
+        """
         w_meas = msg.angular_velocity.z
         z = np.array([w_meas])
         Q_imu = np.diag([SIGMA_IMU[0]**2])
         
+        # Definiamo h_imu per l'update inline poiché è semplice
         def h_imu(x, y, theta, v, w): return np.array([w])
             
         self.ekf.update(
@@ -91,7 +125,13 @@ class EKFnodeTask3(Node):
         )
 
     def landmark_callback(self, msg):
+        """
+        
+        Riceve le misure dei landmark e aggiorna l'EKF considerando la geometria 3D.
+
+        """
         Q_land = np.diag([SIGMA_LANDMARK[0]**2, SIGMA_LANDMARK[1]**2])
+        # Per ogni landmark misurato eseguiamo l'update
         for lm in msg.landmarks:
             if lm.id in self.landmarks_map:
                 # Estraiamo anche la Z del landmark!
@@ -110,33 +150,60 @@ class EKFnodeTask3(Node):
                     residual=self.angle_diff
                 )
 
+    ##########################################
+    ##         EKF MODELS FUNCTIONS         ##
+    ##########################################
+
     def landmark_model_hx_3d(self, x, y, theta, v, w, mx, my, mz):
         """
+
         Calcola la misura attesa considerando la geometria 3D.
-        Range = Ipotenusa 3D tra (x,y,z_robot) e (mx,my,mz_landmark)
+
         """
         # Differenze planari
         dx = mx - x
         dy = my - y
         
-        # Differenza di altezza (Delta Z)
+        # Differenza di altezza
         dz = mz - ROBOT_CAMERA_HEIGHT
         
-        # Calcolo Range 3D (Teorema di Pitagora nello spazio)
+        # Calcolo della distanza 3D
         r_3d = math.sqrt(dx**2 + dy**2 + dz**2)
         
-        # Il Bearing rimane planare (azimut)
         phi = math.atan2(dy, dx) - theta
         phi = math.atan2(math.sin(phi), math.cos(phi))
         
         return np.array([r_3d, phi])
 
+    #############################################
+    ##            SUPPORT FUNCTIONS            ##
+    #############################################
+
+
     def angle_diff(self, z_meas, z_pred):
+        """
+
+        Calcola la differenza tra due misure angolari, gestendo il wrapping a [-pi, pi].
+
+        """
+
+
         diff = z_meas - z_pred
         diff[1] = math.atan2(math.sin(diff[1]), math.cos(diff[1]))
         return diff
+    
+    ###########################################
+    ##         PUBLISHING FUNCTIONS          ##
+    ###########################################
 
     def publish_ekf_state(self):
+        """
+        
+        Pubblica lo stato stimato dall'EKF come messaggio di Odometry
+        
+        """
+
+
         msg = Odometry()
         msg.header.stamp = self.get_clock().now().to_msg()
         msg.header.frame_id = "odom" 
@@ -150,6 +217,7 @@ class EKFnodeTask3(Node):
         msg.pose.pose.orientation.w = q[3]
         msg.twist.twist.linear.x = self.ekf.mu[3]
         msg.twist.twist.angular.z = self.ekf.mu[4]
+
         self.ekf_pub.publish(msg)
 
 def main(args=None):

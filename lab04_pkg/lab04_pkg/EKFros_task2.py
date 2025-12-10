@@ -15,6 +15,16 @@ from lab04_pkg.Task2 import (
     eval_H_land_5d, eval_H_odom_5d, eval_H_imu_5d
 )
 
+"""
+
+    QUESTO NODO IMPLEMENTA L'EKF PER IL TASK 2,
+    che fonde misure di odometria, IMU e landmark.
+    Attingiamo al file Task2.py per le funzioni matematiche 5D.
+
+"""
+
+
+#--- PARAMETRI ---
 PROCESS_NOISE_DIAG = [0.001, 0.001, 0.001, 0.1, 0.1] 
 SIGMA_LANDMARK = [0.5, 0.1]
 SIGMA_ODOM = [0.05, 0.05]
@@ -38,23 +48,37 @@ class EKFnodeTask2(Node):
             eval_Vt=lambda *args: np.eye(5) 
         )
         
+        # Stato Iniziale
         self.ekf.mu = np.array([-2.0, -0.5, 0.0, 0.0, 0.0])
         self.ekf.Mt = np.diag(PROCESS_NOISE_DIAG) # 5x5 Matrix
 
-        self.dt = 0.05
+        # Variabili di supporto
+        self.dt = 0.05 # 20 Hz
 
+        # PUBLISHERS
         self.ekf_pub = self.create_publisher(Odometry, '/ekf', 10)
+
+        # SUBSCRIPTIONS
         self.create_subscription(Odometry, '/odom', self.odom_measure_callback, 10)
         self.create_subscription(Imu, '/imu', self.imu_measure_callback, 10)
         self.create_subscription(LandmarkArray, '/landmarks', self.landmark_callback, 10)
+
+        # TIMER PER PREDIZIONE
         self.timer = self.create_timer(self.dt, self.prediction_callback)
         
         self.get_logger().info("EKF Task 2 (Sensor Fusion) Started!")
 
+    ####################################################
+    ##    CALLBACKS PER PREDIZIONE E AGGIORNAMENTO    ##
+    ####################################################
+
     def prediction_callback(self):
-        # Passiamo None come input u.
-        # Questo dice a RobotEKF di non spacchettare nulla in 'args' oltre allo stato mu.
-        # Risultato: eval_Gt riceverà (mu, dt) -> 6 argomenti, che è corretto.
+        """
+        
+        Esegue il passo di predizione dell'EKF usando il modello di movimento.
+        Passiamo u=None perché non usiamo input di controllo esterni.
+
+        """
         dummy_u = None
         
         # Passiamo sigma_u=None per non sovrascrivere Mt con zeri
@@ -63,6 +87,13 @@ class EKFnodeTask2(Node):
         self.publish_ekf_state()
 
     def odom_measure_callback(self, msg):
+        """
+
+        Riceve l'odometria e aggiorna l'EKF.
+
+        """
+
+        # Estraiamo la misura v, w
         v_meas = msg.twist.twist.linear.x
         w_meas = msg.twist.twist.angular.z
         z = np.array([v_meas, w_meas])
@@ -76,12 +107,20 @@ class EKFnodeTask2(Node):
         )
 
     def imu_measure_callback(self, msg):
+        """
+
+        Riceve la misura IMU e aggiorna l'EKF.
+
+        """
+
         w_meas = msg.angular_velocity.z
         z = np.array([w_meas])
         Q_imu = np.diag([SIGMA_IMU[0]**2])
         
+        # Qui definiamo h_imu inline per comodità, essendo molto semplice
         def h_imu(x, y, theta, v, w): return np.array([w])
-            
+        
+        # Eseguiamo l'update con la misura IMU
         self.ekf.update(
             z=z, eval_hx=h_imu, eval_Ht=lambda *args: eval_H_imu_5d(),
             Qt=Q_imu, Ht_args=(), hx_args=(*self.ekf.mu,), residual=np.subtract
@@ -99,19 +138,54 @@ class EKFnodeTask2(Node):
                     hx_args=(*self.ekf.mu, m_x, m_y), residual=self.angle_diff
                 )
 
+
+
+    #########################################
+    ##          SUPPORT FUNCTIONS          ##
+    #########################################
+    def angle_diff(self, z_meas, z_pred):
+        """
+
+        Calcola la differenza tra due misure angolari, gestendo il wrapping a [-pi, pi].
+
+        """
+
+
+        diff = z_meas - z_pred
+        diff[1] = math.atan2(math.sin(diff[1]), math.cos(diff[1]))
+        return diff
+
+
+    
+
+
+    ##########################################
+    ##         EKF MODELS FUNCTIONS         ##
+    ##########################################
+
     def landmark_model_hx(self, x, y, theta, v, w, mx, my):
+        """
+        
+        Calcola la misura attesa del landmark dato lo stato e la posizione del landmark.
+        
+        """
         dx = mx - x; dy = my - y
         r = math.sqrt(dx**2 + dy**2)
         phi = math.atan2(dy, dx) - theta
         phi = math.atan2(math.sin(phi), math.cos(phi))
         return np.array([r, phi])
 
-    def angle_diff(self, z_meas, z_pred):
-        diff = z_meas - z_pred
-        diff[1] = math.atan2(math.sin(diff[1]), math.cos(diff[1]))
-        return diff
+
+    #########################################
+    ##        PUBLISHING FUNCTIONS         ##
+    #########################################
 
     def publish_ekf_state(self):
+        """
+
+        Pubblica lo stato stimato dall'EKF come messaggio di Odometry
+
+        """
         msg = Odometry()
         msg.header.stamp = self.get_clock().now().to_msg()
         msg.header.frame_id = "odom" 

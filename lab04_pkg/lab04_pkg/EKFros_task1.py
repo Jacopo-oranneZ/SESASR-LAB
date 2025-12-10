@@ -16,16 +16,19 @@ from lab04_pkg.Task0 import (
     eval_gux, eval_Gt, eval_Vt, eval_Ht, landmark_model_hx
 )
 
-# --- PARAMETRI ---
+"""
+    QUESTO NODO IMPLEMENTA L'EKF PER IL TASK 1,
+    attingendo al file Task0.py per le funzioni matematiche 3D.
+"""
 
-# Parametri di rumore PROCESSO (Modello di Moto Odometrico)
+
+
+# --- PARAMETRI ---
 # [alpha1, alpha2, alpha3, alpha4]
 # Questi generano la matrice Mt dinamicamente in base alla velocità
 A_NOISE = [0.2, 0.05, 0.05, 0.2] 
 
-# Parametri rumore MISURA (Landmark)
 # [range (m), bearing (rad)]
-# Valori rilassati per evitare instabilità
 SIGMA_LANDMARK = [0.5, 0.1] 
 
 class EKFnodeTask1(Node):
@@ -42,7 +45,7 @@ class EKFnodeTask1(Node):
         # 2. INIZIALIZZAZIONE EKF (Stato 3D)
         self.ekf = RobotEKF(
             dim_x=3, # [x, y, theta]
-            dim_u=2, # [v, w] - Qui abbiamo input di controllo!
+            dim_u=2, # [v, w]
             eval_gux=eval_gux,
             eval_Gt=eval_Gt,
             eval_Vt=eval_Vt,
@@ -78,21 +81,29 @@ class EKFnodeTask1(Node):
         
         self.get_logger().info("EKF Task 1 (Standard EKF) Started!")
 
-    # ---------------------------------------------------------
-    # PREDIZIONE (Timer 20Hz)
-    # ---------------------------------------------------------
+    ########################################
+    ##              CALLBACKS             ##
+    ########################################
+
     def prediction_callback(self):
-        # Nel Task 1, usiamo l'odometria (self.u) come input di controllo
-        # e self.sigma_u per calcolare l'incertezza del movimento.
+        """
         
+        Esegue il passo di predizione dell'EKF usando l'input di odometria.
+        Questo callback è chiamato periodicamente dal timer, ogni dt secondi.
+
+        """        
         self.ekf.predict(u=self.u, sigma_u=self.sigma_u, g_extra_args=(self.dt,))
-        
+
         self.publish_ekf_state()
 
-    # ---------------------------------------------------------
-    # INPUT: ODOMETRIA (Calcola u e sigma_u)
-    # ---------------------------------------------------------
+
     def odom_input_callback(self, msg):
+        """
+
+        Riceve l'odometria e aggiorna il comando di controllo e il rumore di processo.
+        Questo callback è chiamato ogni volta che arriva un messaggio di odometria.
+
+        """
         # 1. Estraiamo il comando v, w
         v = msg.twist.twist.linear.x
         w = msg.twist.twist.angular.z
@@ -109,13 +120,19 @@ class EKFnodeTask1(Node):
 
         self.sigma_u = np.array([sigma_v2, sigma_w2])
 
-    # ---------------------------------------------------------
-    # UPDATE: LANDMARKS (Misura r, phi)
-    # ---------------------------------------------------------
+
     def landmark_callback(self, msg):
+        """
+
+        Riceve le misure dei landmark e aggiorna l'EKF.
+        Questo callback è chiamato ogni volta che arriva un messaggio di landmark.
+
+        """
+
         # Matrice Covarianza Misura Costante
         Q_land = np.diag([SIGMA_LANDMARK[0]**2, SIGMA_LANDMARK[1]**2])
 
+        # Per ogni landmark misurato eseguiamo l'update
         for lm in msg.landmarks:
             lm_id = lm.id
             
@@ -134,24 +151,33 @@ class EKFnodeTask1(Node):
                     residual=self.angle_diff
                 )
 
-    # ---------------------------------------------------------
-    # UTILS
-    # ---------------------------------------------------------
-    # def landmark_model_hx(self, x, y, theta, mx, my):
-    #     # Funzione h(x) standard 3D
-    #     dx = mx - x
-    #     dy = my - y
-    #     r = math.sqrt(dx**2 + dy**2)
-    #     phi = math.atan2(dy, dx) - theta
-    #     phi = math.atan2(math.sin(phi), math.cos(phi))
-    #     return np.array([r, phi])
+
+    ########################################
+    ##          SUPPORT FUNCTIONS         ##
+    ########################################
 
     def angle_diff(self, z_meas, z_pred):
+        """
+
+        Calcola la differenza tra due misure angolari, gestendo il wrapping a [-pi, pi].
+
+        """
         diff = z_meas - z_pred
         diff[1] = math.atan2(math.sin(diff[1]), math.cos(diff[1]))
         return diff
+    
 
+    
+    ##########################################
+    ##        PUBLISHING FUNCTIONS         ##
+    ##########################################
     def publish_ekf_state(self):
+        """
+        
+        Pubblica lo stato stimato dall'EKF come messaggio di Odometry
+        
+        """
+
         msg = Odometry()
         msg.header.stamp = self.get_clock().now().to_msg()
         msg.header.frame_id = "odom" 
@@ -168,9 +194,6 @@ class EKFnodeTask1(Node):
         msg.pose.pose.orientation.y = q[1]
         msg.pose.pose.orientation.z = q[2]
         msg.pose.pose.orientation.w = q[3]
-        
-        # Nota: Nel Task 1 non stimiamo le velocità (sono input), 
-        # quindi twist rimane vuoto o copiamo quello di odom se vogliamo.
 
         self.ekf_pub.publish(msg)
 
