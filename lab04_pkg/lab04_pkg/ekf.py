@@ -15,8 +15,17 @@ class RobotEKF:
         eval_Vt=None,
         eval_Ht=None,
     ):
+<<<<<<< HEAD
         
         """Initializes the extended Kalman filter creating the necessary matrices"""
+=======
+        """
+
+        Initializes the extended Kalman filter creating the necessary matrices
+
+        """
+
+>>>>>>> origin/Andrea
         self.mu = np.zeros((dim_x))  # mean state estimate
         self.Sigma = np.eye(dim_x)   # covariance state estimate
         self.Mt = np.eye(dim_u)      # process noise covariance matrix
@@ -35,7 +44,11 @@ class RobotEKF:
     # ---------------------------------------------------------
     def predict(self, u, sigma_u, g_extra_args=()):
         """
+
         Update the state prediction using the control input u and compute the relative uncertainty ellipse
+        Simply call the motion model function eval_gux and the Jacobians eval_Gt and eval_Vt.
+        Then propagate the uncertainty.
+
         """
         
         # 1. AGGIORNAMENTO Mt (Process Noise Covariance)
@@ -56,11 +69,14 @@ class RobotEKF:
         Vt = self.eval_Vt(*args, *g_extra_args)
         
         # Propagazione incertezza: P_bar = G*P*G' + V*M*V'
-        # Qui self.Mt è fondamentale che sia aggiornato!
         self.Sigma = Gt @ self.Sigma @ Gt.T + Vt @ self.Mt @ Vt.T
 
     def update(self, z, eval_hx, eval_Ht, Qt, Ht_args=(), hx_args=(), residual=np.subtract, **kwargs):
-        """Performs the update innovation of the extended Kalman filter."""
+        """
+        
+        Performs the update innovation of the extended Kalman filter.
+        
+        """
 
         # Convert the measurement to a vector if necessary
         if np.isscalar(z):
@@ -100,9 +116,6 @@ class RobotEKF:
         # ma quella standard va bene per questo lab: P = (I-KH)P
         I_KH = self._I - self.K @ Ht
         
-        # Forma semplice (spesso sufficiente)
-        # self.Sigma = I_KH @ self.Sigma
-        
+
         # Forma stabile (Joseph form) simmetrica: P = (I-KH)P(I-KH)' + KQK'
-        # Garantisce che la matrice rimanga definita positiva
         self.Sigma = I_KH @ self.Sigma @ I_KH.T + self.K @ Qt @ self.K.T

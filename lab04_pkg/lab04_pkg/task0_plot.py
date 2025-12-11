@@ -5,11 +5,21 @@ from scipy.stats import norm
 from lab04_pkg.Task0 import eval_gux
 
 
+"""
+
+    QUESTO SCRIPT GENERA I PLOT PER IL TASK 0,
+    dimostrando il modello di moto e il modello di misura.
+    
+"""
+
+
 # --- 1. MODELLO DI MOTO (Sampling usando eval_gux) ---
 
 def sample_motion_model_velocity(x_t_prev, u, alpha, dt):
     """
+
     Campiona una possibile posa futura usando eval_gux di Task0.
+    
     """
     v, w = u
     
@@ -32,6 +42,15 @@ def sample_motion_model_velocity(x_t_prev, u, alpha, dt):
     return x_next
 
 def plot_motion_samples():
+    """
+    
+    Genera il plot per il modello di moto con due diversi tipi di rumore.
+    E' possibile osservare come il tipo di rumore influenzi la distribuzione
+    delle pose future campionate.
+
+    """
+
+
     x0 = np.array([0.0, 0.0, 0.0]) # Partenza
     u = np.array([1.0, 1.0])       # Comando: v=1, w=1
     dt = 1.0
@@ -77,7 +96,9 @@ def plot_motion_samples():
 
 def sample_measurement_model_inverse(x_state, landmark, z, sigma):
     """
+
     Inverte il modello di misura h(x) per trovare dove potrebbe essere il robot.
+
     """
     # 1. Aggiungiamo rumore alla misura z
     r_noisy = z[0] + np.random.normal(0, sigma[0])
@@ -97,6 +118,12 @@ def sample_measurement_model_inverse(x_state, landmark, z, sigma):
     return np.array([x_est, y_est])
 
 def plot_measurement_samples():
+    """
+    
+    Genera il plot per il modello di misura.
+    Mostra le possibili posizioni del robot date una misura rumorosa
+    
+    """
     print("Generazione plot Modello Misura...")
     landmark = np.array([2.0, 2.0])
     true_pose = np.array([0.0, 0.0, 0.0])
