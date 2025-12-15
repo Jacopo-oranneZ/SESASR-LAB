@@ -49,6 +49,63 @@ def get_symbolic_functions():
     # Ht accetta (x, y, theta, mx, my)
     # Ht non ha problemi di singolarità con w, quindi lo usiamo direttamente
     eval_Ht = sympy.lambdify((x, y, theta, mx, my), Ht_sym, "numpy")
+    #->
+    # ---------------------------------------------------------
+    # INIZIO BLOCCO LINEARIZZAZIONE E REPORT
+    # ---------------------------------------------------------
+    
+   # 3. STAMPA DEI RISULTATI (Log)
+    # ==========================================
+    # Questo genererà nel log le espressioni letterali richieste
+    print("-" * 50)
+    print("JACOBIAN MATRICES")
+    print("-" * 50)
+    
+    print("\n--- Motion Model Jacobian G_t ---")
+    sympy.pprint(Gt_sym) # pprint stampa in formato "pretty" semi-grafico
+    # Oppure usa print(sympy.latex(Gt_sym)) se vuoi il codice LaTeX
+    
+    print("\n--- Motion Model Jacobian V_t ---")
+    sympy.pprint(Vt_sym)
+    
+    print("\n--- Measurement Model Jacobian H_t ---")
+    sympy.pprint(Ht_sym)
+    print("-" * 50)
+
+    # =========================================================
+    # PARTE B: ESPANSIONE DI TAYLOR (LINEARIZZAZIONE COMPLETA)
+    # Formula: f(x) ~ f(x_bar) + J * (x - x_bar)
+    # =========================================================
+    
+    # Delta (x - x_bar)
+    delta_x = Matrix([x - x_bar, y - y_bar, theta - theta_bar])
+
+    # Calcolo valore funzione nel punto operativo
+    g_at_bar = gux_sym.subs(subs_dict) # g(u, x_bar)
+    h_at_bar = hx_sym.subs(subs_dict)  # h(x_bar)
+
+    # Calcolo espressione completa
+    motion_linearized = g_at_bar + Gt_at_bar * delta_x
+    measure_linearized = h_at_bar + Ht_at_bar * delta_x
+
+    print("\n" + "="*60)
+    print("LINEARIZED FUNCTION (Taylor Expansion)")
+    print("Formula: f(x) ~ f(x_bar) + J * (x - x_bar)")
+    print("="*60)
+    
+    print("\nMotion Model Linearized:")
+    # Stampiamo solo la riga della X per non intasare lo schermo
+    sympy.pprint(motion_linearized) 
+    
+    print("\nMeasurement Model Linearized:")
+    sympy.pprint(measure_linearized)
+    
+    print("="*60 + "\n")
+    
+    # ---------------------------------------------------------
+    # FINE BLOCCO
+    # ---------------------------------------------------------
+
 
     return _raw_Gt, _raw_Vt, eval_Ht
 
