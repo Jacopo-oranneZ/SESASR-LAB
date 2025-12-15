@@ -9,11 +9,28 @@ mx, my, x, y, theta, v, w, dt = symbols('mx my x y theta v w dt')
 # Parametri di rumore predefiniti
 a = [0.1, 0.01, 0.01, 0.1] 
 
+
+"""
+
+    QUESTO FILE CONTIENE LE FUNZIONI MATEMATICHE PER L'EKF 3D STANDARD
+    (Modello di moto velocity-based e modello di misura landmark).
+    Le funzioni gestiscono le singolarità per w=0 internamente.
+
+"""
+
+
+
+###########################################
+##     JACOBIANI E MODELLI SIMBOLICI     ##
+###########################################
+
 def get_symbolic_functions():
     """
+
     Genera le funzioni Python dai modelli simbolici.
     Queste funzioni contengono le singolarità (1/w) e verranno chiamate
-    solo quando w non è vicino a zero.
+    solo quando w NON è vicino a zero.
+
     """
     # --- MODELLO DI MOTO GENERALE (Moto Curvilineo) ---
     R = v / w
@@ -57,15 +74,17 @@ _raw_Gt, _raw_Vt, eval_Ht = get_symbolic_functions()
 # Gt e Vt sono raw perché contengono singolarità (1/w)
 
 
-# ------------------------------------------------------------------------------
-# WRAPPER CON GESTIONE SINGOLARITÀ (w ~= 0)
-# ------------------------------------------------------------------------------
+###############################################
+##         FUNZIONI EKF 3D STANDARD          ##
+###############################################
 
 def eval_gux(mu, u,sigma_u, dt):
     """
+
     Velocity Motion Model.
     Calcola la predizione dello stato (Media).
     Gestisce il caso w=0.
+
     """
 
 
@@ -91,11 +110,33 @@ def eval_gux(mu, u,sigma_u, dt):
 
     return np.array([x_new, y_new, theta_new])
 
+    
+def landmark_model_hx(x, y, theta, mx, my):
+        """
+        
+        Landmark Measurement Model.
+        Calcola la predizione della misura h(x).
+
+        """
+        # Funzione h(x) standard 3D
+        dx = mx - x
+        dy = my - y
+        r = math.sqrt(dx**2 + dy**2)
+        phi = math.atan2(dy, dx) - theta
+        phi = math.atan2(math.sin(phi), math.cos(phi))
+        return np.array([r, phi])
+
+
+###########################################
+##    EVAL JACOBIANI EKF 3D STANDARD     ##
+############################################
 
 def eval_Gt(x_val, y_val, theta_val, v_val, w_val, dt_val):
     """
+
     Jacobiano del Moto rispetto allo Stato Gt.
-    Gestisce il caso w=0.
+    Gestisce anche il caso w=0.
+
     """
     if abs(w_val) < 1e-6:
         # Jacobiano del moto rettilineo, ottenuto eseguendo il limite per w->0:
@@ -111,20 +152,14 @@ def eval_Gt(x_val, y_val, theta_val, v_val, w_val, dt_val):
     else:
         # Usa la formula complessa generata da Sympy
         return _raw_Gt(x_val, y_val, theta_val, v_val, w_val, dt_val)
-    
-def landmark_model_hx(x, y, theta, mx, my):
-        # Funzione h(x) standard 3D
-        dx = mx - x
-        dy = my - y
-        r = math.sqrt(dx**2 + dy**2)
-        phi = math.atan2(dy, dx) - theta
-        phi = math.atan2(math.sin(phi), math.cos(phi))
-        return np.array([r, phi])
+
 
 def eval_Vt(x_val, y_val, theta_val, v_val, w_val, dt_val):
     """
+
     Jacobiano del Moto rispetto al Comando Vt.
-    Gestisce il caso w=0.
+    Gestisce anche il caso w=0.
+
     """
     if abs(w_val) < 1e-6:
         # Jacobiano del moto rettilineo rispetto a (v, w), ottenuto eseguendo il limite per w->0:

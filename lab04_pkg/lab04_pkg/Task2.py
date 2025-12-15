@@ -6,19 +6,21 @@ from sympy import Matrix, symbols, cos, sin
 # Definiamo i simboli globalmente per SymPy
 mx, my, x, y, theta, v, w, dt = symbols('mx my x y theta v w dt')
 
-# ------------------------------------------------------------------------------
-# 1. GENERAZIONE MATRICI SIMBOLICHE (Task 2 - 5D State)
-# ------------------------------------------------------------------------------
+"""
+    QUESTO FILE CONTIENE LE FUNZIONI MATEMATICHE PER L'EKF 5D
+    (Modello di moto a velocità costante e modelli di misura per
+    landmark, odometria e IMU).
+
+"""
+
+
 def get_symbolic_functions_task2():
     """
+    
     Genera le funzioni Python dai modelli simbolici per il Task 2.
     Stato aumentato: [x, y, theta, v, w]
+
     """
-    
-    # --- MODELLO DI MOTO (Costant Velocity) ---
-    # x' = ... (cinematica basata su v, w attuali)
-    # v' = v   (assumiamo velocità costante, il rumore farà variare la stima)
-    # w' = w
     
     R = v / w
     beta = theta + w * dt
@@ -35,9 +37,8 @@ def get_symbolic_functions_task2():
     # Jacobiano Gt (5x5) rispetto allo stato [x, y, theta, v, w]
     Gt_sym = g_sym.jacobian(Matrix([x, y, theta, v, w]))
     
-    # --- MODELLI DI MISURA ---
     
-    # 1. LANDMARK (Range, Bearing)
+    # LANDMARK (Range, Bearing)
     # Dipende solo dalla posa (x, y, theta)
     h_land_sym = Matrix([
         sympy.sqrt((mx - x) ** 2 + (my - y) ** 2),
@@ -46,17 +47,14 @@ def get_symbolic_functions_task2():
     # Jacobiano Ht_land (2x5) - Le colonne per v e w saranno zero
     H_land_sym = h_land_sym.jacobian(Matrix([x, y, theta, v, w]))
 
-    # 2. ODOMETRIA (v, w)
     # Misura diretta delle velocità
     h_odom_sym = Matrix([v, w])
     H_odom_sym = h_odom_sym.jacobian(Matrix([x, y, theta, v, w]))
 
-    # 3. IMU (w)
     # Misura diretta velocità angolare
     h_imu_sym = Matrix([w])
     H_imu_sym = h_imu_sym.jacobian(Matrix([x, y, theta, v, w]))
 
-    # --- LAMBDIFY (Compilazione in funzioni NumPy veloci) ---
     
     # Gt accetta (x, y, theta, v, w, dt)
     _raw_Gt_5d = sympy.lambdify((x, y, theta, v, w, dt), Gt_sym, "numpy")
@@ -70,13 +68,14 @@ def get_symbolic_functions_task2():
 
     return _raw_Gt_5d, _eval_H_land_5d, _eval_H_odom_5d, _eval_H_imu_5d
 
-# Inizializziamo le funzioni "raw" (private) all'avvio del modulo
+# Inizializziamo le funzioni "raw"  all'avvio del modulo. Esse contengono singolarità (1/w).
 _raw_Gt_5d, _raw_H_land_5d, _raw_H_odom_5d, _raw_H_imu_5d = get_symbolic_functions_task2()
 
 
-# ------------------------------------------------------------------------------
-# 2. WRAPPERS PUBBLICI (Gestione Singolarità & Argomenti)
-# ------------------------------------------------------------------------------
+
+###############################################
+##     FUNZIONI MATEMATICHE PER L'EKF 5D    ##
+###############################################
 
 def eval_gux_5d(mu, u, sigma_u, dt):
     """
@@ -100,6 +99,12 @@ def eval_gux_5d(mu, u, sigma_u, dt):
         
     # v e w rimangono costanti (Random Walk model)
     return np.array([x_new, y_new, theta_new, v_val, w_val])
+
+
+
+##############################################
+##     FUNZIONI JACOBIANI MISURE EKF 5D     ##
+##############################################
 
 def eval_Gt_5d(x_val, y_val, theta_val, v_val, w_val, dt_val):
     """
@@ -132,24 +137,32 @@ def eval_Gt_5d(x_val, y_val, theta_val, v_val, w_val, dt_val):
     else:
         # Usa la formula esatta di SymPy
         return _raw_Gt_5d(x_val, y_val, theta_val, v_val, w_val, dt_val)
+    
+
 
 def eval_H_land_5d(x_val, y_val, theta_val, v_val, w_val, mx_val, my_val):
     """
+
     Jacobiano Misura Landmark 5D.
-    NOTA CRUCIALE: Accetta 7 argomenti (5 stato + 2 landmark),
+    Accetta 7 argomenti (5 stato + 2 landmark),
     anche se 'v_val' e 'w_val' non vengono usati matematicamente.
     Questo serve perché l'EKF generico passa tutto il vettore di stato mu.
+
     """
     return _raw_H_land_5d(x_val, y_val, theta_val, mx_val, my_val)
 
 def eval_H_odom_5d():
     """
+
     Jacobiano Misura Odometria (Costante).
+
     """
     return _raw_H_odom_5d()
 
 def eval_H_imu_5d():
     """
+
     Jacobiano Misura IMU (Costante).
+
     """
     return _raw_H_imu_5d()

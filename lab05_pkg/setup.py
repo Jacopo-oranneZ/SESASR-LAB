@@ -25,6 +25,7 @@ setup(
     entry_points={
         'console_scripts': [
             'avoid_obstacles = lab05_pkg.avoid_obstacles:main',
+            'v2_avoid_obstacles = lab05_pkg.v2_avoid_obstacles:main'
         ],
     },
 )
