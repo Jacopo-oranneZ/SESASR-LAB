@@ -18,6 +18,27 @@ from lab04_pkg.Task2 import (
 
 # --- CONFIGURAZIONE LABORATORIO ---
 
+"""
+    QUESTO NODO IMPLEMENTA L'EKF PER IL TASK 3,
+    che considera la geometria 3D dei landmark.
+    Questo nodo estende il Task 2, ed è utilizzato con il robot reale.
+    Anche qui attingiamo al file Task2.py per le funzioni matematiche 5D.
+
+    QUESTO FILE E' UNA VERSIONE MIGLIORATA DI EKFros_task3.py,
+    con alcune modifiche per la robustezza e la stabilità del filtro.
+
+    In particolare:
+    - Aggiunta una soglia di distanza massima per i landmark (MAX_LANDMARK_DIST)
+      per evitare misure rumorose da lontano.
+    - Aumentata l'incertezza delle misure dei landmark (SIGMA_LANDMARK)
+    - Implementato un semplice controllo per i landmark,
+      scartando misure che differiscono troppo dalla stima attesa.
+
+
+"""
+
+
+
 # Posizione iniziale (MANTENUTA LA TUA)
 INITIAL_POSE = [0.0, 0.77, 0.0] 
 
@@ -75,21 +96,33 @@ class EKFnodeTask3(Node):
         self.last_prediction_time = self.get_clock().now()
         self.timer_period = 0.05 
 
+        # Publishers
         self.ekf_pub = self.create_publisher(Odometry, '/ekf', 10)
+
+        # Subscriptions
         self.create_subscription(Odometry, TOPIC_ODOM, self.odom_measure_callback, 10)
         self.create_subscription(Imu, TOPIC_IMU, self.imu_measure_callback, 10)
         self.create_subscription(LandmarkArray, TOPIC_LANDMARKS, self.landmark_callback, 10)
         
+        # Timer per Predizione
         self.timer = self.create_timer(self.timer_period, self.prediction_callback)
         
         self.get_logger().info(f"EKF Task 3 Ready! Initial Pose: {INITIAL_POSE}")
 
     def prediction_callback(self):
+        """
+
+        Effettua la predizione dello stato EKF.
+        Poiché il timer può non essere esatto, calcoliamo dt dinamicamente.
+        Anche qui dummy_u = None poiché non usiamo input di controllo esterni.
+        
+        """
         current_time = self.get_clock().now()
         dt = (current_time - self.last_prediction_time).nanoseconds / 1e9
         self.last_prediction_time = current_time
         
-        # Clamp per evitare esplosioni se il PC lagga
+        # Se dt è troppo grande (ad esempio, se il nodo è stato sospeso),
+        # limitiamo dt per evitare salti eccessivi nella predizione.
         if dt > 0.5:
             dt = 0.05 
 
@@ -98,11 +131,19 @@ class EKFnodeTask3(Node):
         self.publish_ekf_state()
 
     def odom_measure_callback(self, msg):
+        """
+        
+        Riceve le misure di odometria e aggiorna l'EKF.
+        
+        """
+
+
         v_meas = msg.twist.twist.linear.x
         w_meas = msg.twist.twist.angular.z
         z = np.array([v_meas, w_meas])
         Q_odom = np.diag([SIGMA_ODOM[0]**2, SIGMA_ODOM[1]**2])
         
+        # Definiamo h_odom per l'update inline poiché è semplice
         def h_odom(x, y, theta, v, w): return np.array([v, w])
             
         self.ekf.update(
@@ -111,10 +152,16 @@ class EKFnodeTask3(Node):
         )
 
     def imu_measure_callback(self, msg):
+        """
+        
+        Riceve le misure IMU e aggiorna l'EKF.
+
+        """
         w_meas = msg.angular_velocity.z
         z = np.array([w_meas])
         Q_imu = np.diag([SIGMA_IMU[0]**2])
         
+        # Definiamo h_imu per l'update inline poiché è semplice
         def h_imu(x, y, theta, v, w): return np.array([w])
             
         self.ekf.update(
@@ -123,22 +170,28 @@ class EKFnodeTask3(Node):
         )
 
     def landmark_callback(self, msg):
+        """
+
+        Riceve le misure dei landmark e aggiorna l'EKF considerando la geometria 3D.
+
+        """
         Q_land = np.diag([SIGMA_LANDMARK[0]**2, SIGMA_LANDMARK[1]**2])
         
+        # Per ogni landmark misurato eseguiamo l'update
         for lm in msg.landmarks:
             if lm.id not in self.landmarks_map:
                 # Logghiamo solo ogni tanto per non intasare il terminale
                 self.get_logger().warn(f"Unknown ID: {lm.id}", throttle_duration_sec=5.0)
                 continue
 
-            # 1. Filtro Distanza (Sicurezza base)
+            # Filtro Distanza (Sicurezza base)
             if lm.range > MAX_LANDMARK_DIST:
                 continue 
 
             m_x, m_y, m_z = self.landmarks_map[lm.id]
             z = np.array([lm.range, lm.bearing])
             
-            # 2. Controllo Anti-Spuntoni (Gating)
+            # Controllo nel caso di misure anomale
             # Calcoliamo dove dovremmo vedere il landmark secondo la nostra stima attuale
             pred_z = self.landmark_model_hx_3d(*self.ekf.mu, m_x, m_y, m_z)
             
@@ -146,12 +199,12 @@ class EKFnodeTask3(Node):
             diff_range = abs(z[0] - pred_z[0])
             
             # Se la misura differisce di più di 1.5m dalla stima, è probabilmente un errore
-            # o un "fantasma". La scartiamo per proteggere la traiettoria.
+            # La scartiamo per proteggere la traiettoria.
             if diff_range > 1.5:
                  self.get_logger().warn(f"Outlier rejected (ID {lm.id}): err={diff_range:.2f}m", throttle_duration_sec=1.0)
                  continue
 
-            # Se passa i controlli, aggiorniamo!
+            # Se passa i controlli, aggiorniamo
             self.ekf.update(
                 z=z, 
                 eval_hx=self.landmark_model_hx_3d, 
@@ -163,6 +216,11 @@ class EKFnodeTask3(Node):
             )
 
     def landmark_model_hx_3d(self, x, y, theta, v, w, mx, my, mz):
+        """
+
+        Calcola la misura attesa considerando la geometria 3D.
+
+        """
         dx = mx - x
         dy = my - y
         dz = mz - ROBOT_CAMERA_HEIGHT
@@ -175,11 +233,23 @@ class EKFnodeTask3(Node):
         return np.array([r_3d, phi])
 
     def angle_diff(self, z_meas, z_pred):
+        """
+        
+        Calcola la differenza tra due misure angolari, gestendo il wrapping a [-pi, pi].
+        
+        """
         diff = z_meas - z_pred
         diff[1] = math.atan2(math.sin(diff[1]), math.cos(diff[1]))
         return diff
 
     def publish_ekf_state(self):
+        """
+
+        Pubblica lo stato stimato dall'EKF come messaggio di Odometry
+        
+        """
+
+
         msg = Odometry()
         msg.header.stamp = self.get_clock().now().to_msg()
         msg.header.frame_id = "odom" 

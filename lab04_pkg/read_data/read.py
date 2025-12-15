@@ -39,7 +39,7 @@ def main():
     # 1. Inserisci qui il PERCORSO ASSOLUTO alla cartella della bag per evitare errori
     # Esempio: "/home/l0dz/SESASR-LAB/lab04_task2_bag"
     # Se usi il percorso relativo, assicurati di sapere da dove lanci lo script!
-    bag_path = '/home/l0dz/SESASR-LAB/src/lab04_pkg/read_data/rosbag2_2025_11_18-15_32_39' 
+    bag_path = '/home/l0dz/SESASR-LAB/src/lab04_pkg/read_data/rosbag_task2' 
 
     # Verifica esistenza
     if not os.path.exists(bag_path):
@@ -69,6 +69,8 @@ def main():
         elif topic == '/odom':
             # Se vuoi confrontare anche l'odometria pura
             odom_data.append([time_sec, msg.pose.pose.position.x, msg.pose.pose.position.y])
+
+    
 
     print(f"Dati estratti: {len(gt_data)} GT points, {len(ekf_data)} EKF points.")
 
