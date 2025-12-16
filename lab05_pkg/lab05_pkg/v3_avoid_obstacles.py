@@ -467,7 +467,6 @@
 
 
 
-
 import numpy as np
 import rclpy
 from rclpy.node import Node
@@ -529,7 +528,7 @@ class ObstacleAvoidanceNode(Node):
         self.csv_file = open(self.csv_filename, mode='w', newline='')
         self.csv_writer = csv.writer(self.csv_file)
         # Scriviamo l'header
-        self.csv_writer.writerow(['timestamp', 'dist_to_goal', 'bearing_error', 'min_obstacle_dist', 'v_cmd', 'w_cmd', 'is_tracking'])
+        self.csv_writer.writerow(['timestamp', 'dist_to_goal', 'bearing_error', 'min_obstacle_dist', 'v_cmd', 'w_cmd', 'is_tracking', 'is_visible'])
 
         # General variables
         self.robot_pose = np.array([0.0, 0.0, 0.0])  # x, y, theta
@@ -538,10 +537,14 @@ class ObstacleAvoidanceNode(Node):
         self.angle_min = 0
         self.angle_max = 0
         self.angle_increment = 0
+        
+        # Variabili di stato tracking
         self.goal_received = False
+        self.last_landmark_time = 0.0 # Per gestire il timeout visivo
+        self.VISIBILITY_TIMEOUT = 1.0 # Secondi dopo i quali il target è considerato perso
 
         # --- TUNING PER ROBOT REALE ---
-        self.OPTIMAL_DIST = 0.3 
+        self.OPTIMAL_DIST = 0.6 # Distanza target ottimale
         self.GOAL_TOLERANCE = 0.2 
         self.LASERS_OBS_NUM = 30 
         
@@ -554,13 +557,12 @@ class ObstacleAvoidanceNode(Node):
         self.MAX_LASER_RANGE = 3.5 
         self.OBSTACLES_SAFETY_DIST = 0.20 
         self.EMERGENCY_STOP_DIST = 0.16 
-        self.SLOW_DOWN_DIST = 0.3
+        self.SLOW_DOWN_DIST = 0.5
         self.VISIBILITY_THRESHOLD = 0.3
-        self.CAMERA_OFFSET_X = -0.05 
+        self.CAMERA_OFFSET_X = 0.05 
 
         # --- METRICS VARIABLES ---
         self.METRICS_UPDATE_RATE = 50 
-        self.steps_counter = 0
         
         self.total_steps = 0
         self.tracked_steps = 0 
@@ -575,7 +577,7 @@ class ObstacleAvoidanceNode(Node):
         self.cumulative_avg_lidar_dist = 0.0
         self.last_print_time = self.get_clock().now().nanoseconds / 1e9 # Init variable
         
-        # self.TRACKING_MAX_DIST = 2.0 
+        self.TRACKING_MAX_DIST = 2.0 
 
         # Parameters for Simulation/Prediction
         self.SIMULATION_TIME = 2.0 
@@ -583,12 +585,12 @@ class ObstacleAvoidanceNode(Node):
         
         # DWA Weights
         self.HEADING_WEIGHT = 1.0
-        self.VELOCITY_WEIGHT = 2.1
+        self.VELOCITY_WEIGHT = 1.8
         self.OBSTACLE_WEIGHT = 2.0
         self.VELOCITY_REDUCTION_WEIGHT = 0.5
-        self.VISIBILITY_WEIGHT = 1.2
+        self.VISIBILITY_WEIGHT = 1.5
 
-        # Timeout logic
+        # Timeout logic (Opzionale/Disabilitato ma variabile presente per sicurezza)
         self.MAX_STEPS_TIMEOUT = 15 * 60 * 3 
 
         # Lambda utils
@@ -608,34 +610,28 @@ class ObstacleAvoidanceNode(Node):
         self.robot_pose[2] = yaw
 
     def landmark_callback(self, msg):
-
-        
         if not msg.landmarks: 
-            self.total_steps += 1
             return 
 
+        # FIX: Aggiorniamo timestamp e flag. Non incrementiamo metriche qui (si fa nel loop)
         self.goal_received = True
-        self.tracked_steps += 1
-        self.tracked_steps += 1
+        self.last_landmark_time = self.get_clock().now().nanoseconds / 1e9
 
         try:
             r = msg.landmarks[0].range
             b = msg.landmarks[0].bearing
         except AttributeError:
-            # Fallback debug se i nomi sono diversi (es. distance, angle)
-            self.get_logger().error(f"Attributi disponibili in landmark: {dir(msg.landmarks[0])}")
+            # Fallback debug
             return
 
         # Conversione Polare -> Cartesiana (Frame Robot)
-        # x è in avanti, y è a sinistra
         rel_x = r * np.cos(b)
         rel_y = r * np.sin(b)
 
-        # Aggiungiamo l'offset della camera (la camera è ~5cm avanti rispetto al centro)
+        # Aggiungiamo l'offset della camera
         rel_x += self.CAMERA_OFFSET_X 
 
         # Trasformazione: Robot Frame -> Odom Frame
-        # X_global = X_robot + (x_rel * cos(theta) - y_rel * sin(theta))
         theta = self.robot_pose[2]
         glob_x = self.robot_pose[0] + (rel_x * np.cos(theta) - rel_y * np.sin(theta))
         glob_y = self.robot_pose[1] + (rel_x * np.sin(theta) + rel_y * np.cos(theta))
@@ -646,6 +642,7 @@ class ObstacleAvoidanceNode(Node):
 
     def dynamic_goal_callback(self, msg):
         self.goal_received = True
+        self.last_landmark_time = self.get_clock().now().nanoseconds / 1e9
         self.goal_pose[0] = msg.pose.pose.position.x
         self.goal_pose[1] = msg.pose.pose.position.y
 
@@ -810,16 +807,23 @@ class ObstacleAvoidanceNode(Node):
         if not self.goal_received: return
 
         self.total_steps += 1
-        if self.total_steps > self.MAX_STEPS_TIMEOUT:
-            self.stop()
-            return
+        # Timeout rimosso come richiesto
 
+        # --- FIX TRACKING: Check visibilità ---
+        current_time = self.get_clock().now().nanoseconds / 1e9
+        target_visible = False
+        if self.last_landmark_time > 0:
+            time_since_seen = current_time - self.last_landmark_time
+            if time_since_seen < self.VISIBILITY_TIMEOUT:
+                target_visible = True
+        
         dist = self.dist_to_point(self.robot_pose, self.goal_pose)
         
         # Feedback intermedio
         if self.total_steps % self.METRICS_UPDATE_RATE == 0:
+            status_msg = "TRACKING" if target_visible else "LOST"
             msg_str = String()
-            msg_str.data = f"Step {self.total_steps}: Dist {dist:.2f}m"
+            msg_str.data = f"Step {self.total_steps}: {status_msg} - Dist {dist:.2f}m"
             self.feedback_pub.publish(msg_str)
         
         msg_dist = Float32()
@@ -833,14 +837,14 @@ class ObstacleAvoidanceNode(Node):
         cmd.angular.z = float(best_u[1])
         self.cmd_vel_pub.publish(cmd)
         
-        # Passiamo anche le velocità per loggarle
-        self.update_metrics(dist, float(best_u[0]), float(best_u[1]))
+        # Passiamo anche stato visibilità per metriche corrette
+        self.update_metrics(dist, float(best_u[0]), float(best_u[1]), target_visible)
 
     ####################################
     ##            METRICS             ##
     ####################################
 
-    def update_metrics(self, current_dist, v, w):
+    def update_metrics(self, current_dist, v, w, target_visible):
         """
         Computes and logs metrics.
         """
@@ -849,7 +853,11 @@ class ObstacleAvoidanceNode(Node):
                                   self.goal_pose[0]-self.robot_pose[0])
         bearing_error = normalize_angle(target_angle - self.robot_pose[2])
 
-
+        # FIX: Tracking logic corretta
+        is_tracking = 0
+        if target_visible and current_dist <= self.TRACKING_MAX_DIST:
+            self.tracked_steps += 1
+            is_tracking = 1
 
         # RMSE Calc
         dist_error = current_dist - self.OPTIMAL_DIST
@@ -869,9 +877,9 @@ class ObstacleAvoidanceNode(Node):
             self.cumulative_avg_lidar_dist += current_avg
 
         # --- LOG DATA TO CSV ---
-        # Scriviamo direttamente sul file handler aperto
         timestamp = self.get_clock().now().nanoseconds / 1e9
-        self.csv_writer.writerow([timestamp, current_dist, bearing_error, current_min, v, w, is_tracking])
+        # is_tracking ora è definito
+        self.csv_writer.writerow([timestamp, current_dist, bearing_error, current_min, v, w, is_tracking, int(target_visible)])
 
         # Stampa a video ogni tanto
         current_time = self.get_clock().now().nanoseconds / 1e9
