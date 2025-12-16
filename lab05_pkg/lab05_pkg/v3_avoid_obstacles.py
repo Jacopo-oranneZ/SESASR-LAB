@@ -541,7 +541,7 @@ class ObstacleAvoidanceNode(Node):
         self.goal_received = False
 
         # --- TUNING PER ROBOT REALE ---
-        self.OPTIMAL_DIST = 0.6 
+        self.OPTIMAL_DIST = 0.3 
         self.GOAL_TOLERANCE = 0.2 
         self.LASERS_OBS_NUM = 30 
         
@@ -554,7 +554,7 @@ class ObstacleAvoidanceNode(Node):
         self.MAX_LASER_RANGE = 3.5 
         self.OBSTACLES_SAFETY_DIST = 0.20 
         self.EMERGENCY_STOP_DIST = 0.16 
-        self.SLOW_DOWN_DIST = 0.5
+        self.SLOW_DOWN_DIST = 0.3
         self.VISIBILITY_THRESHOLD = 0.3
         self.CAMERA_OFFSET_X = -0.05 
 
@@ -575,7 +575,7 @@ class ObstacleAvoidanceNode(Node):
         self.cumulative_avg_lidar_dist = 0.0
         self.last_print_time = self.get_clock().now().nanoseconds / 1e9 # Init variable
         
-        self.TRACKING_MAX_DIST = 2.0 
+        # self.TRACKING_MAX_DIST = 2.0 
 
         # Parameters for Simulation/Prediction
         self.SIMULATION_TIME = 2.0 
@@ -583,10 +583,10 @@ class ObstacleAvoidanceNode(Node):
         
         # DWA Weights
         self.HEADING_WEIGHT = 1.0
-        self.VELOCITY_WEIGHT = 1.8
+        self.VELOCITY_WEIGHT = 2.1
         self.OBSTACLE_WEIGHT = 2.0
         self.VELOCITY_REDUCTION_WEIGHT = 0.5
-        self.VISIBILITY_WEIGHT = 1.5
+        self.VISIBILITY_WEIGHT = 1.2
 
         # Timeout logic
         self.MAX_STEPS_TIMEOUT = 15 * 60 * 3 
@@ -608,10 +608,15 @@ class ObstacleAvoidanceNode(Node):
         self.robot_pose[2] = yaw
 
     def landmark_callback(self, msg):
+
+        
         if not msg.landmarks: 
+            self.total_steps += 1
             return 
 
         self.goal_received = True
+        self.tracked_steps += 1
+        self.tracked_steps += 1
 
         try:
             r = msg.landmarks[0].range
@@ -844,11 +849,7 @@ class ObstacleAvoidanceNode(Node):
                                   self.goal_pose[0]-self.robot_pose[0])
         bearing_error = normalize_angle(target_angle - self.robot_pose[2])
 
-        # Tracking check
-        is_tracking = 0
-        if current_dist <= self.TRACKING_MAX_DIST:
-            self.tracked_steps += 1
-            is_tracking = 1
+
 
         # RMSE Calc
         dist_error = current_dist - self.OPTIMAL_DIST
