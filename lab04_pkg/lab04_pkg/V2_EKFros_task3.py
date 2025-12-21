@@ -24,9 +24,7 @@ from lab04_pkg.Task2 import (
     Questo nodo estende il Task 2, ed è utilizzato con il robot reale.
     Anche qui attingiamo al file Task2.py per le funzioni matematiche 5D.
 
-    QUESTO FILE E' UNA VERSIONE MIGLIORATA DI EKFros_task3.py,
-    con alcune modifiche per la robustezza e la stabilità del filtro.
-
+    Ci sono state varie aggiunte.
     In particolare:
     - Aggiunta una soglia di distanza massima per i landmark (MAX_LANDMARK_DIST)
       per evitare misure rumorose da lontano.

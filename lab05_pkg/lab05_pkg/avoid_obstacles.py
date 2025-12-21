@@ -234,7 +234,7 @@ class ObstacleAvoidanceNode(Node):
                     if ind_t == int(self.SIMULATION_TIME/self.TIME_STEP)-1:
                         heading_score = self.HEADING_WEIGHT * (np.pi - abs(self.heading_to_goal(simulated_poses[score_index,ind_t+1], self.goal_pose))) # prefer smaller heading angle
                         velocity_score = self.VELOCITY_WEIGHT * v # prefer higher velocities
-                        total_scores[score_index] = heading_score+ velocity_score + min_obstacle_dist
+                        total_scores[score_index] = heading_score+ velocity_score + obstacle_score if total_scores[score_index] == 0 else -float('inf')
 
         
         best_u_idx = 0

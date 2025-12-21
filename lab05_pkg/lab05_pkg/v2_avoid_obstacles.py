@@ -15,7 +15,7 @@ from lab05_pkg.utils import normalize_angle
 
 class ObstacleAvoidanceNode(Node):
     def __init__(self):
-        super().__init__('Obstacle_Avoidance_Node')
+        super().__init__('Obstacle_Avoidance_Node_2')
 
         # Timer for controller callback
         self.timer_period = 1/15  # seconds
@@ -43,6 +43,7 @@ class ObstacleAvoidanceNode(Node):
 
         #All of the following constants can be tuned for better performance and for real robot use
         # Constants
+        self.OPTIMAL_DIST = 0.3
         self.GOAL_TOLERANCE = 0.2  # meters
         self.LASERS_OBS_NUM = 30  # Number of laser readings to consider for obstacle avoidance
         self.VMAX = 0.5  # Maximum linear velocity (m/s)
@@ -51,14 +52,40 @@ class ObstacleAvoidanceNode(Node):
         self.W_STEPS = 16  # Number of angular velocity samples
         self.MAX_LASER_RANGE = 3.5  # Maximum laser range to consider (m)
         self.OBSTACLES_SAFETY_DIST = 0.18  # Minimum distance to obstacles (m)
-        self.EMERGENCY_STOP_DIST = 0.13  # Distance to trigger emergency stop (m)
+        self.EMERGENCY_STOP_DIST = 0.15  # Distance to trigger emergency stop (m)
+        self.SLOW_DOWN_DIST = 0.5
+        self.VISIBILITY_THRESHOLD = 0.3
+
+
+        # METRICS VARIABLES
+        self.METRICS_UPDATE_RATE = 2.0 # Stampa report ogni 2 secondi
+        self.start_time = self.get_clock().now().nanoseconds / 1e9
+        self.last_print_time = self.start_time
+        
+        # Counters
+        self.total_steps = 0
+        self.tracked_steps = 0 # Tempo in cui il target è stato seguito correttamente
+        self.collision_count = 0
+        
+        # RMSE Accumulators
+        self.sq_error_dist = 0.0
+        self.sq_error_bearing = 0.0
+        
+        # Lidar Stats
+        self.global_min_obstacle_dist = float('inf')
+        self.cumulative_avg_lidar_dist = 0.0
+        
+        # Definition of "Tracking Correctly"
+        self.TRACKING_MAX_DIST = 2.5 # Se il target è oltre 2.5m, lo consideriamo "perso"
+
 
         self.SIMULATION_TIME = 2.0  # seconds
         self.TIME_STEP = 0.1  # seconds
-        self.HEADING_WEIGHT = 1.0
-        self.VELOCITY_WEIGHT = 1.5
-        self.OBSTACLE_WEIGHT = 1.3
+        self.HEADING_WEIGHT = 0.8
+        self.VELOCITY_WEIGHT = 1.9
+        self.OBSTACLE_WEIGHT = 1.9
         self.VELOCITY_REDUCTION_WEIGHT = 1.0
+        self.VISIBILITY_WEIGHT = 3
 
         # useful lambda functions
         self.checkSafety = lambda lasers: True if np.min(lasers)>self.EMERGENCY_STOP_DIST else False
@@ -89,13 +116,28 @@ class ObstacleAvoidanceNode(Node):
     def landmark_callback(self, msg):
         """
 
-        Update goal pose from landmark data.
-        Used in the real robot where the goal is provided as a landmark.
+        Update goal pose from landmark data (Real Robot Task).
+        Transform relative coordinates (camera frame) to global (odom frame).
 
         """
-        self.goal_pose[0] = msg.landmarks[0].pose.position.x
-        self.goal_pose[1] = msg.landmarks[0].pose.position.y
-        self.get_logger().info(f"Updated Goal Pose: {self.goal_pose}")
+        if not msg.landmarks: return
+
+        # 1. Acquisizione coordinate relative (Robot Frame / Camera Frame)
+        # Nota: Assumiamo che msg.x sia 'avanti' e msg.y sia 'sinistra' nel frame robot
+        rel_x = msg.landmarks[0].pose.position.x
+        rel_y = msg.landmarks[0].pose.position.y
+
+        # 2. Trasformazione in Global Frame (Odom)
+        # X_global = X_robot + (x_rel * cos(theta) - y_rel * sin(theta))
+        # Y_global = Y_robot + (x_rel * sin(theta) + y_rel * cos(theta))
+        theta = self.robot_pose[2]
+
+        glob_x = self.robot_pose[0] + (rel_x * np.cos(theta) - rel_y * np.sin(theta))
+        glob_y = self.robot_pose[1] + (rel_x * np.sin(theta) + rel_y * np.cos(theta))
+
+        self.goal_pose[0] = glob_x
+        self.goal_pose[1] = glob_y
+        
 
     def dynamic_goal_callback(self, msg):
         """
@@ -200,10 +242,10 @@ class ObstacleAvoidanceNode(Node):
         w_range = np.linspace(-self.WMAX, self.WMAX, self.W_STEPS)
 
         # Matrix to store simulated poses for each (v,w) pair in time
-        simulated_poses = np.zeros((len(v_range)*len(w_range), int(self.SIMULATION_TIME/self.TIME_STEP)+1,3))
+        simulated_poses = np.zeros((self.V_STEPS*self.W_STEPS, int(self.SIMULATION_TIME/self.TIME_STEP)+1,3))
         simulated_poses[:,0, :] = self.robot_pose  # initial pose for all trajectories
 
-        total_scores = np.zeros(len(v_range)*len(w_range))
+        total_scores = np.zeros(self.V_STEPS*self.W_STEPS)
         min_obstacle_dist = float('inf')
 
         # Max score initialization
@@ -216,7 +258,7 @@ class ObstacleAvoidanceNode(Node):
                 min_obstacle_dist = float('inf')
 
                 # Index of the trajectory being evaluated
-                score_index = ind_v * len(w_range) + ind_w
+                score_index = ind_v * self.W_STEPS + ind_w
 
                 for ind_t in range(int(self.SIMULATION_TIME/self.TIME_STEP)):
                     
@@ -236,14 +278,14 @@ class ObstacleAvoidanceNode(Node):
                 
                 dist_from_goal = self.dist_to_point(simulated_poses[score_index, -1], self.goal_pose)
                 velocity_score_reduction = 0.0
-                if dist_from_goal < self.GOAL_TOLERANCE:
+                if dist_from_goal < self.SLOW_DOWN_DIST:
                     # Reduce cost when close to goal
-                    velocity_score_reduction = self.VELOCITY_REDUCTION_WEIGHT * v
+                    velocity_score_reduction = self.VELOCITY_REDUCTION_WEIGHT * v * abs(self.SLOW_DOWN_DIST - dist_from_goal)
 
-                    
+                visibility_score = self.VISIBILITY_WEIGHT * self.get_visibility(simulated_poses[score_index, ind_t+1],obstacles)
                 heading_score = self.HEADING_WEIGHT * (np.pi - abs(self.heading_to_goal(simulated_poses[score_index,ind_t+1], self.goal_pose))) # prefer smaller heading angle
                 velocity_score = self.VELOCITY_WEIGHT * v # prefer higher velocities
-                total_scores[score_index] = heading_score+ velocity_score + min_obstacle_dist - velocity_score_reduction
+                total_scores[score_index] = heading_score+ velocity_score + obstacle_score - velocity_score_reduction + visibility_score if total_scores[score_index] == 0 else -float('inf')
 
         
         best_u_idx = 0
@@ -252,10 +294,54 @@ class ObstacleAvoidanceNode(Node):
                 max_score = score
                 best_u_idx = ind_score
 
-        v_best_index = best_u_idx // len(w_range)
-        w_best_index = best_u_idx % len(w_range)
+        # Se anche il punteggio migliore è -inf, significa che siamo in trappola.
+        if max_score == -float('inf'):
+            self.get_logger().warn("DWA: No valid path found! Emergency Stop.")
+            return np.array([0.0, 0.0])
+
+        v_best_index = best_u_idx // self.W_STEPS
+        w_best_index = best_u_idx % self.W_STEPS
         u_best = np.array([v_range[v_best_index], w_range[w_best_index]])
         return u_best
+
+
+    def get_visibility(self,pose, obstacles):
+        """
+
+            Get how close is the closest obstacle to the line connecting
+            the robot and the target.
+
+        """
+        min_dist = float('inf')
+        for obs in obstacles:
+            # Geometry to evaluate the distance of the current obstacle
+            # from the line connecting robot and goal
+            posetoobs = (obs - pose[:2])
+            robottogoal = (self.goal_pose - pose[:2])
+
+            goal_distance = np.linalg.norm(robottogoal)
+
+            # Evitiamo divisioni per zero se siamo sul target
+            if goal_distance < 0.01:
+                return 1.0 # Visibilità massima se siamo arrivati
+
+            projection =  np.dot(posetoobs, robottogoal) / goal_distance
+
+            if projection < 0 or projection > goal_distance:
+                # Obstacle is not between robot and target
+                continue
+
+            dist = np.sqrt(abs(np.linalg.norm(posetoobs)**2 - projection**2))
+
+            min_dist = dist if dist < min_dist else min_dist
+
+        result = min_dist/self.VISIBILITY_THRESHOLD
+        if result>1:
+            return 1
+        else:
+            return result
+
+
 
     
     def obstacle_score(self, pose, obstacles):
@@ -315,6 +401,7 @@ class ObstacleAvoidanceNode(Node):
         dist = self.dist_to_point(self.robot_pose, self.goal_pose)
         if dist < self.GOAL_TOLERANCE:
             self.get_logger().info("Goal Reached!")
+            self.get_logger().warn('Target too close!')
             self.stop()
             return
         
@@ -340,6 +427,74 @@ class ObstacleAvoidanceNode(Node):
         
         detected_heading = normalize_angle(angle - state[2])
         return detected_heading
+    
+    ####################################
+    ##             METRICS            ##
+    ####################################
+
+    def update_metrics(self):
+        """
+        Computes performance metrics requested by Task 2.
+        """
+        if self.lasers is None: return
+
+        self.total_steps += 1
+        
+        # 1. Dati attuali
+        dist_to_goal = self.dist_to_point(self.robot_pose, self.goal_pose)
+        # Bearing error (0 è l'ottimo, cioè guardare il target)
+        bearing_error = normalize_angle(np.arctan2(self.goal_pose[1]-self.robot_pose[1], 
+                                                   self.goal_pose[0]-self.robot_pose[0]) - self.robot_pose[2])
+
+        # 2. Tracking Check (Time of tracking %)
+        # Consideriamo "Tracking" se siamo entro una distanza ragionevole e non abbiamo sbattuto
+        # (Opzionale: aggiungi check_visibility se vuoi essere rigoroso)
+        is_tracking = (dist_to_goal <= self.TRACKING_MAX_DIST)
+        if is_tracking:
+            self.tracked_steps += 1
+
+        # 3. RMSE (Target Distance & Bearing)
+        # Optimal distance = self.OPTIMAL_DIST (0.6m), Optimal bearing = 0.0
+        dist_error = dist_to_goal - self.OPTIMAL_DIST
+        self.sq_error_dist += (dist_error ** 2)
+        self.sq_error_bearing += (bearing_error ** 2)
+
+        # 4. Lidar Stats (Average & Min)
+        # Filtriamo i valori inf/nan per le statistiche reali
+        valid_lasers = self.lasers[np.isfinite(self.lasers)]
+        if len(valid_lasers) > 0:
+            current_min = np.min(valid_lasers)
+            current_avg = np.mean(valid_lasers)
+            
+            # Global min
+            if current_min < self.global_min_obstacle_dist:
+                self.global_min_obstacle_dist = current_min
+            
+            # Accumulo media (per fare media delle medie)
+            self.cumulative_avg_lidar_dist += current_avg
+
+        # 5. Stampa Periodica Report
+        current_time = self.get_clock().now().nanoseconds / 1e9
+        if (current_time - self.last_print_time) > self.METRICS_UPDATE_RATE:
+            self.print_metrics_report()
+            self.last_print_time = current_time
+
+    def print_metrics_report(self):
+        if self.total_steps == 0: return
+        
+        # Calcolo finali
+        tracking_percentage = (self.tracked_steps / self.total_steps) * 100.0
+        rmse_dist = np.sqrt(self.sq_error_dist / self.total_steps)
+        rmse_bearing = np.sqrt(self.sq_error_bearing / self.total_steps)
+        avg_lidar = self.cumulative_avg_lidar_dist / self.total_steps
+        
+        print(f"\n--- METRICS REPORT ---")
+        print(f"Time Tracking: {tracking_percentage:.1f}%")
+        print(f"RMSE Distance: {rmse_dist:.3f} m (Opt: 0.6m)")
+        print(f"RMSE Bearing:  {rmse_bearing:.3f} rad (Opt: 0.0)")
+        print(f"Lidar Stats:   Min Global: {self.global_min_obstacle_dist:.2f}m | Avg Global: {avg_lidar:.2f}m")
+        print(f"Collisions:    {self.collision_count}")
+        print(f"----------------------\n")
 
 
 def main(args=None):

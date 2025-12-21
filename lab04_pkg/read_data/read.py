@@ -4,11 +4,23 @@ import numpy as np
 import os
 import math
 
+"""
+    QUESTO SCRIPT LEGGE I DATI DELLA ROSBAG SPECIFICATA,
+    CALCOLA GLI ERRORI TRA LA GROUND TRUTH E LA STIMA DALL'EKF,
+    E GENERA UN PLOT DELLA TRAIETTORIA CON I RISULTATI.
+
+"""
+
+BAG_PATH = '/home/l0dz/SESASR-LAB/src/lab04_pkg/read_data/rosbag_task2'  # MODIFICARE QUI SE NECESSARIO
+
 def calculate_metrics(gt_data, est_data):
     """
+
     Calcola RMSE e MAE.
     gt_data: lista di tuple (timestamp, x, y)
     est_data: lista di tuple (timestamp, x, y)
+    Restituisce: RMSE, MAE, gt_x_aligned, gt_y_aligned
+
     """
     # Convertiamo in numpy array per facilità
     gt = np.array(gt_data)   # [t, x, y]
@@ -35,20 +47,21 @@ def calculate_metrics(gt_data, est_data):
     return rmse, mae, gt_x_interp, gt_y_interp
 
 def main():
-    # --- CONFIGURAZIONE ---
-    # 1. Inserisci qui il PERCORSO ASSOLUTO alla cartella della bag per evitare errori
-    # Esempio: "/home/l0dz/SESASR-LAB/lab04_task2_bag"
-    # Se usi il percorso relativo, assicurati di sapere da dove lanci lo script!
-    bag_path = '/home/l0dz/SESASR-LAB/src/lab04_pkg/read_data/rosbag_task2' 
+    """
+    
+    Funzione principale per leggere la rosbag, calcolare errori e generare il plot.
+
+    """
+
 
     # Verifica esistenza
-    if not os.path.exists(bag_path):
-        print(f"[ERRORE] La cartella non esiste: {bag_path}")
+    if not os.path.exists(BAG_PATH):
+        print(f"[ERRORE] La cartella non esiste: {BAG_PATH}")
         print("Suggerimento: Usa il percorso assoluto (es: /home/l0dz/...)")
         return
 
-    print(f"Caricamento bag da: {bag_path} ...")
-    bag = Rosbag2Reader(bag_path)
+    print(f"Caricamento bag da: {BAG_PATH} ...")
+    bag = Rosbag2Reader(BAG_PATH)
 
     # Liste per salvare i dati: (timestamp, x, y)
     gt_data = []
@@ -97,11 +110,10 @@ def main():
     plt.plot(gt_np[:, 1], gt_np[:, 2], 'r-', label='Ground Truth', linewidth=2, alpha=0.7)
     plt.plot(est_np[:, 1], est_np[:, 2], 'b--', label='EKF Estimate', linewidth=1.5)
     
-    # Opzionale: Plot Odom
+    # Plot Odom
     if len(odom_data) > 0:
         odom_np = np.array(odom_data)
-        # L'odometria spesso parte da 0,0 mentre il robot è altrove. 
-        # Potresti doverla traslare per sovrapporla, ma per ora la plottiamo raw
+        # L'odometria parte da 0,0 mentre il robot è altrove. 
         plt.plot(odom_np[:, 1], odom_np[:, 2], 'g:', label='Odometry (Raw)', alpha=0.5)
 
     plt.title(f'Robot Trajectory (RMSE: {rmse:.3f}m)')
