@@ -544,7 +544,7 @@ class ObstacleAvoidanceNode(Node):
         self.VISIBILITY_TIMEOUT = 1.0 # Secondi dopo i quali il target è considerato perso
 
         # --- TUNING PER ROBOT REALE ---
-        self.OPTIMAL_DIST = 0.6 # Distanza target ottimale
+        self.OPTIMAL_DIST = 0.3 # Distanza target ottimale
         self.GOAL_TOLERANCE = 0.2 
         self.LASERS_OBS_NUM = 30 
         
@@ -559,7 +559,7 @@ class ObstacleAvoidanceNode(Node):
         self.EMERGENCY_STOP_DIST = 0.16 
         self.SLOW_DOWN_DIST = 0.5
         self.VISIBILITY_THRESHOLD = 0.3
-        self.CAMERA_OFFSET_X = 0.05 
+        self.CAMERA_OFFSET_X = -0.05 
 
         # --- METRICS VARIABLES ---
         self.METRICS_UPDATE_RATE = 50 
@@ -584,11 +584,11 @@ class ObstacleAvoidanceNode(Node):
         self.TIME_STEP = 0.1 
         
         # DWA Weights
-        self.HEADING_WEIGHT = 1.0
-        self.VELOCITY_WEIGHT = 1.8
-        self.OBSTACLE_WEIGHT = 2.0
+        self.HEADING_WEIGHT = 2
+        self.VELOCITY_WEIGHT = 21
+        self.OBSTACLE_WEIGHT = 1.5
         self.VELOCITY_REDUCTION_WEIGHT = 0.5
-        self.VISIBILITY_WEIGHT = 1.5
+        self.VISIBILITY_WEIGHT = 3.5
 
         # Timeout logic (Opzionale/Disabilitato ma variabile presente per sicurezza)
         self.MAX_STEPS_TIMEOUT = 15 * 60 * 3 
@@ -731,7 +731,6 @@ class ObstacleAvoidanceNode(Node):
 
                 obs_score = self.OBSTACLE_WEIGHT * min_obstacle_dist
                 vis_score = self.VISIBILITY_WEIGHT * self.get_visibility(final_pose, obstacles)
-
                 total_scores[score_index] = head_score + vel_score + obs_score - vel_reduction + vis_score
 
         best_u_idx = np.argmax(total_scores)
@@ -743,6 +742,8 @@ class ObstacleAvoidanceNode(Node):
 
         v_best_index = best_u_idx // self.W_STEPS
         w_best_index = best_u_idx % self.W_STEPS
+        self.get_logger().info(f" Head:{head_score:.2f} Vel:{vel_score:.2f} Obs:{obs_score:.2f} Vis:{vis_score:.2f} Reduct:{vel_reduction:.2f}")
+
         return np.array([v_range[v_best_index], w_range[w_best_index]])
 
     def get_visibility(self, pose, obstacles):
@@ -894,7 +895,7 @@ class ObstacleAvoidanceNode(Node):
         rmse_dist = np.sqrt(self.sq_error_dist / self.total_steps)
         rmse_bearing = np.sqrt(self.sq_error_bearing / self.total_steps)
         
-        print(f"Tracking: {tracking_pct:.1f}% | RMSE Dist: {rmse_dist:.3f}m | Min Obs: {self.global_min_obstacle_dist:.2f}m")
+        #print(f"Tracking: {tracking_pct:.1f}% | RMSE Dist: {rmse_dist:.3f}m | Min Obs: {self.global_min_obstacle_dist:.2f}m")
 
     def save_final_report(self):
         """
