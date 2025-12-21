@@ -58,9 +58,9 @@ PROCESS_NOISE_DIAG = [0.001, 0.001, 0.001, 0.1, 0.1]
 # Measurement Noise (Incertezza Sensori)
 # AUMENTATO: [1.0m, 0.2rad]. 
 # Rende il filtro meno "nervoso" e la traiettoria più liscia.
-SIGMA_LANDMARK = [1.0, 0.2]
-SIGMA_ODOM = [0.05, 0.05]
-SIGMA_IMU = [0.02]
+SIGMA_LANDMARK = [0.8, 0.4]
+SIGMA_ODOM = [0.6, 0.1]
+SIGMA_IMU = [0.01]
 
 class EKFnodeTask3(Node):
     def __init__(self):

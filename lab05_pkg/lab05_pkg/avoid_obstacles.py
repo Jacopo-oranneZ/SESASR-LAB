@@ -7,11 +7,18 @@ from tf_transformations import euler_from_quaternion
 from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Twist
 from lab05_pkg.utils import normalize_angle
+from std_msgs.msg import Float32
 
-
-#TODO Real robot: change topic names (landmarks to /camera/landmarks)
+#TODO Real robot: change topic names (landmarks to /camera/landmarks).....DONE
 #TODO Provide intermediate feedback (distance to goal every 50 steps) in a dedicated topic
 #TODO Revise max velocities, weights, and safety distances for real robot
+
+# Topic names:
+TOPIC_LANDMARKS = '/camera/landmarks'
+TOPIC_ODOM = '/odom'
+TOPIC_LASER = '/scan'
+TOPIC_DGP = '/dynamic_goal_pose'  # For simulation only
+
 
 class ObstacleAvoidanceNode(Node):
     def __init__(self):
@@ -22,15 +29,17 @@ class ObstacleAvoidanceNode(Node):
         self.timer = self.create_timer(self.timer_period, self.go_to_pose)
         
         # Subscriptions
-        self.create_subscription(LandmarkArray, '/landmarks', self.landmark_callback, 10) # TODO Robot reale: /camera/landmarks
-        self.create_subscription(Odometry, '/odom', self.odom_callback, 10)
-        self.create_subscription(LaserScan, '/scan', self.laser_callback, 10)
+        self.create_subscription(LandmarkArray, TOPIC_LANDMARKS, self.landmark_callback, 10) # TODO Robot reale: /camera/landmarks
+        self.create_subscription(Odometry, TOPIC_ODOM, self.odom_callback, 10)
+        self.create_subscription(LaserScan, TOPIC_LASER, self.laser_callback, 10)
+        self.create_subscription(Float32, '/goal_feedback', self.goal_feedback_callback, 10)
 
         # Simulation subscription
-        self.create_subscription(Odometry, '/dynamic_goal_pose', self.dynamic_goal_callback, 10)
+        self.create_subscription(Odometry, TOPIC_DGP, self.dynamic_goal_callback, 10)
 
         # Publisher
         self.cmd_vel_pub = self.create_publisher(Twist, '/cmd_vel', 10)
+        self.goal_feedback_pub = self.create_publisher(Float32, '/goal_feedback', 10)
 
         # General variables
         self.robot_pose = np.array([0.0, 0.0, 0.0])  # x, y, theta
@@ -58,6 +67,10 @@ class ObstacleAvoidanceNode(Node):
         self.HEADING_WEIGHT = 1.0
         self.VELOCITY_WEIGHT = 4.5
         self.OBSTACLE_WEIGHT = 3.1
+
+        #Intermediate feedback variables
+        self.steps_counter = 0
+        self.feedback_interval = 50  # steps
 
         # useful lambda functions
         self.checkSafety = lambda lasers: True if np.min(lasers)>self.EMERGENCY_STOP_DIST else False
@@ -94,7 +107,7 @@ class ObstacleAvoidanceNode(Node):
         """
         self.goal_pose[0] = msg.landmarks[0].pose.position.x
         self.goal_pose[1] = msg.landmarks[0].pose.position.y
-        self.get_logger().info(f"Updated Goal Pose: {self.goal_pose}")
+        #self.get_logger().info(f"Updated Goal Pose: {self.goal_pose}")
 
     def dynamic_goal_callback(self, msg):
         """
@@ -105,7 +118,7 @@ class ObstacleAvoidanceNode(Node):
         """
         self.goal_pose[0] = msg.pose.pose.position.x
         self.goal_pose[1] = msg.pose.pose.position.y
-        self.get_logger().info(f"Updated Goal Pose: {self.goal_pose}")
+        #self.get_logger().info(f"Updated Goal Pose: {self.goal_pose}")
 
 
     def laser_callback(self, msg):
@@ -288,6 +301,14 @@ class ObstacleAvoidanceNode(Node):
     ##        MAIN CONTROLLER         ##
     #####################################
     def go_to_pose(self):
+       
+        """ Intermediate checkpoint feedback"""
+        self.steps_counter += 1
+        if self.steps_counter % self.feedback_interval == 0:
+            dist = self.dist_to_point(self.robot_pose, self.goal_pose)
+            self.goal_feedback_pub.publish(Float32(data=float(dist)))
+            self.steps_counter = 0 
+       
         """
 
         Main DWA loop called periodically to compute and publish velocity commands.
@@ -306,7 +327,7 @@ class ObstacleAvoidanceNode(Node):
         dist = self.dist_to_point(self.robot_pose, self.goal_pose)
         if dist < self.GOAL_TOLERANCE:
             self.get_logger().info("Goal Reached!")
-            self.stop()
+            self.stop() 
             return
         
         # Compute best velocity command using DWA

@@ -31,6 +31,7 @@ setup(
             'utils = lab04_pkg.utils:main',
             'ekf = lab04_pkg.ekf:main',
             'Task2 = lab04_pkg.Task2:main',
+            'plot_ekf = lab04_pkg.plot_ekf:main',
         ],
     },
 )
