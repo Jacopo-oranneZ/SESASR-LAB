@@ -6,14 +6,14 @@ import sys
 import os
 
 # --- Funzioni di supporto ---
-def get_yaw_from_msg(msg):
+'''def get_yaw_from_msg(msg):
     if hasattr(msg, 'pose') and hasattr(msg.pose, 'pose'):
         q = msg.pose.pose.orientation
         siny_cosp = 2.0 * (q.w * q.z + q.x * q.y)
         cosy_cosp = 1.0 - 2.0 * (q.y * q.y + q.z * q.z)
         return math.atan2(siny_cosp, cosy_cosp)
     return 0.0
-
+'''
 def get_time_sec(msg):
     if hasattr(msg, 'header'):
         return msg.header.stamp.sec + msg.header.stamp.nanosec * 1e-9
@@ -22,8 +22,9 @@ def get_time_sec(msg):
 def plot_dashboard(bag_path):
     print(f"Generazione Dashboard per: {os.path.basename(bag_path)}")
     
-    target_topics = ['/odom', '/ekf']
-                     #, '/ground_truth']
+    target_topics = [#'/odom', '/ekf']
+                      #'/ground_truth']
+                        '/odom']
     
     try:
         reader = Rosbag2Reader(bag_path, topics_filter=target_topics)
@@ -32,20 +33,20 @@ def plot_dashboard(bag_path):
         return
 
     styles = {
-        '/ekf':          {'color': "#d41313", 'label': 'EKF',          'ls': '-', 'lw': 2, 'alpha': 1.0},
+        #'/ekf':          {'color': "#d41313", 'label': 'EKF',          'ls': '-', 'lw': 2, 'alpha': 1.0},
         #'/ground_truth': {'color': "#2ca02c6e", 'label': 'Ground Truth', 'ls': '-', 'lw': 2, 'alpha': 1.0},
-        '/odom':         {'color': "#100de0", 'label': 'Odom',         'ls': '--','lw': 2, 'alpha': 1.0}
+        '/odom':         {'color': "#1410d688", 'label': 'Odom','ls': 'solid','lw': 0.6, 'alpha': 1.0, 'c_v': "#d62728", 'c_w': "#2ca02c"}
     }
 
     # Contenitori Dati
-    data = {t: {'t': [], 'x': [], 'y': [], 'yaw': []} for t in target_topics}
+    data = {t: {'t': [], 'x': [], 'y': [], 'yaw': [], 'v': [], 'w': []} for t in target_topics}
     start_time = None
 
 
     count = 0
     
     x_OFFSET = 0.0 #2.0
-    y_OFFSET = 0.77 #0.5
+    y_OFFSET = 0.0 #0.5
    
     for topic, msg, t in reader:
         if topic in data:
@@ -55,6 +56,8 @@ def plot_dashboard(bag_path):
             # Leggiamo i valori grezzi dal messaggio
             pos_x = msg.pose.pose.position.x
             pos_y = msg.pose.pose.position.y
+            vel_v = msg.twist.twist.linear.x
+            vel_w = msg.twist.twist.angular.z
             
             ### NUOVO: Logica di correzione
             if topic == '/ekf':
@@ -68,103 +71,80 @@ def plot_dashboard(bag_path):
             data[topic]['t'].append(current_time - start_time)
             data[topic]['x'].append(pos_x) # <--- Ora usa la variabile pos_x (eventualmente corretta)
             data[topic]['y'].append(pos_y) # <--- Ora usa la variabile pos_y
-            data[topic]['yaw'].append(get_yaw_from_msg(msg))
+            data[topic]['v'].append(vel_v)
+            data[topic]['w'].append(vel_w)
             count += 1
 
     print(f"Dati estratti: {count} messaggi.")
 
     # --- COSTRUZIONE DELLA DASHBOARD ---
     fig = plt.figure(figsize=(16, 9))
+    
     # Layout: 3 righe, 2 colonne. 
-    # La colonna 0 (Sinistra) è occupata interamente dal grafico spaziale.
-    # La colonna 1 (Destra) è divisa in 3 righe per x, y, yaw.
-    gs = gridspec.GridSpec(3, 2, width_ratios=[1.5, 1]) 
+    # Colonna 0: Traiettoria Spaziale (XY)
+    # Colonna 1: Velocità Lineare, Velocità Angolare, (Opzionale: Yaw o altro)
+    gs = gridspec.GridSpec(2, 2) 
 
     # Assi
     ax_spatial = fig.add_subplot(gs[:, 0]) # Tutta la colonna sinistra
-    ax_x = fig.add_subplot(gs[0, 1])       # Alto destra
-    ax_y = fig.add_subplot(gs[1, 1])       # Centro destra
-    ax_yaw = fig.add_subplot(gs[2, 1])     # Basso destra
-
+    ax_v = fig.add_subplot(gs[0, 1])       # Alto destra (Velocità Lineare)
+    ax_w = fig.add_subplot(gs[1, 1])       # Centro destra (Velocità Angolare)
+    # ax_yaw = fig.add_subplot(gs[2, 1])   # Basso destra (se vuoi riattivare lo Yaw)
 
     # Loop di plotting per ogni topic
+    for topic in target_topics:
+        if not data[topic]['t']: continue
+        
+        # Loop di plotting per ogni topic
     for topic in target_topics:
         if not data[topic]['t']: continue
         
         s = styles[topic] # Stile corrente
         d = data[topic]   # Dati correnti
 
-        ax_spatial.plot(d['x'], d['y'], label=s['label'], color=s['color'], ls=s['ls'], lw=s['lw'], alpha=s['alpha'])
-        
-        # --- NUOVO: MARKER START & END ---
-        
-        # PUNTO DI PARTENZA (X)
-        # Prendo l'indice [0] delle liste x e y
-        
-        ax_spatial.plot(d['x'][0], d['y'][0], 
-                        marker='o',            # La forma del marker
-                        color=s['color'],      # Stesso colore della linea
-                        markersize=8,         # Grandezza
-                        markeredgewidth=2.5,   # Spessore della X (per vederla bene)
-                        label='START')    # '_nolegend_' evita di duplicare la voce in legenda
+        # Recuperiamo i colori specifici (o usiamo il base come fallback)
+        color_base = s['color']
+        color_v = s.get('c_v', color_base) # Se 'c_v' non esiste, usa color_base
+        color_w = s.get('c_w', color_base) # Se 'c_w' non esiste, usa color_base
 
-        # PUNTO DI ARRIVO (Cerchio)
-        # Prendo l'indice [-1] (l'ultimo elemento) delle liste x e y
-        ax_spatial.plot(d['x'][-1], d['y'][-1], 
-                        marker='x',            # Il cerchio
-                        color=s['color'], 
-                        markersize=8,
-                        markerfacecolor='none', # 'none' lo fa vuoto dentro (anello), togli questa riga se lo vuoi pieno
-                        markeredgewidth=2.5,
-                        label='END')
-        # 2. Plot X
-        ax_x.plot(d['t'], d['x'], label=s['label'], color=s['color'], ls=s['ls'], lw=s['lw'])
+        # 1. Grafico Spaziale (XY) -> Usa il colore base
+        ax_spatial.plot(d['x'], d['y'], label=s['label'], color=color_base, ls=s['ls'], lw=s['lw'], alpha=s['alpha'])
         
-        # 3. Plot Y
-        ax_y.plot(d['t'], d['y'], label=s['label'], color=s['color'], ls=s['ls'], lw=s['lw'])
+        # Marker Start/End
+        ax_spatial.plot(d['x'][0], d['y'][0], marker='o', color=color_base, markersize=8, markeredgewidth=2.5, label='_nolegend_')
+        ax_spatial.plot(d['x'][-1], d['y'][-1], marker='x', color=color_base, markersize=8, markeredgewidth=2.5, label='_nolegend_')
+
+        # 2. Plot Velocità Lineare (v) -> Usa color_v
+        ax_v.plot(d['t'], d['v'], label=f"{s['label']} v", color=color_v, ls=s['ls'], lw=s['lw'])
         
-        # 4. Plot Yaw
-        ax_yaw.plot(d['t'], d['yaw'], label=s['label'], color=s['color'], ls=s['ls'], lw=s['lw'])
+        # 3. Plot Velocità Angolare (w) -> Usa color_w
+        ax_w.plot(d['t'], d['w'], label=f"{s['label']} w", color=color_w, ls=s['ls'], lw=s['lw'])
 
-    # --- ESTETICA RAFFINATA ---
-
-    # Grafico Spaziale
-    ax_spatial.set_title("Spatial Trajectory Comparison", fontweight='bold')
+    # --- ESTETICA ---
+    ax_spatial.set_title("Spatial Trajectory", fontweight='bold')
     ax_spatial.set_xlabel("x [m]")
     ax_spatial.set_ylabel("y [m]")
-    ax_spatial.axis('equal') # Cruciale per la geometria
+    ax_spatial.axis('equal')
     ax_spatial.grid(True, linestyle=':', alpha=0.6)
     ax_spatial.legend(loc='best')
-  
-   
-    # Grafici Temporali (condividono l'asse X del tempo se si vuole, qui li lascio indipendenti per chiarezza)
-    ax_x.set_title("X", fontweight='bold', pad=2)
-    ax_x.set_ylabel("x [m]")
-    ax_x.grid(True, linestyle=':', alpha=0.6)
-    # Rimuoviamo le etichette dell'asse X per i grafici superiori per pulizia
-    plt.setp(ax_x.get_xticklabels(), visible=False)
-    ax_x.legend(loc='upper left', fontsize='small')
 
-    ax_y.set_title("Y", fontweight='bold', pad=2)
-    ax_y.set_ylabel("y [m]")
-    ax_y.grid(True, linestyle=':', alpha=0.6)
-    plt.setp(ax_y.get_xticklabels(), visible=False)
-    ax_y.legend(loc='upper left', fontsize='small')
-
-    ax_yaw.set_title("Yaw", fontweight='bold', pad=2)
-    ax_yaw.set_ylabel("\u03B8 [rad]")
-    ax_yaw.set_xlabel("time [s]")
-    ax_yaw.grid(True, linestyle=':', alpha=0.6)
-    ax_yaw.legend(loc='upper left', fontsize='small')
+    # Estetica Velocità
+    ax_v.set_title("Linear Velocity", fontweight='bold', pad=2)
+    ax_v.set_ylabel("v [m/s]")
+    ax_v.grid(True, linestyle=':', alpha=0.6)
+    # Nascondiamo le x labels se condividono l'asse, altrimenti lascia stare
     
-    # Una sola legenda per la colonna di destra (per non affollare)
-    # ax_x.legend(loc='upper right', fontsize='small')
+    ax_w.set_title("Angular Velocity", fontweight='bold', pad=2)
+    ax_w.set_ylabel("w [rad/s]")
+    ax_w.set_xlabel("time [s]") # Solo l'ultimo grafico ha l'etichetta temporale
+    ax_w.grid(True, linestyle=':', alpha=0.6)
 
     plt.tight_layout()
-    plt.subplots_adjust(top=0.92) # Spazio per il titolo principale
+    plt.subplots_adjust()
     
-    print("Ingegnere: Dashboard generata. Analizziamo i risultati!")
+    print("Ingegnere: Dashboard aggiornata con le velocità!")
     plt.show()
+    
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
