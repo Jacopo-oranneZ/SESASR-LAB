@@ -545,7 +545,6 @@ class ObstacleAvoidanceNode(Node):
 
         # --- TUNING PER ROBOT REALE ---
         self.OPTIMAL_DIST = 0.3 # Distanza target ottimale
-        self.GOAL_TOLERANCE = 0.2 
         self.LASERS_OBS_NUM = 30 
         
         # SAFETY NOTE: Turtlebot3 Burger max speed ~0.22 m/s.
@@ -585,9 +584,9 @@ class ObstacleAvoidanceNode(Node):
         
         # DWA Weights
         self.HEADING_WEIGHT = 2
-        self.VELOCITY_WEIGHT = 21
+        self.VELOCITY_WEIGHT = 3.0
         self.OBSTACLE_WEIGHT = 1.5
-        self.VELOCITY_REDUCTION_WEIGHT = 0.5
+        self.VELOCITY_REDUCTION_WEIGHT = 2.0
         self.VISIBILITY_WEIGHT = 3.5
 
         # Timeout logic (Opzionale/Disabilitato ma variabile presente per sicurezza)
@@ -638,6 +637,7 @@ class ObstacleAvoidanceNode(Node):
 
         self.goal_pose[0] = glob_x
         self.goal_pose[1] = glob_y
+        self.get_logger().info(f"Tag visto: Range={r:.2f}, Bearing={b:.2f}")
 
 
     def dynamic_goal_callback(self, msg):
@@ -810,6 +810,9 @@ class ObstacleAvoidanceNode(Node):
         self.total_steps += 1
         # Timeout rimosso come richiesto
 
+
+        
+
         # --- FIX TRACKING: Check visibilità ---
         current_time = self.get_clock().now().nanoseconds / 1e9
         target_visible = False
@@ -840,6 +843,12 @@ class ObstacleAvoidanceNode(Node):
         
         # Passiamo anche stato visibilità per metriche corrette
         self.update_metrics(dist, float(best_u[0]), float(best_u[1]), target_visible)
+
+        dist = self.dist_to_point(self.robot_pose, self.goal_pose)
+        if dist < self.OPTIMAL_DIST:
+            self.get_logger().info("Goal Reached!")
+            self.stop()
+            return
 
     ####################################
     ##            METRICS             ##
