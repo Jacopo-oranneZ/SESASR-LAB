@@ -81,11 +81,11 @@ class ObstacleAvoidanceNode(Node):
 
         self.SIMULATION_TIME = 2.0  # seconds
         self.TIME_STEP = 0.1  # seconds
-        self.HEADING_WEIGHT = 0.8
-        self.VELOCITY_WEIGHT = 1.9
-        self.OBSTACLE_WEIGHT = 1.9
-        self.VELOCITY_REDUCTION_WEIGHT = 1.0
-        self.VISIBILITY_WEIGHT = 3
+        self.HEADING_WEIGHT = 1.2 # prima 0.8
+        self.VELOCITY_WEIGHT = 2.0 # prima 1.9
+        self.OBSTACLE_WEIGHT = 0.8 # prima 1.9
+        self.VELOCITY_REDUCTION_WEIGHT = 0.5 # prima 1.0
+        self.VISIBILITY_WEIGHT = 3.0 # è rimasto così
 
         # useful lambda functions
         self.checkSafety = lambda lasers: True if np.min(lasers)>self.EMERGENCY_STOP_DIST else False
@@ -389,6 +389,7 @@ class ObstacleAvoidanceNode(Node):
         Check for obstacles, goal reaching, and compute best velocity command.
 
         """
+        self.update_metrics()
         if self.lasers is None:
             return
         
@@ -476,7 +477,7 @@ class ObstacleAvoidanceNode(Node):
         # 5. Stampa Periodica Report
         current_time = self.get_clock().now().nanoseconds / 1e9
         if (current_time - self.last_print_time) > self.METRICS_UPDATE_RATE:
-            self.print_metrics_report()
+            # self.print_metrics_report()
             self.last_print_time = current_time
 
     def print_metrics_report(self):
@@ -505,6 +506,7 @@ def main(args=None):
     except KeyboardInterrupt:
         pass
     node.destroy_node()
+    node.print_metrics_report()
     rclpy.shutdown()
 
 if __name__ == '__main__':
