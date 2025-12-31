@@ -22,8 +22,7 @@ def get_time_sec(msg):
 def plot_dashboard(bag_path):
     print(f"Generazione Dashboard per: {os.path.basename(bag_path)}")
     
-    target_topics = [#'/odom', '/ekf']
-                      '/ground_truth']
+    target_topics = ['/ground_truth', '/dynamic_goal_pose']
     
     try:
         reader = Rosbag2Reader(bag_path, topics_filter=target_topics)
@@ -32,9 +31,8 @@ def plot_dashboard(bag_path):
         return
 
     styles = {
-        #'/ekf':          {'color': "#d41313", 'label': 'EKF',          'ls': '-', 'lw': 2, 'alpha': 1.0},
-        '/ground_truth': {'color': "#2ca02c6e", 'label': 'Ground Truth', 'ls': '-', 'lw': 2, 'alpha': 1.0},
-        #'/odom':         {'color': "#100de0", 'label': 'Odom',         'ls': '--','lw': 2, 'alpha': 1.0}
+        '/ground_truth': {'color': "#2ca02c6e", 'label': 'Ground Truth vs Dynamic Goal Pose', 'ls': '-', 'lw': 2, 'alpha': 1.0},
+        '/dynamic_goal_pose': {'color': "#e422146c", 'label': 'Dynamic Goal Pose', 'ls': '-', 'lw': 2, 'alpha': 1.0},
     }
 
     # Contenitori Dati
@@ -59,12 +57,9 @@ def plot_dashboard(bag_path):
             vel_w = msg.twist.twist.angular.z
             
             ### NUOVO: Logica di correzione
-            if topic == '/ekf':
+            if topic == '/ground_truth':
                 pos_x -= x_OFFSET
                 pos_y -= y_OFFSET
-            #if topic == '/odom':
-             #   pos_x -= x_OFFSET  # Aggiunge l'offset solo all'odometria
-             #  pos_y -= y_OFFSET
             
             # Salviamo i valori (corretti o originali)
             data[topic]['t'].append(current_time - start_time)
@@ -88,7 +83,6 @@ def plot_dashboard(bag_path):
     ax_spatial = fig.add_subplot(gs[:, 0]) # Tutta la colonna sinistra
     ax_v = fig.add_subplot(gs[0, 1])       # Alto destra (Velocità Lineare)
     ax_w = fig.add_subplot(gs[1, 1])       # Centro destra (Velocità Angolare)
-    # ax_yaw = fig.add_subplot(gs[2, 1])   # Basso destra (se vuoi riattivare lo Yaw)
 
     # Loop di plotting per ogni topic
     for topic in target_topics:
