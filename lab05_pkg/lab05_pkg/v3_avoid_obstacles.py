@@ -13,7 +13,7 @@ import os
 import csv
 from datetime import datetime
 
-# Funzione helper definita qui per rendere il codice autosufficiente
+# Helper function, qui perché è l'unica funzione esterna necessaria
 def normalize_angle(angle):
     while angle > np.pi:
         angle -= 2.0 * np.pi
@@ -33,8 +33,6 @@ class ObstacleAvoidanceNode(Node):
         self.create_subscription(LandmarkArray, '/camera/landmarks', self.landmark_callback, 10)
         self.create_subscription(Odometry, '/odom', self.odom_callback, 10)
         self.create_subscription(LaserScan, '/scan', self.laser_callback, 10)
-
-        # Simulation subscription (lasciato per compatibilità)
         # self.create_subscription(Odometry, '/dynamic_goal_pose', self.dynamic_goal_callback, 10)
 
         # --- PUBLISHERS ---
@@ -78,7 +76,6 @@ class ObstacleAvoidanceNode(Node):
         self.OPTIMAL_DIST = 0.22 # Distanza target ottimale
         self.LASERS_OBS_NUM = 30 
         
-        # SAFETY NOTE: Turtlebot3 Burger max speed ~0.22 m/s.
         self.VMAX = 0.08
         self.WMAX = 0.4  
         
@@ -120,9 +117,6 @@ class ObstacleAvoidanceNode(Node):
         self.VELOCITY_REDUCTION_WEIGHT = 0.5
         self.VISIBILITY_WEIGHT = 3.0
 
-        # Timeout logic (Opzionale/Disabilitato ma variabile presente per sicurezza)
-        self.MAX_STEPS_TIMEOUT = 15 * 60 * 3 
-
         # Lambda utils
         self.checkSafety = lambda lasers: True if np.min(lasers) > self.EMERGENCY_STOP_DIST else False
         self.dist_to_point = lambda robot_pose, point_pose: np.linalg.norm(robot_pose[0:2] - point_pose)
@@ -133,6 +127,11 @@ class ObstacleAvoidanceNode(Node):
     #####################################
 
     def odom_callback(self, msg):
+        '''
+        
+        Aggiorna la posa del robot basandosi sui messaggi di odometria.
+
+        '''
         self.robot_pose[0] = msg.pose.pose.position.x
         self.robot_pose[1] = msg.pose.pose.position.y
         q = msg.pose.pose.orientation
@@ -140,11 +139,18 @@ class ObstacleAvoidanceNode(Node):
         self.robot_pose[2] = yaw
 
     def landmark_callback(self, msg):
+        '''
+        
+        Aggiorna la posa goal basandosi sui landmarks rilevati dalla camera.
+        
+        '''
+
+
+        # Controllo se ci sono landmarks
         if not msg.landmarks: 
             self.get_logger().warn("Nessun landmark rilevato")
             return 
 
-        # FIX: Aggiorniamo timestamp e flag. Non incrementiamo metriche qui (si fa nel loop)
         self.goal_received = True
         self.last_landmark_time = self.get_clock().now().nanoseconds / 1e9
 
@@ -160,7 +166,7 @@ class ObstacleAvoidanceNode(Node):
         rel_x = r * np.cos(b)
         rel_y = r * np.sin(b)
 
-        # Aggiungiamo l'offset della camera
+        # offset della camera
         rel_x += self.CAMERA_OFFSET_X 
 
         # Trasformazione: Robot Frame -> Odom Frame
@@ -173,19 +179,41 @@ class ObstacleAvoidanceNode(Node):
         self.get_logger().info(f"Tag visto: Range={r:.2f}, Bearing={b:.2f}")
 
 
-    def dynamic_goal_callback(self, msg):
-        self.goal_received = True
-        self.last_landmark_time = self.get_clock().now().nanoseconds / 1e9
-        self.goal_pose[0] = msg.pose.pose.position.x
-        self.goal_pose[1] = msg.pose.pose.position.y
+    # def dynamic_goal_callback(self, msg):
+    #     '''
+        
+    #     Aggiorna la posa goal basandosi sui messaggi di odometria del goal dinamico.
+    #     Usato solo in simulazione.
+        
+    #     '''
+
+
+    #     self.goal_received = True
+    #     self.last_landmark_time = self.get_clock().now().nanoseconds / 1e9
+    #     self.goal_pose[0] = msg.pose.pose.position.x
+    #     self.goal_pose[1] = msg.pose.pose.position.y
 
     def laser_callback(self, msg):
+        '''
+        
+        Aggiorna i dati del laser scanner.
+        
+        '''
         self.angle_min = msg.angle_min
         self.angle_max = msg.angle_max
         self.angle_increment = msg.angle_increment
         self.lasers = self.laser_filter(msg)
 
     def laser_filter(self, scan_msg):
+        '''
+        
+        Filtra i dati del laser scanner per rimuovere valori NaN, infiniti e fuori range.
+        Divide i dati in settori e prende il minimo di ogni settore per rappresentare gli ostacoli.
+        Restituisce un array numpy con i valori filtrati.
+        
+        '''
+
+        # Pulizia dati
         max_range = self.MAX_LASER_RANGE
         lasers = np.array(scan_msg.ranges)
         lasers[np.isnan(lasers)] = max_range 
@@ -193,8 +221,11 @@ class ObstacleAvoidanceNode(Node):
         lasers[lasers > max_range] = max_range
         lasers[lasers < 0.05] = max_range 
 
+
+        # Dividiamo in settori
         sector_size = len(scan_msg.ranges) // self.LASERS_OBS_NUM
         filtered_ranges = []
+        # Prendiamo il minimo di ogni settore
         for i in range(self.LASERS_OBS_NUM):
             start_idx = i * sector_size
             end_idx = (i + 1) * sector_size
@@ -217,21 +248,39 @@ class ObstacleAvoidanceNode(Node):
     #####################################
 
     def predict_pose(self, state, u, dt):
+        '''
+        
+        Predice la posa futura del robot dato lo stato attuale, il comando di velocità e l'intervallo di tempo.
+        
+        '''
+
         next_x = state[0] + u[0] * np.cos(state[2]) * dt
         next_y = state[1] + u[0] * np.sin(state[2]) * dt
         next_th = state[2] + u[1] * dt
         return np.array([next_x, next_y, next_th])
 
     def velocity_command(self):
+        '''
+        
+        Calcola il comando di velocità ottimale usando l'algoritmo DWA.
+        Tiene conto della distanza dagli ostacoli, dell'orientamento verso il goal,
+        della velocità e della visibilità del goal.
+        Restituisce un array numpy [v, w] con le velocità lineare e angolare ottimali.
+
+        '''
+
+
+        # Otteniamo la lista degli ostacoli
         obstacles = self.get_obstacles()
         v_range = np.linspace(0, self.VMAX, self.V_STEPS)
         w_range = np.linspace(-self.WMAX, self.WMAX, self.W_STEPS)
 
+        # Setup simulazioni
         simulated_poses = np.zeros((self.V_STEPS*self.W_STEPS, int(self.SIMULATION_TIME/self.TIME_STEP)+1, 3))
         simulated_poses[:,0, :] = self.robot_pose
 
         total_scores = np.full(self.V_STEPS*self.W_STEPS, -float('inf'))
-
+        # Per ogni coppia (v, w), simuliamo il percorso e calcoliamo il punteggio
         for ind_v, v in enumerate(v_range):
             for ind_w, w in enumerate(w_range):
                 u = np.array([v, w])
@@ -239,6 +288,7 @@ class ObstacleAvoidanceNode(Node):
                 min_obstacle_dist = float('inf')
                 collision_detected = False
 
+                # Simuliamo il percorso nel tempo
                 for ind_t in range(int(self.SIMULATION_TIME/self.TIME_STEP)):
                     simulated_poses[score_index, ind_t+1] = self.predict_pose(simulated_poses[score_index, ind_t], u, self.TIME_STEP)
                     dist_obs = self.obstacle_score(simulated_poses[score_index, ind_t+1], obstacles)
@@ -271,6 +321,7 @@ class ObstacleAvoidanceNode(Node):
 
         if max_score == -float('inf'):
             self.get_logger().warn("DWA: No valid path found! Recovery.")
+            # In caso di nessuna traiettoria valida, facciamo ruotare il robot lentamente per cercare di liberarsi
             return np.array([0.0, 0.3])
 
         v_best_index = best_u_idx // self.W_STEPS
@@ -280,6 +331,14 @@ class ObstacleAvoidanceNode(Node):
         return np.array([v_range[v_best_index], w_range[w_best_index]])
 
     def get_visibility(self, pose, obstacles):
+        '''
+        
+        Calcola un punteggio di visibilità del goal basato sugli ostacoli.
+        Restituisce un valore tra 0.0 (non visibile) e 1.0 (completamente visibile).
+        
+        '''
+
+
         min_dist = float('inf')
         robottogoal = (self.goal_pose - pose[:2])
         goal_dist = np.linalg.norm(robottogoal)
@@ -297,6 +356,14 @@ class ObstacleAvoidanceNode(Node):
         return min(result, 1.0)
 
     def obstacle_score(self, pose, obstacles):
+        '''
+        
+        Calcola la distanza minima dagli ostacoli.
+        Restituisce 0.0 se troppo vicino (collisione), altrimenti la distanza minima misurata.
+        
+        '''
+
+
         min_dist = self.MAX_LASER_RANGE
         for obs in obstacles:
             dist_to_obs = self.dist_to_point(pose, obs)
@@ -307,6 +374,13 @@ class ObstacleAvoidanceNode(Node):
         return min_dist
 
     def get_obstacles(self):
+        '''
+        
+        Estrae la lista di ostacoli dalle letture del laser scanner.
+        Restituisce un array numpy di shape (N, 2) con le coordinate (x, y) degli ostacoli rilevati.
+        
+        '''
+
         obstacles = []
         if self.LASERS_OBS_NUM == 0: return np.array([])
         effective_increment = (self.angle_max - self.angle_min) / self.LASERS_OBS_NUM
@@ -322,6 +396,14 @@ class ObstacleAvoidanceNode(Node):
         return np.array(obstacles)
 
     def heading_to_goal(self, state, goal):
+        '''
+        
+        Calcola l'angolo di deviazione tra l'orientamento del robot e la direzione verso il goal.
+        Restituisce l'angolo normalizzato in radianti.
+        
+        '''
+
+
         angle = np.arctan2(goal[1] - state[1], goal[0] - state[0])
         return normalize_angle(angle - state[2])
 
@@ -330,8 +412,16 @@ class ObstacleAvoidanceNode(Node):
     #####################################
 
     def go_to_pose(self):
+        '''
+        
+        Funzione principale di controllo chiamata dal timer.
+        Controlla la sicurezza, calcola il comando di velocità e aggiorna le metriche.
+        
+        '''
+        
         if self.lasers is None: return
         
+        # Controllo sicurezza: emergency stop se troppo vicino agli ostacoli
         if not self.checkSafety(self.lasers):
             self.get_logger().warn("EMERGENCY STOP")
             self.stop()
@@ -341,7 +431,6 @@ class ObstacleAvoidanceNode(Node):
         if not self.goal_received: return
 
         self.total_steps += 1
-        # Timeout rimosso come richiesto
 
 
         
@@ -389,14 +478,15 @@ class ObstacleAvoidanceNode(Node):
 
     def update_metrics(self, current_dist, v, w, target_visible):
         """
-        Computes and logs metrics.
+
+        Aggiorna le metriche di performance e salva i dati su CSV.
+
         """
         # Bearing error
-        target_angle = np.arctan2(self.goal_pose[1]-self.robot_pose[1], 
-                                  self.goal_pose[0]-self.robot_pose[0])
+        target_angle = np.arctan2(self.goal_pose[1]-self.robot_pose[1], self.goal_pose[0]-self.robot_pose[0])
         bearing_error = normalize_angle(target_angle - self.robot_pose[2])
 
-        # FIX: Tracking logic corretta
+       # Tracking
         is_tracking = 0
         if target_visible and current_dist <= self.TRACKING_MAX_DIST:
             self.tracked_steps += 1
@@ -421,16 +511,20 @@ class ObstacleAvoidanceNode(Node):
 
         # --- LOG DATA TO CSV ---
         timestamp = self.get_clock().now().nanoseconds / 1e9
-        # is_tracking ora è definito
         self.csv_writer.writerow([timestamp, current_dist, bearing_error, current_min, v, w, is_tracking, int(target_visible)])
 
-        # Stampa a video ogni tanto
+        # Stampa a schermo ogni 2 secondi
         current_time = self.get_clock().now().nanoseconds / 1e9
         if (current_time - self.last_print_time) > 2.0:
             self.print_metrics_report()
             self.last_print_time = current_time
 
     def print_metrics_report(self):
+        '''
+        
+        Stampa a schermo un report delle metriche correnti.
+        
+        '''
         if self.total_steps == 0: return
         
         tracking_pct = (self.tracked_steps / self.total_steps) * 100.0
@@ -441,7 +535,9 @@ class ObstacleAvoidanceNode(Node):
 
     def save_final_report(self):
         """
-        Called on node shutdown to save the summary to a text file.
+        
+        Salva il report finale delle metriche su file di testo e chiude il file CSV.
+
         """
         # Chiudiamo il file CSV
         if self.csv_file:
