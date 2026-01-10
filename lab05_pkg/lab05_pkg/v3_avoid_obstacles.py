@@ -35,7 +35,7 @@ class ObstacleAvoidanceNode(Node):
         self.create_subscription(LaserScan, '/scan', self.laser_callback, 10)
 
         # Simulation subscription (lasciato per compatibilità)
-        self.create_subscription(Odometry, '/dynamic_goal_pose', self.dynamic_goal_callback, 10)
+        # self.create_subscription(Odometry, '/dynamic_goal_pose', self.dynamic_goal_callback, 10)
 
         # --- PUBLISHERS ---
         self.cmd_vel_pub = self.create_publisher(Twist, '/cmd_vel', 10)
@@ -75,18 +75,18 @@ class ObstacleAvoidanceNode(Node):
         self.VISIBILITY_TIMEOUT = 1.0 # Secondi dopo i quali il target è considerato perso
 
         # --- TUNING PER ROBOT REALE ---
-        self.OPTIMAL_DIST = 0.3 # Distanza target ottimale
+        self.OPTIMAL_DIST = 0.22 # Distanza target ottimale
         self.LASERS_OBS_NUM = 30 
         
         # SAFETY NOTE: Turtlebot3 Burger max speed ~0.22 m/s.
-        self.VMAX = 0.22 
-        self.WMAX = 1.0  
+        self.VMAX = 0.08
+        self.WMAX = 0.4  
         
-        self.V_STEPS = 10 
-        self.W_STEPS = 15 
+        self.V_STEPS = 15 
+        self.W_STEPS = 35 
         self.MAX_LASER_RANGE = 3.5 
-        self.OBSTACLES_SAFETY_DIST = 0.20 
-        self.EMERGENCY_STOP_DIST = 0.16 
+        self.OBSTACLES_SAFETY_DIST = 0.18 
+        self.EMERGENCY_STOP_DIST = 0.12 
         self.SLOW_DOWN_DIST = 0.5
         self.VISIBILITY_THRESHOLD = 0.3
         self.CAMERA_OFFSET_X = 0.05 
@@ -110,15 +110,15 @@ class ObstacleAvoidanceNode(Node):
         self.TRACKING_MAX_DIST = 2.0 
 
         # Parameters for Simulation/Prediction
-        self.SIMULATION_TIME = 2.0 
+        self.SIMULATION_TIME = 2.0
         self.TIME_STEP = 0.1 
         
         # DWA Weights
-        self.HEADING_WEIGHT = 2
-        self.VELOCITY_WEIGHT = 3.0
+        self.HEADING_WEIGHT = 1.2
+        self.VELOCITY_WEIGHT = 4.0
         self.OBSTACLE_WEIGHT = 1.5
-        self.VELOCITY_REDUCTION_WEIGHT = 2.0
-        self.VISIBILITY_WEIGHT = 3.5
+        self.VELOCITY_REDUCTION_WEIGHT = 0.5
+        self.VISIBILITY_WEIGHT = 3.0
 
         # Timeout logic (Opzionale/Disabilitato ma variabile presente per sicurezza)
         self.MAX_STEPS_TIMEOUT = 15 * 60 * 3 
@@ -141,6 +141,7 @@ class ObstacleAvoidanceNode(Node):
 
     def landmark_callback(self, msg):
         if not msg.landmarks: 
+            self.get_logger().warn("Nessun landmark rilevato")
             return 
 
         # FIX: Aggiorniamo timestamp e flag. Non incrementiamo metriche qui (si fa nel loop)
@@ -152,6 +153,7 @@ class ObstacleAvoidanceNode(Node):
             b = msg.landmarks[0].bearing
         except AttributeError:
             # Fallback debug
+            self.get_logger().error("Landmark message missing range/bearing attributes.")
             return
 
         # Conversione Polare -> Cartesiana (Frame Robot)
@@ -435,7 +437,7 @@ class ObstacleAvoidanceNode(Node):
         rmse_dist = np.sqrt(self.sq_error_dist / self.total_steps)
         rmse_bearing = np.sqrt(self.sq_error_bearing / self.total_steps)
         
-        #print(f"Tracking: {tracking_pct:.1f}% | RMSE Dist: {rmse_dist:.3f}m | Min Obs: {self.global_min_obstacle_dist:.2f}m")
+        print(f"Tracking: {tracking_pct:.1f}% | RMSE Dist: {rmse_dist:.3f}m | Min Obs: {self.global_min_obstacle_dist:.2f}m")
 
     def save_final_report(self):
         """
