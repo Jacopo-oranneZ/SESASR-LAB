@@ -110,7 +110,6 @@ def main():
                     oy = curr_y + r * math.sin(abs_angle)
                     
                     # FILTRO ANTI-CUBO:
-                    # Se il punto LiDAR cade sul cubo rosso, non disegnarlo come muro
                     if filter_active:
                         if dist_sq(ox, oy, curr_target_x, curr_target_y) < target_radius_sq:
                             angle += angle_inc
@@ -133,10 +132,10 @@ def main():
     # Ostacoli Statici (Muri) - Nero trasparente
     ax_map.scatter(obs_x, obs_y, s=POINT_SIZE, c='black', alpha=POINT_ALPHA, zorder=1, linewidths=0)
     
-    # Traiettoria Target (Linea Marrone Tratteggiata)
+    # Traiettoria Target
     ax_map.plot(target_x, target_y, color='#8B4513', linewidth=2, linestyle='--', label='Dynamic Goal Path', zorder=2)
     
-    # Traiettoria Robot (Linea Blu Solida)
+    # Traiettoria Robot
     ax_map.plot(gt_x, gt_y, color='blue', linewidth=2, label='Robot Ground Truth', zorder=3)
     
     # Start / End Markers
@@ -165,16 +164,34 @@ def main():
 
     # 2. VELOCITÀ LINEARE
     ax_v = plt.subplot(gs[0, 1])
-    if cmd_t: ax_v.plot(cmd_t, cmd_v, 'k-', label='Cmd Linear v')
+    if cmd_t: 
+        ax_v.plot(cmd_t, cmd_v, 'k-', label='Cmd Linear v')
+        
+        # --- FIX SPAZIO LEGEND (Lineare) ---
+        # Trova il massimo tra i dati e il limite 0.25
+        max_val = max(max(cmd_v) if cmd_v else 0, 0.25)
+        # Aggiungi il 40% di spazio sopra
+        ax_v.set_ylim(bottom=-0.01, top=max_val * 1.4)
+
     ax_v.set_title("Linear Velocity", fontweight='bold')
     ax_v.set_ylabel("v [m/s]")
     ax_v.grid(True, linestyle=':')
     ax_v.legend(loc='upper right')
-    ax_v.axhline(y=0.22, color='r', linestyle='--', alpha=0.3, label='Max Speed')
+    # Limite aggiornato a 0.25
+    ax_v.axhline(y=0.28, color='r', linestyle='--', alpha=0.3, label='Max Speed')
 
     # 3. VELOCITÀ ANGOLARE
     ax_w = plt.subplot(gs[1, 1])
-    if cmd_t: ax_w.plot(cmd_t, cmd_w, 'g-', label='Cmd Angular w')
+    if cmd_t: 
+        ax_w.plot(cmd_t, cmd_w, 'g-', label='Cmd Angular w')
+        
+        # --- FIX SPAZIO LEGEND (Angolare) ---
+        # Trova il picco massimo in valore assoluto
+        max_w = max([abs(w) for w in cmd_w]) if cmd_w else 0.5
+        # Imposta limiti simmetrici con il 40% di spazio extra
+        limit_w = max_w * 1.4
+        ax_w.set_ylim(-limit_w, limit_w)
+
     ax_w.set_title("Angular Velocity", fontweight='bold')
     ax_w.set_xlabel("Time [s]")
     ax_w.set_ylabel("w [rad/s]")
@@ -182,7 +199,7 @@ def main():
     ax_w.legend(loc='upper right')
 
     plt.tight_layout()
-    filename = "sim_dashboard_final.png"
+    filename = "sim_dashboard_final_spaced.png"
     plt.savefig(filename, dpi=300)
     print(f"Grafico salvato: {filename}")
     plt.show()

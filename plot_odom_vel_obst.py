@@ -19,16 +19,14 @@ BAG_PATH_DEFAULT = '/home/filo/ros2_ws/SESASR-LAB/LAB0801/rosbag2_2026_01_08-18_
 CAMERA_OFFSET_X = 0.05
 MAX_LIDAR_DIST = 3.5
 
-# --- PARAMETRI "LONG EXPOSURE" (Il segreto per la pulizia) ---
-# Leggiamo molti dati, ma li rendiamo trasparentissimi.
-# I muri si sovrappongono diventando neri. Il rumore resta invisibile.
+# --- PARAMETRI "LONG EXPOSURE" ---
 SCAN_DECIMATION = 2      # Alta densità
 POINT_SIZE = 2           # Punti precisi
-POINT_ALPHA = 0.02       # 2% di opacità: serve sovrapporre 50 punti per fare un nero pieno!
+POINT_ALPHA = 0.02       # 2% di opacità
 
-# Filtro Anti-Umano (Più aggressivo)
-HUMAN_RADIUS_FILTER = 0.75  # 75cm di raggio "no-scan" attorno al target
-TARGET_MEMORY_TIME = 2.0    # Ricorda la posizione dell'umano più a lungo
+# Filtro Anti-Umano
+HUMAN_RADIUS_FILTER = 0.75 
+TARGET_MEMORY_TIME = 2.0    
 
 def get_yaw(q):
     siny_cosp = 2.0 * (q.w * q.z + q.x * q.y)
@@ -44,7 +42,7 @@ def main():
         print(f"ERRORE PATH: {bag_file}")
         sys.exit(1)
 
-    print(f"--- GENERAZIONE DASHBOARD V7 (SMART EXPOSURE): {os.path.basename(bag_file)} ---")
+    print(f"--- GENERAZIONE DASHBOARD V7 (SMART EXPOSURE - SPACE FIX): {os.path.basename(bag_file)} ---")
     print("Elaborazione ad alta densità in corso...")
     reader = Rosbag2Reader(bag_file)
 
@@ -84,7 +82,7 @@ def main():
             cmd_v.append(msg.linear.x)
             cmd_w.append(msg.angular.z)
 
-        # C. CAMERA (Aggiorna posizione filtro umano)
+        # C. CAMERA
         elif topic == '/camera/landmarks' and has_odom:
             if hasattr(msg, 'landmarks'):
                 for lm in msg.landmarks:
@@ -106,7 +104,7 @@ def main():
                         last_target_seen_time = rel_time
                     except AttributeError: pass
 
-        # D. SCAN (SMART RENDERING)
+        # D. SCAN
         elif topic == '/scan' and has_odom:
             scan_count += 1
             if scan_count % SCAN_DECIMATION != 0: continue
@@ -114,7 +112,6 @@ def main():
             angle = msg.angle_min
             angle_inc = msg.angle_increment
             
-            # Attiva filtro se abbiamo visto il target di recente
             filter_active = False
             if last_target_x is not None and (rel_time - last_target_seen_time) < TARGET_MEMORY_TIME:
                 filter_active = True
@@ -126,7 +123,6 @@ def main():
                     ox = curr_x + r * math.cos(abs_angle)
                     oy = curr_y + r * math.sin(abs_angle)
                     
-                    # Filtra Umano
                     if filter_active:
                         if dist_sq(ox, oy, last_target_x, last_target_y) < human_radius_sq:
                             angle += angle_inc
@@ -138,32 +134,26 @@ def main():
                 angle += angle_inc
 
     # --- PLOTTING ---
-    print(f"Plotting {len(obs_x)} scan points (questo richiederà qualche secondo)...")
+    print(f"Rendering finale...")
     
     fig = plt.figure(figsize=(16, 9))
     gs = gridspec.GridSpec(2, 2, width_ratios=[1.5, 1]) 
 
     # 1. MAPPA
     ax_map = plt.subplot(gs[:, 0])
-    
-    # TRUCCO PRO: Colore Nero Pieno (#000000) ma Alpha bassissimo (0.02)
-    # Risultato: I muri diventano neri solidi. Il rumore resta grigio fumo invisibile.
     ax_map.scatter(obs_x, obs_y, s=POINT_SIZE, c='black', alpha=POINT_ALPHA, zorder=1, linewidths=0)
-    
     ax_map.plot(odom_x, odom_y, color='blue', linewidth=2, zorder=2)
     if odom_x:
         ax_map.plot(odom_x[0], odom_y[0], 'go', zorder=4)
         ax_map.plot(odom_x[-1], odom_y[-1], 'rx', zorder=4)
-    # Landmark un po' più vivaci
     ax_map.scatter(lm_x, lm_y, c='#FF8C00', s=20, alpha=0.9, edgecolors='k', linewidths=0.5, zorder=3)
     
-    ax_map.set_title("Environment Reconstruction: Path, Target & Cleaned Obstacles (Smart)", fontweight='bold')
+    ax_map.set_title("Laboratory: TurtleBot3's path, Target & Obstacles", fontweight='bold')
     ax_map.set_xlabel("X [m]")
     ax_map.set_ylabel("Y [m]")
     ax_map.axis('equal')
     ax_map.grid(True, linestyle='--', alpha=0.5)
     
-    # Legenda
     legend_elements = [
         Line2D([0], [0], marker='o', color='w', label='Static Obstacles', 
                markerfacecolor='black', markersize=5),
@@ -177,17 +167,35 @@ def main():
     ]
     ax_map.legend(handles=legend_elements, loc='upper right')
 
-    # 2. VELOCITÀ
+    # 2. VELOCITÀ LINEARE
     ax_v = plt.subplot(gs[0, 1])
-    if cmd_t: ax_v.plot(cmd_t, cmd_v, 'k-', label='Cmd Linear v')
+    if cmd_t: 
+        ax_v.plot(cmd_t, cmd_v, 'k-', label='Cmd Linear v')
+        
+        # --- FIX SPAZIO LEGEND ---
+        # Calcoliamo il massimo tra i dati e il limite di velocità (0.08)
+        max_val = max(max(cmd_v) if cmd_v else 0, 0.08)
+        # Aumentiamo il limite superiore del 40% per fare spazio alla legenda
+        ax_v.set_ylim(top=max_val * 1.4) 
+
     ax_v.set_title("Linear Velocity", fontweight='bold')
     ax_v.set_ylabel("v [m/s]")
     ax_v.grid(True, linestyle=':')
     ax_v.legend(loc='upper right')
-    ax_v.axhline(y=0.22, color='r', linestyle='--', alpha=0.3, label='Max Speed')
+    ax_v.axhline(y=0.08, color='r', linestyle='--', alpha=0.3, label='Max Speed')
 
+    # 3. VELOCITÀ ANGOLARE
     ax_w = plt.subplot(gs[1, 1])
-    if cmd_t: ax_w.plot(cmd_t, cmd_w, 'g-', label='Cmd Angular w')
+    if cmd_t: 
+        ax_w.plot(cmd_t, cmd_w, 'g-', label='Cmd Angular w')
+        
+        # --- FIX SPAZIO LEGEND ---
+        # Troviamo il picco massimo in valore assoluto
+        max_w = max([abs(w) for w in cmd_w]) if cmd_w else 0.5
+        # Impostiamo limiti simmetrici con il 40% di padding
+        limit_w = max_w * 1.4
+        ax_w.set_ylim(-limit_w, limit_w)
+
     ax_w.set_title("Angular Velocity", fontweight='bold')
     ax_w.set_xlabel("Time [s]")
     ax_w.set_ylabel("w [rad/s]")
@@ -195,7 +203,7 @@ def main():
     ax_w.legend(loc='upper right')
 
     plt.tight_layout()
-    filename = "final_dashboard_task3_v7_smart.png"
+    filename = "final_dashboard_task3_v7_spaced.png"
     plt.savefig(filename, dpi=300)
     print(f"Grafico salvato: {filename}")
     plt.show()
