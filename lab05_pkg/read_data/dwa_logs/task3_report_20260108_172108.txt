@@ -1,9 +1,0 @@
---- FINAL REPORT TASK 3 ---
-Date: 2026-01-08 17:22:26.856157
-Total Steps: 109
-Tracking Success: 37.61%
-RMSE Distance (from optimal 0.22m): 0.4100 m
-RMSE Bearing: 1.0791 rad
-Minimum Obstacle Distance Encountered: 0.1530 m
-Average Lidar Distance: 1.5403 m
-Total Collisions: 0
