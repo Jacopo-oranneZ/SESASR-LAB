@@ -7,3 +7,4 @@ RMSE Bearing: 0.2986 rad
 Minimum Obstacle Distance Encountered: 0.1860 m
 Average Lidar Distance: 1.4198 m
 Total Collisions: 0
+Goal Reaches: 1
